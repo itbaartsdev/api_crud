@@ -1,0 +1,1 @@
+<!-- No sidebar - clean modern interface -->
