@@ -699,10 +699,6 @@ if (file_exists('conf/koneksi.php')) {
                     <i class="material-icons" style="font-size: 18px;">apps</i>
                     Main CRUD
                 </a>
-                <a href="#form" class="nav-btn modal-trigger">
-                    <i class="material-icons" style="font-size: 18px;">add</i>
-                    Create Table
-                </a>
                 <a href="index.php" class="nav-btn">
                     <i class="material-icons" style="font-size: 18px;">exit_to_app</i>
                     Exit
