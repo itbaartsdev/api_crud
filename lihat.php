@@ -24,7 +24,7 @@
                 <div class="content-body">
                     <?php
                     // Check if Panel directory exists and list generated folders
-                    $panelPath = 'Panell/';
+                    $panelPath = 'Panel/';
                     if (is_dir($panelPath)) {
                         $directories = array_filter(glob($panelPath . '*'), 'is_dir');
                         

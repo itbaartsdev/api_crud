@@ -1,6 +1,6 @@
 <?php 
-	fopen("Panell/".$judul_tabel_sistem."/hapus.php", "x");
-	$hapus  = fopen("Panell/".$judul_tabel_sistem."/hapus.php", "w");
+	fopen("Panel/".$judul_tabel_sistem."/hapus.php", "x");
+	$hapus  = fopen("Panel/".$judul_tabel_sistem."/hapus.php", "w");
 
 	for ($i=0; $i < $total; $i++) {
 		if ($keterangan_field_sistem[$i] == "primary") {

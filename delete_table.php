@@ -81,17 +81,17 @@ try {
     
     // Delete corresponding Panel folder with backup handling
     $displayName = tableNameToDisplayName($tableName);
-    $panelPath = 'Panell/' . $displayName;
+    $panelPath = 'Panel/' . $displayName;
     $folderDeleted = false;
     
     // Check all possible folder names and use the one that exists
     $possiblePaths = [
-        'Panell/' . $displayName,  // This should be the correct path
-        'Panell/' . ucfirst($tableName),
-        'Panell/' . $tableName,
-        '../Panell/' . $displayName,
-        '../Panell/' . ucfirst($tableName),
-        '../Panell/' . $tableName
+        'Panel/' . $displayName,  // This should be the correct path
+        'Panel/' . ucfirst($tableName),
+        'Panel/' . $tableName,
+        '../Panel/' . $displayName,
+        '../Panel/' . ucfirst($tableName),
+        '../Panel/' . $tableName
     ];
     $imagesPaths = [
         'images/' . $displayName,  // This should be the correct path

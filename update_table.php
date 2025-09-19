@@ -346,8 +346,8 @@ function handleTableRename($oldTableName, $newTableName, $newDisplayName, $konek
         $oldDisplayName = ucwords(str_replace('_', ' ', $oldTableName));
         
         // Rename Panel folder
-        $oldPanelDir = "Panell/" . $oldDisplayName;
-        $newPanelDir = "Panell/" . $newDisplayName;
+        $oldPanelDir = "Panel/" . $oldDisplayName;
+        $newPanelDir = "Panel/" . $newDisplayName;
         
         if (is_dir($oldPanelDir)) {
             if (!rename($oldPanelDir, $newPanelDir)) {
@@ -465,7 +465,7 @@ function regenerateCRUDFiles($tableName, $koneksi, $customDisplayName = null) {
         $total = count($fieldNames);
         
         // Create Panel directory if not exists
-        $panelDir = "Panell/" . $displayName;
+        $panelDir = "Panel/" . $displayName;
         if (!is_dir($panelDir)) {
             mkdir($panelDir, 0777, true);
         }

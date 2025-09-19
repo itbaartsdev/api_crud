@@ -1,6 +1,6 @@
 <?php 
-	fopen("Panell/".$judul_tabel_sistem."/proses.php", "x");
-	$proses  = fopen("Panell/".$judul_tabel_sistem."/proses.php", "w");
+	fopen("Panel/".$judul_tabel_sistem."/proses.php", "x");
+	$proses  = fopen("Panel/".$judul_tabel_sistem."/proses.php", "w");
 	include '../data/proses/header.php';
 
 	for ($i=0; $i < $total; $i++) {

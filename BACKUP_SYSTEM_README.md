@@ -14,7 +14,7 @@ When creating a new table:
 
 ### Folders
 When creating new folders (Panel and images directories):
-1. If folder "Barang" already exists in Panell/
+1. If folder "Barang" already exists in Panel/
 2. The existing folder will be renamed to "Barang_backup"
 3. If "Barang_backup" also exists, it will be renamed to "Barang_backup2"
 4. Same logic applies for images/ folders

@@ -130,9 +130,9 @@ if (isset($_POST['tambah'])) {
         $nama_tabel_sistem = getUniqueFileName("laporan/", $nama_tabel_sistem);
         
         // Handle duplicate folders for Panel
-        $judul_tabel_sistem = getUniqueFolderName("Panell/", $judul_tabel_sistem);
-        if (!is_dir("Panell/".$judul_tabel_sistem)) {
-            mkdir("Panell/".$judul_tabel_sistem, 0755, true);
+        $judul_tabel_sistem = getUniqueFolderName("Panel/", $judul_tabel_sistem);
+        if (!is_dir("Panel/".$judul_tabel_sistem)) {
+            mkdir("Panel/".$judul_tabel_sistem, 0755, true);
         }
         
         // Handle duplicate folders for images
@@ -202,23 +202,23 @@ if (isset($_POST['tambah'])) {
         
         // Generate index.php file directly
         $index_content = generateIndexFile($judul_tabel_sistem, $nama_tabel_sistem, $judul_field_sistem, $nama_field_sistem, $total);
-        file_put_contents("Panell/".$judul_tabel_sistem."/index.php", $index_content);
+        file_put_contents("Panel/".$judul_tabel_sistem."/index.php", $index_content);
         
         // Generate cetak.php file directly
         $cetak_content = generateCetakFile($judul_tabel_sistem, $nama_tabel_sistem, $judul_field_sistem, $nama_field_sistem, $total);
-        file_put_contents("Panell/".$judul_tabel_sistem."/cetak.php", $cetak_content);
+        file_put_contents("Panel/".$judul_tabel_sistem."/cetak.php", $cetak_content);
         
         // Generate form.php file directly
         $form_content = generateFormFile($judul_tabel_sistem, $nama_tabel_sistem, $judul_field_sistem, $nama_field_sistem, $tipe_field_sistem, $values_field_sistem, $total);
-        file_put_contents("Panell/".$judul_tabel_sistem."/form.php", $form_content);
+        file_put_contents("Panel/".$judul_tabel_sistem."/form.php", $form_content);
         
         // Generate proses.php file directly
         $proses_content = generateProsesFile($judul_tabel_sistem, $nama_tabel_sistem, $judul_field_sistem, $nama_field_sistem, $tipe_field_sistem, $total);
-        file_put_contents("Panell/".$judul_tabel_sistem."/proses.php", $proses_content);
+        file_put_contents("Panel/".$judul_tabel_sistem."/proses.php", $proses_content);
         
         // Generate hapus.php file directly
         $hapus_content = generateHapusFile($judul_tabel_sistem, $nama_tabel_sistem, $nama_field_sistem[0]);
-        file_put_contents("Panell/".$judul_tabel_sistem."/hapus.php", $hapus_content);
+        file_put_contents("Panel/".$judul_tabel_sistem."/hapus.php", $hapus_content);
         
         // Generate laporan file
         $laporan_content = generateLaporanFile($judul_tabel_sistem, $nama_tabel_sistem, $judul_field_sistem, $nama_field_sistem, $tipe_field_sistem, $total);

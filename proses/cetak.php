@@ -1,6 +1,6 @@
 <?php 
-	fopen("Panell/".$judul_tabel_sistem."/cetak.php", "x");
-	$cetak  = fopen("Panell/".$judul_tabel_sistem."/cetak.php", "w");
+	fopen("Panel/".$judul_tabel_sistem."/cetak.php", "x");
+	$cetak  = fopen("Panel/".$judul_tabel_sistem."/cetak.php", "w");
 	include '../data/cetak/header.php';
 
 	for ($i=0; $i < $total; $i++) {
