@@ -10,7 +10,7 @@ include 'conf/koneksi.php';
 
 // Check if form was submitted
 if (!isset($_POST['tambah'])) {
-    header('Location: .php');
+    header('Location: crud.php');
     exit;
 }
 

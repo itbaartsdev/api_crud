@@ -26,12 +26,12 @@ $keterangan_field_sistem = isset($_POST['keterangan_field_sistem']) ? $_POST['ke
 
 // Basic validation
 if (empty($nama_tabel_sistem) || empty($judul_tabel_sistem)) {
-    echo "<script>alert('Table name and title are required');window.location.href='../crud.php';</script>";
+    echo "<script>alert('Table name and title are required');window.location.href='crud.php';</script>";
     exit;
 }
 
 if (empty($judul_field_sistem) || empty($nama_field_sistem)) {
-    echo "<script>alert('At least one field is required');window.location.href='../crud.php';</script>";
+    echo "<script>alert('At least one field is required');window.location.href='crud.php';</script>";
     exit;
 }
 
