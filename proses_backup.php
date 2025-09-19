@@ -10,7 +10,7 @@ include 'conf/koneksi.php';
 
 // Check if form was submitted
 if (!isset($_POST['tambah'])) {
-    header('Location: ../azzam.php');
+    header('Location: ../crud.php');
     exit;
 }
 
@@ -26,12 +26,12 @@ $keterangan_field_sistem = isset($_POST['keterangan_field_sistem']) ? $_POST['ke
 
 // Basic validation
 if (empty($nama_tabel_sistem) || empty($judul_tabel_sistem)) {
-    echo "<script>alert('Table name and title are required');window.location.href='../azzam.php';</script>";
+    echo "<script>alert('Table name and title are required');window.location.href='../crud.php';</script>";
     exit;
 }
 
 if (empty($judul_field_sistem) || empty($nama_field_sistem)) {
-    echo "<script>alert('At least one field is required');window.location.href='../azzam.php';</script>";
+    echo "<script>alert('At least one field is required');window.location.href='../crud.php';</script>";
     exit;
 }
 
@@ -234,7 +234,7 @@ if (isset($_POST['tambah'])) {
         
         // Send success response without any unwanted output
         header('Content-Type: text/html; charset=utf-8');
-        echo "<script>alert('Table created successfully!');window.location.href='../azzam.php';</script>";
+        echo "<script>alert('Table created successfully!');window.location.href='../crud.php';</script>";
         exit;
         
     } catch (Exception $e) {
@@ -243,7 +243,7 @@ if (isset($_POST['tambah'])) {
             ob_end_clean();
         }
         header('Content-Type: text/html; charset=utf-8');
-        echo "<script>alert('Error: " . addslashes($e->getMessage()) . "');window.location.href='../azzam.php';</script>";
+        echo "<script>alert('Error: " . addslashes($e->getMessage()) . "');window.location.href='../crud.php';</script>";
         exit;
     }
 }
