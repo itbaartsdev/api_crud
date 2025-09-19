@@ -20,15 +20,15 @@
     </footer>
 
     <!-- Vendor JS -->
-    <script src="azzam/app-assets/js/vendors.min.js"></script>
-    <script src="azzam/app-assets/vendors/data-tables/js/jquery.dataTables.min.js"></script>
-    <script src="azzam/app-assets/vendors/data-tables/extensions/responsive/js/dataTables.responsive.min.js"></script>
-    <script src="azzam/app-assets/vendors/data-tables/js/dataTables.select.min.js"></script>
-    <script src="azzam/app-assets/vendors/select2/select2.full.min.js"></script>
+    <script src="azzams/app-assets/js/vendors.min.js"></script>
+    <script src="azzams/app-assets/vendors/data-tables/js/jquery.dataTables.min.js"></script>
+    <script src="azzams/app-assets/vendors/data-tables/extensions/responsive/js/dataTables.responsive.min.js"></script>
+    <script src="azzams/app-assets/vendors/data-tables/js/dataTables.select.min.js"></script>
+    <script src="azzams/app-assets/vendors/select2/select2.full.min.js"></script>
     
     <!-- Theme JS -->
-    <script src="azzam/app-assets/js/plugins.js"></script>
-    <script src="azzam/app-assets/js/search.js"></script>
+    <script src="azzams/app-assets/js/plugins.js"></script>
+    <script src="azzams/app-assets/js/search.js"></script>
     
     <!-- Custom Modern JS -->
     <script>

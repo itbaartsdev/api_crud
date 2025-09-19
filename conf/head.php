@@ -18,8 +18,8 @@ if (file_exists('conf/koneksi.php')) {
     <title><?=$apk;?> - Modern Database Generator</title>
     
     <!-- Favicon -->
-    <link rel="apple-touch-icon" href="azzam/app-assets/images/favicon/apple-touch-icon-152x152.png">
-    <link rel="shortcut icon" type="image/x-icon" href="azzam/app-assets/images/favicon/favicon-32x32.png">
+    <link rel="apple-touch-icon" href="app-assets/images/favicon/apple-touch-icon-152x152.png">
+    <link rel="shortcut icon" type="image/x-icon" href="app-assets/images/favicon/favicon-32x32.png">
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -28,10 +28,10 @@ if (file_exists('conf/koneksi.php')) {
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     
     <!-- Materialize CSS -->
-    <link rel="stylesheet" type="text/css" href="azzam/app-assets/vendors/data-tables/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="app-assets/vendors/data-tables/css/jquery.dataTables.min.css">
     
     <!-- Custom Modern CSS -->
-    <link rel="stylesheet" type="text/css" href="azzam/app-assets/css/custom/modern-ui.css">
+    <link rel="stylesheet" type="text/css" href="app-assets/css/custom/modern-ui.css">
     
     <style>
         /* Reset and Base Styles */
