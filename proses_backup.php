@@ -234,7 +234,7 @@ if (isset($_POST['tambah'])) {
         
         // Send success response without any unwanted output
         header('Content-Type: text/html; charset=utf-8');
-        echo "<script>alert('Table created successfully!');window.location.href='../crud.php';</script>";
+        echo "<script>alert('Table created successfully!');window.location.href='crud.php';</script>";
         exit;
         
     } catch (Exception $e) {
@@ -243,7 +243,7 @@ if (isset($_POST['tambah'])) {
             ob_end_clean();
         }
         header('Content-Type: text/html; charset=utf-8');
-        echo "<script>alert('Error: " . addslashes($e->getMessage()) . "');window.location.href='../crud.php';</script>";
+        echo "<script>alert('Error: " . addslashes($e->getMessage()) . "');window.location.href='crud.php';</script>";
         exit;
     }
 }
