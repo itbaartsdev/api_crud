@@ -40,6 +40,37 @@
     <!-- Custom Modern JS -->
     <script>
         $(document).ready(function() {
+            // Initialize Bootstrap tabs
+            $('.nav-tabs a').on('click', function (e) {
+                e.preventDefault();
+                $(this).tab('show');
+            });
+            
+            // Initialize Bootstrap modals
+            $('.modal').modal({
+                show: false
+            });
+            
+            // Initialize DataTables if present
+            if ($('.table').length && typeof $.fn.DataTable !== 'undefined') {
+                $('.table').DataTable({
+                    responsive: true,
+                    pageLength: 25,
+                    order: [[0, 'asc']],
+                    language: {
+                        search: "Search:",
+                        lengthMenu: "Show _MENU_ entries",
+                        info: "Showing _START_ to _END_ of _TOTAL_ entries",
+                        paginate: {
+                            first: "First",
+                            last: "Last",
+                            next: "Next",
+                            previous: "Previous"
+                        }
+                    }
+                });
+            }
+            
             // Disable i18next and prevent any localization errors
             if (typeof window.i18next !== 'undefined') {
                 console.log('i18next library detected - initializing with minimal config');
@@ -55,6 +86,9 @@
                         }
                     });
                 } catch (e) {
+                    console.log('i18next initialization skipped:', e.message);
+                }
+            }
                     console.log('i18next initialization skipped:', e.message);
                 }
             }
