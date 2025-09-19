@@ -1,18 +1,34 @@
 <?php
+// Prevent any HTML output and ensure clean JSON response
+ob_start();
+error_reporting(0);
+ini_set('display_errors', 0);
+
+// Define API mode to prevent session_start in connection file
+define('API_MODE', true);
+
 // Pastikan menggunakan koneksi database local dengan path yang benar
-if (file_exists('conf/koneksi.php')) {
+if (file_exists('conf/koneksi_api.php')) {
+    include 'conf/koneksi_api.php';
+} else if (file_exists('conf/koneksi.php')) {
     include 'conf/koneksi.php';
 } else if (file_exists('../conf/koneksi.php')) {
     include '../conf/koneksi.php';
 } else if (file_exists('../../conf/koneksi.php')) {
     include '../../conf/koneksi.php';
 } else {
+    // Clean any output buffer before sending JSON
+    ob_clean();
+    header('Content-Type: application/json');
     die(json_encode(['success' => false, 'message' => 'Database configuration not found']));
 }
 
+// Clean any output from includes
+ob_clean();
 header('Content-Type: application/json');
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    ob_clean();
     echo json_encode(['success' => false, 'message' => 'Invalid request method']);
     exit;
 }
@@ -21,12 +37,14 @@ $tableName = isset($_POST['table_name']) ? trim($_POST['table_name']) : '';
 $action = isset($_POST['action']) ? $_POST['action'] : '';
 
 if (empty($tableName)) {
+    ob_clean();
     echo json_encode(['success' => false, 'message' => 'Table name is required']);
     exit;
 }
 
 // Validate table name to prevent SQL injection
 if (!preg_match('/^[a-zA-Z_][a-zA-Z0-9_]*$/', $tableName)) {
+    ob_clean();
     echo json_encode(['success' => false, 'message' => 'Invalid table name']);
     exit;
 }
@@ -34,6 +52,7 @@ if (!preg_match('/^[a-zA-Z_][a-zA-Z0-9_]*$/', $tableName)) {
 // Protect system tables
 $systemTables = ['user', 'setting', 'mysql', 'information_schema', 'performance_schema', 'sys'];
 if (in_array(strtolower($tableName), $systemTables)) {
+    ob_clean();
     echo json_encode(['success' => false, 'message' => 'Cannot edit system tables']);
     exit;
 }
@@ -127,6 +146,7 @@ try {
             ];
         }
         
+        ob_clean();
         echo json_encode([
             'success' => true,
             'table_name' => $tableName,
@@ -138,6 +158,7 @@ try {
         $newFields = isset($_POST['fields']) ? $_POST['fields'] : [];
         
         if (empty($newFields)) {
+            ob_clean();
             echo json_encode(['success' => false, 'message' => 'No fields provided']);
             exit;
         }
@@ -151,12 +172,14 @@ try {
         mysqli_commit($koneksi);
         mysqli_autocommit($koneksi, true);
         
+        ob_clean();
         echo json_encode([
             'success' => true,
             'message' => 'Table structure updated successfully'
         ]);
         
     } else {
+        ob_clean();
         echo json_encode(['success' => false, 'message' => 'Invalid action']);
     }
     
@@ -165,6 +188,7 @@ try {
     @mysqli_rollback($koneksi);
     @mysqli_autocommit($koneksi, true);
     
+    ob_clean();
     echo json_encode(['success' => false, 'message' => $e->getMessage()]);
 }
 ?>

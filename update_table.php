@@ -6,7 +6,15 @@ ini_set('display_errors', 0);
 // Start output buffering to prevent any unexpected output
 ob_start();
 
-include 'conf/koneksi.php';
+// Define API mode to prevent session_start in connection file
+define('API_MODE', true);
+
+// Use API-friendly connection
+if (file_exists('conf/koneksi_api.php')) {
+    include 'conf/koneksi_api.php';
+} else {
+    include 'conf/koneksi.php';
+}
 
 // Clean any output from includes
 ob_clean();

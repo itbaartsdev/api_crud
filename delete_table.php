@@ -1,15 +1,30 @@
 <?php
+// Prevent any HTML output and ensure clean JSON response
+ob_start();
+error_reporting(0);
+ini_set('display_errors', 0);
+
+// Define API mode to prevent session_start in connection file
+define('API_MODE', true);
+
 // Pastikan menggunakan koneksi database local dengan path yang benar
-if (file_exists('conf/koneksi.php')) {
+if (file_exists('conf/koneksi_api.php')) {
+    include 'conf/koneksi_api.php';
+} else if (file_exists('conf/koneksi.php')) {
     include 'conf/koneksi.php';
 } else if (file_exists('../conf/koneksi.php')) {
     include '../conf/koneksi.php';
 } else if (file_exists('../../conf/koneksi.php')) {
     include '../../conf/koneksi.php';
 } else {
+    // Clean any output buffer before sending JSON
+    ob_clean();
+    header('Content-Type: application/json');
     die(json_encode(['success' => false, 'message' => 'Database configuration not found']));
 }
 
+// Clean any output from includes
+ob_clean();
 header('Content-Type: application/json');
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {

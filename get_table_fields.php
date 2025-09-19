@@ -1,6 +1,21 @@
 <?php
-include 'conf/koneksi.php';
+// Prevent any HTML output and ensure clean JSON response
+ob_start();
+error_reporting(0);
+ini_set('display_errors', 0);
 
+// Define API mode to prevent session_start in connection file
+define('API_MODE', true);
+
+// Use API-friendly connection
+if (file_exists('conf/koneksi_api.php')) {
+    include 'conf/koneksi_api.php';
+} else {
+    include 'conf/koneksi.php';
+}
+
+// Clean any output from includes
+ob_clean();
 header('Content-Type: application/json');
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
