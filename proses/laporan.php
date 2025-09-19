@@ -1,6 +1,6 @@
 <?php 
-	fopen("../laporan/".$nama_tabel_sistem.".php", "x");
-	$laporan  = fopen("../laporan/".$nama_tabel_sistem.".php", "w");
+	fopen("laporan/".$nama_tabel_sistem.".php", "x");
+	$laporan  = fopen("laporan/".$nama_tabel_sistem.".php", "w");
 	include '../data/laporan/header.php';
 
 	for ($i=0; $i < $total; $i++) {

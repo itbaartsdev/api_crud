@@ -1,7 +1,7 @@
 <?php 
  $petik = "'"; 
-	fopen("../Panel/".$judul_tabel_sistem."/form.php", "x");
-	$form  = fopen("../Panel/".$judul_tabel_sistem."/form.php", "w");
+	fopen("Panell/".$judul_tabel_sistem."/form.php", "x");
+	$form  = fopen("Panell/".$judul_tabel_sistem."/form.php", "w");
 
 	for ($i=0; $i < $total; $i++) {
 		if ($keterangan_field_sistem[$i] == "primary") {

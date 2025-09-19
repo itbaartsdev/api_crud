@@ -5,7 +5,7 @@
 {
     overflow: hidden;
 
-    background-image: url('../../images/gallery/search.jpg');
+    background-image: url('../images/gallery/search.jpg');
     background-repeat: no-repeat;
     background-size: cover;
 }

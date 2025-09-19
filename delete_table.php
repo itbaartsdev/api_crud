@@ -81,25 +81,25 @@ try {
     
     // Delete corresponding Panel folder with backup handling
     $displayName = tableNameToDisplayName($tableName);
-    $panelPath = '../Panel/' . $displayName;
+    $panelPath = 'Panell/' . $displayName;
     $folderDeleted = false;
     
     // Check all possible folder names and use the one that exists
     $possiblePaths = [
-        '../Panel/' . $displayName,  // This should be the correct path
-        '../Panel/' . ucfirst($tableName),
-        '../Panel/' . $tableName,
-        '../../Panel/' . $displayName,
-        '../../Panel/' . ucfirst($tableName),
-        '../../Panel/' . $tableName
+        'Panell/' . $displayName,  // This should be the correct path
+        'Panell/' . ucfirst($tableName),
+        'Panell/' . $tableName,
+        '../Panell/' . $displayName,
+        '../Panell/' . ucfirst($tableName),
+        '../Panell/' . $tableName
     ];
     $imagesPaths = [
-        '../images/' . $displayName,  // This should be the correct path
+        'images/' . $displayName,  // This should be the correct path
+        'images/' . ucfirst($tableName),
+        'images/' . $tableName,
+        '../images/' . $displayName,
         '../images/' . ucfirst($tableName),
-        '../images/' . $tableName,
-        '../../images/' . $displayName,
-        '../../images/' . ucfirst($tableName),
-        '../../images/' . $tableName
+        '../images/' . $tableName
     ];
     
     foreach ($possiblePaths as $path) {
@@ -130,7 +130,7 @@ try {
     }
     
     // Delete corresponding laporan file
-    $laporanPath = '../laporan/' . $tableName . '.php';
+    $laporanPath = 'laporan/' . $tableName . '.php';
     $laporanMessage = "";
     
     if (file_exists($laporanPath)) {

@@ -1,6 +1,6 @@
 <?php 
-	fopen("../Panel/".$judul_tabel_sistem."/index.php", "x");
-	$index  = fopen("../Panel/".$judul_tabel_sistem."/index.php", "w");
+	fopen("Panell/".$judul_tabel_sistem."/index.php", "x");
+	$index  = fopen("Panell/".$judul_tabel_sistem."/index.php", "w");
 	include '../data/index/header.php';
 
 	for ($i=0; $i < $total; $i++) {

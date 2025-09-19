@@ -66,7 +66,7 @@ Generator tidak memiliki kondisi khusus untuk menangani field tipe "file" di:
     $content .= "
         <td>
             <?php if (!empty(\$data['".$nama_field_sistem[$i]."'])) { ?>
-                <a href=\"../images/".$judul_tabel_sistem."/<?=\$data['".$nama_field_sistem[$i]."'];?>\" target=\"_blank\" class=\"btn btn-sm btn-info has-ripple\">
+                <a href=\"images/".$judul_tabel_sistem."/<?=\$data['".$nama_field_sistem[$i]."'];?>\" target=\"_blank\" class=\"btn btn-sm btn-info has-ripple\">
                     <i class=\"fas fa-eye\"></i> View
                 </a>
             <?php } else { ?>
@@ -141,7 +141,7 @@ The generated index will show:
 - **If no file**: "No file" text in muted color
 
 ### 3. File Upload Path
-Files will be uploaded to: `../images/{TableDisplayName}/filename.ext`
+Files will be uploaded to: `images/{TableDisplayName}/filename.ext`
 
 ### 4. Database Storage
 File field is stored as `TEXT` type in database with comment format: `DisplayName|file`
@@ -154,7 +154,7 @@ File field is stored as `TEXT` type in database with comment format: `DisplayNam
    - `form.php` has proper file input
    - `index.php` has view button for files
    - `cetak.php` has view button for files
-   - `../laporan/{table_name}.php` handles files properly
+   - `laporan/{table_name}.php` handles files properly
 
 ## Compatibility
 

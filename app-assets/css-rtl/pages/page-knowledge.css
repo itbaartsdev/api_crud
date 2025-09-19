@@ -36,7 +36,7 @@
 
 #knowledge .search-image
 {
-    background-image: url('../../images/gallery/faq-search.jpg');
+    background-image: url('../images/gallery/faq-search.jpg');
     background-repeat: no-repeat;
     background-size: cover;
 }

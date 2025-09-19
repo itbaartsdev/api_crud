@@ -76,7 +76,7 @@ function generateIndexFile($judul_tabel_sistem, $nama_tabel_sistem, $judul_field
                 $content .= "
                                 <td>
                                     <?php if (!empty(\$data['".$nama_field_sistem[$i]."'])) { ?>
-                                        <a href=\"../images/".$judul_tabel_sistem."/<?=\$data['".$nama_field_sistem[$i]."'];?>\" target=\"_blank\" class=\"btn btn-sm btn-info has-ripple\">
+                                        <a href=\"images/".$judul_tabel_sistem."/<?=\$data['".$nama_field_sistem[$i]."'];?>\" target=\"_blank\" class=\"btn btn-sm btn-info has-ripple\">
                                             <i class=\"fas fa-eye\"></i> View
                                         </a>
                                     <?php } else { ?>
@@ -121,7 +121,7 @@ function generateCetakFile($judul_tabel_sistem, $nama_tabel_sistem, $judul_field
     <div class=\"col-sm-12\">
         <div class=\"card\">
             <div class=\"card-header\">
-                <form method=\"POST\" action=\"../laporan/".$nama_tabel_sistem.".php\" target=\"_blank\">
+                <form method=\"POST\" action=\"laporan/".$nama_tabel_sistem.".php\" target=\"_blank\">
                     <div class=\"row\">
                         <div class=\"col-sm-5\">
                             <input class=\"form-control\" placeholder=\"Dari Tanggal\" type=\"date\"  name=\"dari\" required>
@@ -199,7 +199,7 @@ function generateCetakFile($judul_tabel_sistem, $nama_tabel_sistem, $judul_field
                 $content .= "
                                 <td>
                                     <?php if (!empty(\$data['".$nama_field_sistem[$i]."'])) { ?>
-                                        <a href=\"../images/".$judul_tabel_sistem."/<?=\$data['".$nama_field_sistem[$i]."'];?>\" target=\"_blank\" class=\"btn btn-sm btn-info has-ripple\">
+                                        <a href=\"images/".$judul_tabel_sistem."/<?=\$data['".$nama_field_sistem[$i]."'];?>\" target=\"_blank\" class=\"btn btn-sm btn-info has-ripple\">
                                             <i class=\"fas fa-eye\"></i> View
                                         </a>
                                     <?php } else { ?>
@@ -430,7 +430,7 @@ include '../../conf/koneksi.php';";
                 $content .= "
 \$file_".$nama_field_sistem[$i]."  = \$_FILES['".$nama_field_sistem[$i]."']['name'];
 \$tmp_".$nama_field_sistem[$i]."   = \$_FILES['".$nama_field_sistem[$i]."']['tmp_name'];
-move_uploaded_file(\$tmp_".$nama_field_sistem[$i].", '../../images/".$judul_tabel_sistem."/'.\$file_".$nama_field_sistem[$i].");
+move_uploaded_file(\$tmp_".$nama_field_sistem[$i].", '../images/".$judul_tabel_sistem."/'.\$file_".$nama_field_sistem[$i].");
 \$".$nama_field_sistem[$i]." = \$file_".$nama_field_sistem[$i].";";
             } elseif ($field_type == 'date') {
                 $content .= "

@@ -346,8 +346,8 @@ function handleTableRename($oldTableName, $newTableName, $newDisplayName, $konek
         $oldDisplayName = ucwords(str_replace('_', ' ', $oldTableName));
         
         // Rename Panel folder
-        $oldPanelDir = "../Panel/" . $oldDisplayName;
-        $newPanelDir = "../Panel/" . $newDisplayName;
+        $oldPanelDir = "Panell/" . $oldDisplayName;
+        $newPanelDir = "Panell/" . $newDisplayName;
         
         if (is_dir($oldPanelDir)) {
             if (!rename($oldPanelDir, $newPanelDir)) {
@@ -356,8 +356,8 @@ function handleTableRename($oldTableName, $newTableName, $newDisplayName, $konek
         }
         
         // Rename images folder
-        $oldImagesDir = "../images/" . $oldDisplayName;
-        $newImagesDir = "../images/" . $newDisplayName;
+        $oldImagesDir = "images/" . $oldDisplayName;
+        $newImagesDir = "images/" . $newDisplayName;
         
         if (is_dir($oldImagesDir)) {
             if (!rename($oldImagesDir, $newImagesDir)) {
@@ -366,8 +366,8 @@ function handleTableRename($oldTableName, $newTableName, $newDisplayName, $konek
         }
         
         // Rename laporan file
-        $oldLaporanFile = "../laporan/" . $oldTableName . ".php";
-        $newLaporanFile = "../laporan/" . $newTableName . ".php";
+        $oldLaporanFile = "laporan/" . $oldTableName . ".php";
+        $newLaporanFile = "laporan/" . $newTableName . ".php";
         
         if (file_exists($oldLaporanFile)) {
             if (!rename($oldLaporanFile, $newLaporanFile)) {
@@ -465,13 +465,13 @@ function regenerateCRUDFiles($tableName, $koneksi, $customDisplayName = null) {
         $total = count($fieldNames);
         
         // Create Panel directory if not exists
-        $panelDir = "../Panel/" . $displayName;
+        $panelDir = "Panell/" . $displayName;
         if (!is_dir($panelDir)) {
             mkdir($panelDir, 0777, true);
         }
         
         // Create images directory if not exists
-        $imagesDir = "../images/" . $displayName;
+        $imagesDir = "images/" . $displayName;
         if (!is_dir($imagesDir)) {
             mkdir($imagesDir, 0777, true);
         }
@@ -510,7 +510,7 @@ function regenerateCRUDFiles($tableName, $koneksi, $customDisplayName = null) {
         file_put_contents($panelDir . "/hapus.php", $hapus_content);
         
         $laporan_content = generateLaporanFile($judul_tabel_sistem, $nama_tabel_sistem, $judul_field_sistem, $nama_field_sistem, $tipe_field_sistem, $relation_table_sistem, $relation_field_sistem, $total);
-        file_put_contents("../laporan/" . $tableName . ".php", $laporan_content);
+        file_put_contents("laporan/" . $tableName . ".php", $laporan_content);
         
     } catch (Exception $e) {
         // Log error but don't fail the main operation

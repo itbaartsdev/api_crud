@@ -31,7 +31,7 @@ $(function() {
           content: contentString
       });
 
-      var companyImage = new google.maps.MarkerImage('../../images/icon/map-marker.png',
+      var companyImage = new google.maps.MarkerImage('../images/icon/map-marker.png',
           new google.maps.Size(36,62),// Width and height of the marker
           new google.maps.Point(0,0),
           new google.maps.Point(18,52)// Position of the marker 

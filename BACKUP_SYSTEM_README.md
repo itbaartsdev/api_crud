@@ -14,14 +14,14 @@ When creating a new table:
 
 ### Folders
 When creating new folders (Panel and images directories):
-1. If folder "Barang" already exists in ../Panel/
+1. If folder "Barang" already exists in Panell/
 2. The existing folder will be renamed to "Barang_backup"
 3. If "Barang_backup" also exists, it will be renamed to "Barang_backup2"
-4. Same logic applies for ../images/ folders
+4. Same logic applies for images/ folders
 
 ### Files
 When creating laporan files:
-1. If file "barang.php" already exists in ../laporan/
+1. If file "barang.php" already exists in laporan/
 2. The existing file will be renamed to "barang_backup.php"
 3. If "barang_backup.php" also exists, it will be renamed to "barang_backup2.php"
 

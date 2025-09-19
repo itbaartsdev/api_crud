@@ -453,7 +453,7 @@
     height: calc(100vh - 380px);
     padding: 1rem;
 
-    background: url('../../images/gallery/chat-bg.jpg') repeat scroll 0 0;
+    background: url('../images/gallery/chat-bg.jpg') repeat scroll 0 0;
 }
 
 .chat-application .app-chat .chat-content .chat-content-area .chat-area .chats

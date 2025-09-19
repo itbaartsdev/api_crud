@@ -144,18 +144,18 @@ if (isset($_POST['tambah'])) {
         $nama_tabel_sistem = getUniqueTableName($koneksi, $nama_tabel_sistem);
         
         // Handle duplicate laporan files
-        $nama_tabel_sistem = getUniqueFileName("../laporan/", $nama_tabel_sistem);
+        $nama_tabel_sistem = getUniqueFileName("laporan/", $nama_tabel_sistem);
         
         // Handle duplicate folders for Panel
-        $judul_tabel_sistem = getUniqueFolderName("../Panel/", $judul_tabel_sistem);
-        if (!is_dir("../Panel/".$judul_tabel_sistem)) {
-            mkdir("../Panel/".$judul_tabel_sistem, 0755, true);
+        $judul_tabel_sistem = getUniqueFolderName("Panell/", $judul_tabel_sistem);
+        if (!is_dir("Panell/".$judul_tabel_sistem)) {
+            mkdir("Panell/".$judul_tabel_sistem, 0755, true);
         }
         
         // Handle duplicate folders for images
-        $judul_tabel_sistem_images = getUniqueFolderName("../images/", $judul_tabel_sistem);
-        if (!is_dir("../images/".$judul_tabel_sistem_images)) {
-            mkdir("../images/".$judul_tabel_sistem_images, 0755, true);
+        $judul_tabel_sistem_images = getUniqueFolderName("images/", $judul_tabel_sistem);
+        if (!is_dir("images/".$judul_tabel_sistem_images)) {
+            mkdir("images/".$judul_tabel_sistem_images, 0755, true);
         }
         
         $total = count($judul_field_sistem);
@@ -267,27 +267,27 @@ if (isset($_POST['tambah'])) {
         
         // Generate index.php file directly
         $index_content = generateIndexFile($judul_tabel_sistem, $nama_tabel_sistem, $judul_field_sistem, $nama_field_sistem, $tipe_field_sistem, $relation_table_sistem, $relation_field_sistem, $total);
-        file_put_contents("../Panel/".$judul_tabel_sistem."/index.php", $index_content);
+        file_put_contents("Panell/".$judul_tabel_sistem."/index.php", $index_content);
         
         // Generate cetak.php file directly
         $cetak_content = generateCetakFile($judul_tabel_sistem, $nama_tabel_sistem, $judul_field_sistem, $nama_field_sistem, $tipe_field_sistem, $relation_table_sistem, $relation_field_sistem, $total);
-        file_put_contents("../Panel/".$judul_tabel_sistem."/cetak.php", $cetak_content);
+        file_put_contents("Panell/".$judul_tabel_sistem."/cetak.php", $cetak_content);
         
         // Generate form.php file directly
         $form_content = generateFormFile($judul_tabel_sistem, $nama_tabel_sistem, $judul_field_sistem, $nama_field_sistem, $tipe_field_sistem, $values_field_sistem, $relation_table_sistem, $relation_field_sistem, $total);
-        file_put_contents("../Panel/".$judul_tabel_sistem."/form.php", $form_content);
+        file_put_contents("Panell/".$judul_tabel_sistem."/form.php", $form_content);
         
         // Generate proses.php file directly
         $proses_content = generateProsesFile($judul_tabel_sistem, $nama_tabel_sistem, $judul_field_sistem, $nama_field_sistem, $tipe_field_sistem, $total);
-        file_put_contents("../Panel/".$judul_tabel_sistem."/proses.php", $proses_content);
+        file_put_contents("Panell/".$judul_tabel_sistem."/proses.php", $proses_content);
         
         // Generate hapus.php file directly
         $hapus_content = generateHapusFile($judul_tabel_sistem, $nama_tabel_sistem, $nama_field_sistem[0]);
-        file_put_contents("../Panel/".$judul_tabel_sistem."/hapus.php", $hapus_content);
+        file_put_contents("Panell/".$judul_tabel_sistem."/hapus.php", $hapus_content);
         
         // Generate laporan file
         $laporan_content = generateLaporanFile($judul_tabel_sistem, $nama_tabel_sistem, $judul_field_sistem, $nama_field_sistem, $tipe_field_sistem, $relation_table_sistem, $relation_field_sistem, $total);
-        file_put_contents("../laporan/".$nama_tabel_sistem.".php", $laporan_content);
+        file_put_contents("laporan/".$nama_tabel_sistem.".php", $laporan_content);
         
         // Discard our main buffer
         ob_end_clean();
@@ -393,7 +393,7 @@ function generateIndexFile($judul_tabel_sistem, $nama_tabel_sistem, $judul_field
                 $content .= "
                                 <td>
                                     <?php if (!empty(\$data['".$nama_field_sistem[$i]."'])) { ?>
-                                        <a href=\"../images/".$judul_tabel_sistem."/<?=\$data['".$nama_field_sistem[$i]."'];?>\" target=\"_blank\" class=\"btn btn-sm btn-info has-ripple\">
+                                        <a href=\"images/".$judul_tabel_sistem."/<?=\$data['".$nama_field_sistem[$i]."'];?>\" target=\"_blank\" class=\"btn btn-sm btn-info has-ripple\">
                                             <i class=\"fas fa-eye\"></i> View
                                         </a>
                                     <?php } else { ?>
@@ -438,7 +438,7 @@ function generateCetakFile($judul_tabel_sistem, $nama_tabel_sistem, $judul_field
     <div class=\"col-sm-12\">
         <div class=\"card\">
             <div class=\"card-header\">
-                <form method=\"POST\" action=\"../laporan/".$nama_tabel_sistem.".php\" target=\"_blank\">
+                <form method=\"POST\" action=\"laporan/".$nama_tabel_sistem.".php\" target=\"_blank\">
                     <div class=\"row\">
                         <div class=\"col-sm-5\">
                             <input class=\"form-control\" placeholder=\"Dari Tanggal\" type=\"date\"  name=\"dari\" required>
@@ -516,7 +516,7 @@ function generateCetakFile($judul_tabel_sistem, $nama_tabel_sistem, $judul_field
                 $content .= "
                                 <td>
                                     <?php if (!empty(\$data['".$nama_field_sistem[$i]."'])) { ?>
-                                        <a href=\"../images/".$judul_tabel_sistem."/<?=\$data['".$nama_field_sistem[$i]."'];?>\" target=\"_blank\" class=\"btn btn-sm btn-info has-ripple\">
+                                        <a href=\"images/".$judul_tabel_sistem."/<?=\$data['".$nama_field_sistem[$i]."'];?>\" target=\"_blank\" class=\"btn btn-sm btn-info has-ripple\">
                                             <i class=\"fas fa-eye\"></i> View
                                         </a>
                                     <?php } else { ?>
@@ -746,7 +746,7 @@ include '../../conf/koneksi.php';";
                 $content .= "
 \$file_".$nama_field_sistem[$i]."  = \$_FILES['".$nama_field_sistem[$i]."']['name'];
 \$tmp_".$nama_field_sistem[$i]."   = \$_FILES['".$nama_field_sistem[$i]."']['tmp_name'];
-move_uploaded_file(\$tmp_".$nama_field_sistem[$i].", '../../images/".$judul_tabel_sistem."/'.\$file_".$nama_field_sistem[$i].");
+move_uploaded_file(\$tmp_".$nama_field_sistem[$i].", '../images/".$judul_tabel_sistem."/'.\$file_".$nama_field_sistem[$i].");
 \$".$nama_field_sistem[$i]." = \$file_".$nama_field_sistem[$i].";";
             } elseif ($field_type == 'date') {
                 $content .= "

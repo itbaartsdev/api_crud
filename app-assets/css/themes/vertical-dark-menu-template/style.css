@@ -10745,7 +10745,7 @@ Cards
 
 #flight-card .card-content-bg
 {
-    background: url('../../../images/gallery/3.png') no-repeat center center;
+    background: url('../../images/gallery/3.png') no-repeat center center;
     background-size: cover;
 }
 
@@ -10889,7 +10889,7 @@ Cards
 {
     width: 100%;
 
-    background-image: url('../../../images/cards/macbook.png');
+    background-image: url('../../images/cards/macbook.png');
     background-size: cover;
 }
 
@@ -10897,7 +10897,7 @@ Cards
 {
     width: 100%;
 
-    background-image: url('../../../images/cards/iphone.png');
+    background-image: url('../../images/cards/iphone.png');
     background-size: cover;
 }
 
@@ -10905,7 +10905,7 @@ Cards
 {
     width: 100%;
 
-    background-image: url('../../../images/cards/applewatch.png');
+    background-image: url('../../images/cards/applewatch.png');
     background-size: cover;
 }
 
