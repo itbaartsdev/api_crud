@@ -27,39 +27,39 @@ if (is_dir('../../Panel')) {
     <div class="col-lg-8">
         <div class="card">
             <div class="card-header">
-                <h5><i class="feather icon-code"></i> Advanced Panel Generator</h5>
-                <span class="badge badge-primary">Adaptive Code Generation</span>
+                <h5><i class="feather icon-code"></i> Generator Panel Lanjutan</h5>
+                <span class="badge badge-primary">Pembuatan Kode Adaptif</span>
             </div>
             <div class="card-body">
                 <form id="generatePanelForm" method="post" action="kontrol.php">
                     <div class="row">
-                        <!-- Panel Name -->
+                        <!-- Nama Panel -->
                         <div class="col-md-6 mb-3">
-                            <label for="panel_name" class="form-label">Panel Name</label>
+                            <label for="panel_name" class="form-label">Nama Panel</label>
                             <input type="text" class="form-control" id="panel_name" name="panel_name" required 
-                                   placeholder="e.g., Permintaan Barang">
+                                   placeholder="contoh: Permintaan Barang">
                             <small class="form-text text-muted">
-                                This will be the directory name and navigation label
+                                Ini akan menjadi nama direktori dan label navigasi
                             </small>
                         </div>
 
-                        <!-- Table Selection -->
+                        <!-- Pemilihan Tabel -->
                         <div class="col-md-6 mb-3">
-                            <label for="table_name" class="form-label">Database Table</label>
+                            <label for="table_name" class="form-label">Tabel Database</label>
                             <select class="form-control" id="table_name" name="table_name" required>
-                                <option value="">Select Table</option>
+                                <option value="">Pilih Tabel</option>
                                 <?php foreach ($available_tables as $table): ?>
                                 <option value="<?= htmlspecialchars($table) ?>"><?= htmlspecialchars($table) ?></option>
                                 <?php endforeach; ?>
                             </select>
                             <small class="form-text text-muted">
-                                Choose the database table for this panel
+                                Pilih tabel database untuk panel ini
                             </small>
                         </div>
 
-                        <!-- Role Configuration -->
+                        <!-- Konfigurasi Role -->
                         <div class="col-12 mb-3">
-                            <label class="form-label">Role-Based Access Control</label>
+                            <label class="form-label">Kontrol Akses Berbasis Peran</label>
                             <div class="card border-info">
                                 <div class="card-body">
                                     <div class="row">
@@ -85,75 +85,75 @@ if (is_dir('../../Panel')) {
                                         ?>
                                     </div>
                                     <small class="text-muted">
-                                        Selected roles will have conditional access controls generated automatically
+                                        Peran yang dipilih akan memiliki kontrol akses kondisional yang dibuat secara otomatis
                                     </small>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Advanced Features -->
+                        <!-- Fitur Lanjutan -->
                         <div class="col-12 mb-3">
-                            <label class="form-label">Advanced Features</label>
+                            <label class="form-label">Fitur Lanjutan</label>
                             <div class="card border-warning">
                                 <div class="card-body">
                                     <div class="form-check mb-2">
                                         <input class="form-check-input" type="checkbox" name="add_enum_status" id="add_enum_status" checked>
                                         <label class="form-check-label" for="add_enum_status">
-                                            <strong>Add Status Enum Field</strong>
+                                            <strong>Tambahkan Field Status Enum</strong>
                                         </label>
                                         <small class="form-text text-muted d-block">
-                                            Automatically adds status field with enum('proses','terima','tolak') default 'proses'
+                                            Secara otomatis menambahkan field status dengan enum('proses','terima','tolak') default 'proses'
                                         </small>
                                     </div>
 
                                     <div class="form-check mb-2">
                                         <input class="form-check-input" type="checkbox" name="add_user_tracking" id="add_user_tracking" checked>
                                         <label class="form-check-label" for="add_user_tracking">
-                                            <strong>User Activity Tracking</strong>
+                                            <strong>Pelacakan Aktivitas Pengguna</strong>
                                         </label>
                                         <small class="form-text text-muted d-block">
-                                            Adds created_by, updated_by, created_at, updated_at fields
+                                            Menambahkan field created_by, updated_by, created_at, updated_at
                                         </small>
                                     </div>
 
                                     <div class="form-check mb-2">
                                         <input class="form-check-input" type="checkbox" name="generate_approval_workflow" id="generate_approval_workflow" checked>
                                         <label class="form-check-label" for="generate_approval_workflow">
-                                            <strong>Approval Workflow</strong>
+                                            <strong>Alur Persetujuan</strong>
                                         </label>
                                         <small class="form-text text-muted d-block">
-                                            Generates approve/reject buttons for Administrator and Supervisor roles
+                                            Menghasilkan tombol setujui/tolak untuk peran Administrator dan Supervisor
                                         </small>
                                     </div>
 
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" name="backup_existing" id="backup_existing" checked>
                                         <label class="form-check-label" for="backup_existing">
-                                            <strong>Auto-Backup Existing Files</strong>
+                                            <strong>Cadangkan File yang Ada Secara Otomatis</strong>
                                         </label>
                                         <small class="form-text text-muted d-block">
-                                            Creates backup before generating new files (recommended)
+                                            Membuat cadangan sebelum menghasilkan file baru (disarankan)
                                         </small>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Table Fields Preview -->
+                        <!-- Pratinjau Struktur Tabel -->
                         <div class="col-12 mb-3">
-                            <label class="form-label">Table Structure Preview</label>
+                            <label class="form-label">Pratinjau Struktur Tabel</label>
                             <div class="card border-secondary">
                                 <div class="card-body">
                                     <div id="tableFieldsPreview" class="text-muted">
-                                        <i class="feather icon-info"></i> Select a table to preview its structure
+                                        <i class="feather icon-info"></i> Pilih tabel untuk melihat strukturnya
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Generation Options -->
+                        <!-- Opsi Pembuatan File -->
                         <div class="col-12 mb-3">
-                            <label class="form-label">File Generation Options</label>
+                            <label class="form-label">Opsi Pembuatan File</label>
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="form-check">
@@ -161,7 +161,7 @@ if (is_dir('../../Panel')) {
                                         <label class="form-check-label" for="generate_form">
                                             <strong>form.php</strong>
                                         </label>
-                                        <small class="form-text text-muted d-block">Input/Edit interface</small>
+                                        <small class="form-text text-muted d-block">Antarmuka input/edit</small>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
@@ -170,7 +170,7 @@ if (is_dir('../../Panel')) {
                                         <label class="form-check-label" for="generate_index">
                                             <strong>index.php</strong>
                                         </label>
-                                        <small class="form-text text-muted d-block">List/Navigation view</small>
+                                        <small class="form-text text-muted d-block">Tampilan daftar/navigasi</small>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
@@ -179,7 +179,7 @@ if (is_dir('../../Panel')) {
                                         <label class="form-check-label" for="generate_cetak">
                                             <strong>cetak.php</strong>
                                         </label>
-                                        <small class="form-text text-muted d-block">Print/Report function</small>
+                                        <small class="form-text text-muted d-block">Fungsi cetak/laporan</small>
                                     </div>
                                 </div>
                             </div>
@@ -188,13 +188,13 @@ if (is_dir('../../Panel')) {
 
                     <div class="form-group mt-4">
                         <button type="submit" name="generate_panel" class="btn btn-primary btn-lg">
-                            <i class="feather icon-zap"></i> Generate Adaptive Panel
+                            <i class="feather icon-zap"></i> Buat Panel Adaptif
                         </button>
                         <button type="button" class="btn btn-secondary btn-lg" onclick="previewGeneration()">
-                            <i class="feather icon-eye"></i> Preview Code
+                            <i class="feather icon-eye"></i> Pratinjau Kode
                         </button>
                         <button type="reset" class="btn btn-outline-danger btn-lg">
-                            <i class="feather icon-refresh-cw"></i> Reset Form
+                            <i class="feather icon-refresh-cw"></i> Reset Formulir
                         </button>
                     </div>
                 </form>
@@ -202,32 +202,32 @@ if (is_dir('../../Panel')) {
         </div>
     </div>
 
-    <!-- Side Panel -->
+    <!-- Panel Samping -->
     <div class="col-lg-4">
-        <!-- Generation Status -->
+        <!-- Status Pembuatan -->
         <div class="card">
             <div class="card-header">
-                <h5><i class="feather icon-activity"></i> Generation Status</h5>
+                <h5><i class="feather icon-activity"></i> Status Pembuatan</h5>
             </div>
             <div class="card-body">
                 <div id="generationStatus" class="text-center">
                     <i class="feather icon-clock text-muted" style="font-size: 48px;"></i>
-                    <p class="text-muted mt-2">Ready to generate adaptive panel</p>
+                    <p class="text-muted mt-2">Siap membuat panel adaptif</p>
                 </div>
                 
                 <div id="generationProgress" class="d-none">
                     <div class="progress mb-2">
                         <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%"></div>
                     </div>
-                    <small class="text-muted">Generating panel files...</small>
+                    <small class="text-muted">Membuat file panel...</small>
                 </div>
             </div>
         </div>
 
-        <!-- Existing Panels -->
+        <!-- Panel yang Ada -->
         <div class="card">
             <div class="card-header">
-                <h5><i class="feather icon-folder"></i> Existing Panels</h5>
+                <h5><i class="feather icon-folder"></i> Panel yang Ada</h5>
             </div>
             <div class="card-body">
                 <?php if (!empty($panel_dirs)): ?>
@@ -236,7 +236,7 @@ if (is_dir('../../Panel')) {
                     <div class="list-group-item d-flex justify-content-between align-items-center p-2">
                         <span><?= htmlspecialchars($dir) ?></span>
                         <div>
-                            <a href="index.php?page=<?= urlencode($dir) ?>" class="btn btn-sm btn-outline-primary" title="View Panel">
+                            <a href="index.php?page=<?= urlencode($dir) ?>" class="btn btn-sm btn-outline-primary" title="Lihat Panel">
                                 <i class="feather icon-eye"></i>
                             </a>
                         </div>
@@ -244,35 +244,37 @@ if (is_dir('../../Panel')) {
                     <?php endforeach; ?>
                 </div>
                 <?php else: ?>
-                <p class="text-muted">No panels found</p>
+                <p class="text-muted">Tidak ada panel yang ditemukan</p>
                 <?php endif; ?>
             </div>
         </div>
 
-        <!-- Quick Actions -->
+        <!-- Tindakan Cepat -->
         <div class="card">
             <div class="card-header">
-                <h5><i class="feather icon-zap"></i> Quick Actions</h5>
+                <h5><i class="feather icon-zap"></i> Tindakan Cepat</h5>
             </div>
             <div class="card-body">
                 <div class="d-grid gap-2">
                     <button type="button" class="btn btn-sm btn-outline-info" onclick="loadTemplateExample()">
-                        <i class="feather icon-download"></i> Load Template Example
+                        <i class="feather icon-download"></i> Muat Contoh Template
                     </button>
                     <button type="button" class="btn btn-sm btn-outline-warning" onclick="validateConfiguration()">
-                        <i class="feather icon-check-circle"></i> Validate Configuration
+                        <i class="feather icon-check-circle"></i> Validasi Konfigurasi
                     </button>
                     <a href="kontrol.php?form=backup" class="btn btn-sm btn-outline-success">
-                        <i class="feather icon-shield"></i> Manage Backups
+                        <i class="feather icon-shield"></i> Kelola Cadangan
                     </a>
                     <a href="kontrol.php?form=logs" class="btn btn-sm btn-outline-secondary">
-                        <i class="feather icon-file-text"></i> View Activity Logs
+                        <i class="feather icon-file-text"></i> Lihat Log Aktivitas
                     </a>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+
 
 <script>
 $(document).ready(function() {
