@@ -7,11 +7,19 @@ ini_set('display_errors', 0);
 // Define API mode to prevent session_start in connection file
 define('API_MODE', true);
 
-// Use API-friendly connection
+// Use API-friendly connection with flexible path detection
 if (file_exists('conf/koneksi_api.php')) {
     include 'conf/koneksi_api.php';
-} else {
+} else if (file_exists('../conf/koneksi_api.php')) {
+    include '../conf/koneksi_api.php';
+} else if (file_exists('conf/koneksi.php')) {
     include 'conf/koneksi.php';
+} else if (file_exists('../conf/koneksi.php')) {
+    include '../conf/koneksi.php';
+} else {
+    ob_clean();
+    echo json_encode(['success' => false, 'message' => 'Database configuration not found']);
+    exit;
 }
 
 // Clean any output from includes
