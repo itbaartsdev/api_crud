@@ -394,12 +394,18 @@ if (file_exists('conf/koneksi.php')) {
             }
             
             .nav-actions {
-                gap: 8px;
+                gap: 4px;
+                flex-wrap: wrap;
             }
             
             .nav-btn {
-                padding: 6px 12px;
-                font-size: 12px;
+                padding: 4px 8px;
+                font-size: 10px;
+                white-space: nowrap;
+            }
+            
+            .nav-btn i {
+                font-size: 14px !important;
             }
             
             .simple-cards {
@@ -459,6 +465,16 @@ if (file_exists('conf/koneksi.php')) {
             
             .brand {
                 font-size: 1.1rem;
+            }
+            
+            .nav-actions {
+                gap: 6px;
+                flex-wrap: wrap;
+            }
+            
+            .nav-btn {
+                padding: 6px 10px;
+                font-size: 11px;
             }
             
             .simple-cards {
@@ -675,6 +691,14 @@ if (file_exists('conf/koneksi.php')) {
             </a>
             
             <div class="nav-actions">
+                <a href="../role_crud.php" class="nav-btn">
+                    <i class="material-icons" style="font-size: 18px;">admin_panel_settings</i>
+                    Role Management
+                </a>
+                <a href="../crud.php" class="nav-btn">
+                    <i class="material-icons" style="font-size: 18px;">apps</i>
+                    Main CRUD
+                </a>
                 <a href="#form" class="nav-btn modal-trigger">
                     <i class="material-icons" style="font-size: 18px;">add</i>
                     Create Table
