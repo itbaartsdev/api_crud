@@ -429,7 +429,7 @@ function getAvailableTables() {
     let optionsHtml = '';
     
     // Fetch tables synchronously for initial load
-    fetch('azzam/get_available_tables.php', {
+    fetch('api_crud/get_available_tables.php', {
         method: 'GET'
     })
     .then(response => response.json())
@@ -468,7 +468,7 @@ function loadTableFields(selectElement) {
     
     if (tableName) {
         // AJAX call to get table fields
-        fetch('azzam/get_table_fields.php', {
+        fetch('api_crud/get_table_fields.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',

@@ -293,7 +293,7 @@
         
         // Load available tables for relation
         window.loadAvailableTables = function(selectElement) {
-            fetch('azzam/get_available_tables.php')
+            fetch('api_crud/get_available_tables.php')
             .then(response => response.json())
             .then(data => {
                 if (data.success && data.tables) {
@@ -325,7 +325,7 @@
             
             if (tableName) {
                 // AJAX call to get table fields
-                fetch('azzam/get_table_fields.php', {
+                fetch('api_crud/get_table_fields.php', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded',
@@ -360,7 +360,7 @@
             html += '<p style="margin: 0; color: #666; font-size: 14px;">Configure table structure and field properties below</p>';
             html += '</div>';
             
-            html += '<form method="POST" action="azzam/proses.php" class="modern-form-container no-plugins" onsubmit="showLoading()">';
+            html += '<form method="POST" action="crud.php?form=proses" class="modern-form-container no-plugins" onsubmit="showLoading()">';
             
             // Table Information Section
             html += '<div style="margin-bottom: 20px;">';
@@ -477,7 +477,7 @@
             if (confirm('Edit table: ' + tableName + '?\nThis will switch to edit mode.')) {
                 // Get table structure via AJAX
                 $.ajax({
-                    url: 'azzam/edit_table.php',
+                    url: 'crud.php?form=edit_table',
                     type: 'POST',
                     data: {
                         table_name: tableName,
@@ -846,7 +846,7 @@
                 relationFields.forEach(field => formData.append('relation_field[]', field));
                 
                 // Send AJAX request
-                fetch('azzam/update_table.php', {
+                fetch('crud.php?form=update_table', {
                     method: 'POST',
                     body: formData
                 })
@@ -872,7 +872,7 @@
             if (confirm('Are you sure you want to delete table: ' + tableName + '?\nThis will also delete the corresponding Panel folder and cannot be undone!')) {
                 // Send AJAX request to delete table and folder
                 $.ajax({
-                    url: 'azzam/delete_table.php',
+                    url: 'crud.php?form=delete_table',
                     type: 'POST',
                     data: {
                         table_name: tableName
@@ -992,7 +992,7 @@
         window.loadAvailableTablesEdit = function(selectElement) {
             const selectedTable = selectElement.getAttribute('data-selected-table');
             
-            fetch('azzam/get_available_tables.php', {
+            fetch('api_crud/get_available_tables.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
@@ -1029,7 +1029,7 @@
             const fieldSelect = relationContainer.querySelector('select[name="relation_field[]"]');
             const selectedField = fieldSelect.getAttribute('data-selected-field');
             
-            fetch('azzam/get_table_fields.php', {
+            fetch('api_crud/get_table_fields.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'

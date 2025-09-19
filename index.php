@@ -33,7 +33,14 @@
                         }
                         
                         // Display database tables with edit/delete functionality
-                        include 'conf/koneksi.php';
+                        // Pastikan menggunakan koneksi local
+                        if (file_exists('conf/koneksi.php')) {
+                            include 'conf/koneksi.php';
+                        } else if (file_exists('../conf/koneksi.php')) {
+                            include '../conf/koneksi.php';
+                        } else {
+                            include '../../conf/koneksi.php';
+                        }
                         $query = "SHOW TABLES";
                         $result = mysqli_query($koneksi, $query);
                         

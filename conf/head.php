@@ -1,5 +1,13 @@
 <?php 
-include 'conf/koneksi.php';
+// Pastikan menggunakan koneksi database local
+if (file_exists('conf/koneksi.php')) {
+    include 'conf/koneksi.php';
+} else if (file_exists('../conf/koneksi.php')) {
+    include '../conf/koneksi.php';
+} else {
+    // Fallback untuk structure yang berbeda
+    include '../../conf/koneksi.php';
+}
  ?>
 <!DOCTYPE html>
 <html lang="en">
