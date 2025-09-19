@@ -691,11 +691,11 @@ if (file_exists('conf/koneksi.php')) {
             </a>
             
             <div class="nav-actions">
-                <a href="../role_crud.php" class="nav-btn">
+                <a href="role_crud.php" class="nav-btn">
                     <i class="material-icons" style="font-size: 18px;">admin_panel_settings</i>
                     Role Management
                 </a>
-                <a href="../crud.php" class="nav-btn">
+                <a href="crud.php" class="nav-btn">
                     <i class="material-icons" style="font-size: 18px;">apps</i>
                     Main CRUD
                 </a>
