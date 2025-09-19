@@ -89,10 +89,7 @@
                     console.log('i18next initialization skipped:', e.message);
                 }
             }
-                    console.log('i18next initialization skipped:', e.message);
-                }
-            }
-            
+                        
             // Prevent any localization-related errors
             if (typeof $.fn.localize === 'function') {
                 $.fn.localize = function() { return this; };
