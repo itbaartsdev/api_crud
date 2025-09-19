@@ -10,7 +10,7 @@ include 'conf/koneksi.php';
 
 // Check if form was submitted
 if (!isset($_POST['tambah'])) {
-    header('Location: ../crud.php');
+    header('Location: .php');
     exit;
 }
 
@@ -43,12 +43,20 @@ file_put_contents('debug_log.txt', $debug_data, FILE_APPEND);
 
 // Basic validation
 if (empty($nama_tabel_sistem) || empty($judul_tabel_sistem)) {
-    echo "<script>alert('Table name and title are required');window.location.href='../crud.php';</script>";
+    echo "<script>alert('Table name and title are required');window.location.href='crud.php';</script>";
     exit;
 }
 
 if (empty($judul_field_sistem) || empty($nama_field_sistem)) {
-    echo "<script>alert('At least one field is required');window.location.href='../crud.php';</script>";
+    echo "<script>alert('At least one field is required');window.location.href='crud.php';</script>";
+    exit;
+}
+
+// Periksa batas CRUD sebelum membuat tabel baru
+include '../github_fetch.php';
+$crudCheck = checkCrudLimit();
+if (!$crudCheck['allowed']) {
+    echo "<script>alert('" . addslashes($crudCheck['message']) . "');window.location.href='crud.php';</script>";
     exit;
 }
 
