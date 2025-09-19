@@ -1,6 +1,3 @@
-        </div>
-    </main>
-    
     <!-- Modern Footer -->
     <footer style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(20px); border-top: 1px solid rgba(255, 255, 255, 0.2); margin-top: 60px; padding: 40px 0;">
         <div class="container">
@@ -22,13 +19,9 @@
         </div>
     </footer>
 
-    <!-- jQuery and Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
-    
-    <!-- DataTables JS -->
+    <!-- Vendor JS -->
+    <script src="app-assets/js/vendors.min.js"></script>
     <script src="app-assets/vendors/data-tables/js/jquery.dataTables.min.js"></script>
-    <script src="app-assets/vendors/data-tables/js/dataTables.bootstrap4.min.js"></script>
     <script src="app-assets/vendors/data-tables/extensions/responsive/js/dataTables.responsive.min.js"></script>
     <script src="app-assets/vendors/data-tables/js/dataTables.select.min.js"></script>
     <script src="app-assets/vendors/select2/select2.full.min.js"></script>
@@ -40,37 +33,6 @@
     <!-- Custom Modern JS -->
     <script>
         $(document).ready(function() {
-            // Initialize Bootstrap tabs
-            $('.nav-tabs a').on('click', function (e) {
-                e.preventDefault();
-                $(this).tab('show');
-            });
-            
-            // Initialize Bootstrap modals
-            $('.modal').modal({
-                show: false
-            });
-            
-            // Initialize DataTables if present
-            if ($('.table').length && typeof $.fn.DataTable !== 'undefined') {
-                $('.table').DataTable({
-                    responsive: true,
-                    pageLength: 25,
-                    order: [[0, 'asc']],
-                    language: {
-                        search: "Search:",
-                        lengthMenu: "Show _MENU_ entries",
-                        info: "Showing _START_ to _END_ of _TOTAL_ entries",
-                        paginate: {
-                            first: "First",
-                            last: "Last",
-                            next: "Next",
-                            previous: "Previous"
-                        }
-                    }
-                });
-            }
-            
             // Disable i18next and prevent any localization errors
             if (typeof window.i18next !== 'undefined') {
                 console.log('i18next library detected - initializing with minimal config');
@@ -89,7 +51,7 @@
                     console.log('i18next initialization skipped:', e.message);
                 }
             }
-                        
+            
             // Prevent any localization-related errors
             if (typeof $.fn.localize === 'function') {
                 $.fn.localize = function() { return this; };
