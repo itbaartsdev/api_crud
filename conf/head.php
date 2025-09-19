@@ -27,8 +27,15 @@ if (file_exists('conf/koneksi.php')) {
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     
-    <!-- Materialize CSS -->
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    
+    <!-- DataTables CSS -->
     <link rel="stylesheet" type="text/css" href="app-assets/vendors/data-tables/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="app-assets/vendors/data-tables/js/dataTables.bootstrap4.min.css">
     
     <!-- Custom Modern CSS -->
     <link rel="stylesheet" type="text/css" href="app-assets/css/custom/modern-ui.css">
@@ -126,13 +133,105 @@ if (file_exists('conf/koneksi.php')) {
         .main-content {
             margin-top: 70px;
             min-height: calc(100vh - 70px);
-            padding: 20px 0;
+            padding: 20px;
         }
         
         .container {
             max-width: 100%;
-            margin: 0;
+            margin: 0 auto;
             width: 100%;
+        }
+        
+        /* Bootstrap Card Enhancements */
+        .card {
+            border: 1px solid #e3e6f0;
+            border-radius: 8px;
+            box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+            margin-bottom: 1.5rem;
+        }
+        
+        .card-header {
+            background-color: #f8f9fc;
+            border-bottom: 1px solid #e3e6f0;
+            padding: 1rem 1.25rem;
+            border-radius: calc(8px - 1px) calc(8px - 1px) 0 0;
+        }
+        
+        .card-body {
+            padding: 1.25rem;
+        }
+        
+        /* Tab Navigation Styles */
+        .nav-tabs {
+            border-bottom: 1px solid #e3e6f0;
+            margin-bottom: 1rem;
+        }
+        
+        .nav-tabs .nav-link {
+            border: 1px solid transparent;
+            border-radius: 0.25rem 0.25rem 0 0;
+            color: #858796;
+            font-weight: 500;
+        }
+        
+        .nav-tabs .nav-link:hover {
+            border-color: #e3e6f0 #e3e6f0 #e3e6f0;
+            color: #6e707e;
+        }
+        
+        .nav-tabs .nav-link.active {
+            color: #5a5c69;
+            background-color: #fff;
+            border-color: #e3e6f0 #e3e6f0 #fff;
+        }
+        
+        /* Table Styles */
+        .table {
+            color: #858796;
+        }
+        
+        .table thead th {
+            border-top: none;
+            border-bottom: 1px solid #e3e6f0;
+            font-weight: 600;
+            color: #5a5c69;
+        }
+        
+        .table td {
+            border-top: 1px solid #e3e6f0;
+        }
+        
+        /* Button Styles */
+        .btn {
+            border-radius: 0.35rem;
+            font-weight: 500;
+        }
+        
+        .btn-sm {
+            font-size: 0.75rem;
+            padding: 0.25rem 0.5rem;
+        }
+        
+        /* Badge Styles */
+        .badge {
+            font-size: 0.65em;
+            font-weight: 500;
+        }
+        
+        /* Modal Enhancements */
+        .modal-content {
+            border-radius: 0.5rem;
+            border: none;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+        }
+        
+        .modal-header {
+            border-bottom: 1px solid #e3e6f0;
+            padding: 1rem 1.5rem;
+        }
+        
+        .modal-body {
+            padding: 1.5rem;
         }
         
         /* Clean Simple Cards Layout */
@@ -709,3 +808,4 @@ if (file_exists('conf/koneksi.php')) {
 
     <!-- Main Content -->
     <main class="main-content">
+        <div class="container-fluid">

@@ -1,3 +1,6 @@
+        </div>
+    </main>
+    
     <!-- Modern Footer -->
     <footer style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(20px); border-top: 1px solid rgba(255, 255, 255, 0.2); margin-top: 60px; padding: 40px 0;">
         <div class="container">
@@ -19,9 +22,13 @@
         </div>
     </footer>
 
-    <!-- Vendor JS -->
-    <script src="app-assets/js/vendors.min.js"></script>
+    <!-- jQuery and Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- DataTables JS -->
     <script src="app-assets/vendors/data-tables/js/jquery.dataTables.min.js"></script>
+    <script src="app-assets/vendors/data-tables/js/dataTables.bootstrap4.min.js"></script>
     <script src="app-assets/vendors/data-tables/extensions/responsive/js/dataTables.responsive.min.js"></script>
     <script src="app-assets/vendors/data-tables/js/dataTables.select.min.js"></script>
     <script src="app-assets/vendors/select2/select2.full.min.js"></script>
