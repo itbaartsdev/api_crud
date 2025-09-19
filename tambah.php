@@ -429,7 +429,7 @@ function getAvailableTables() {
     let optionsHtml = '';
     
     // Fetch tables synchronously for initial load
-    fetch('api_crud/get_available_tables.php', {
+    fetch('crud.php?action=get_available_tables', {
         method: 'GET'
     })
     .then(response => response.json())
@@ -468,7 +468,7 @@ function loadTableFields(selectElement) {
     
     if (tableName) {
         // AJAX call to get table fields
-        fetch('api_crud/get_table_fields.php', {
+        fetch('crud.php?action=get_table_fields', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',

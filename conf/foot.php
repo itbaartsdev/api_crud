@@ -293,7 +293,7 @@
         
         // Load available tables for relation
         window.loadAvailableTables = function(selectElement) {
-            fetch('api_crud/get_available_tables.php')
+            fetch('crud.php?action=get_available_tables')
             .then(response => response.json())
             .then(data => {
                 if (data.success && data.tables) {
@@ -325,7 +325,7 @@
             
             if (tableName) {
                 // AJAX call to get table fields
-                fetch('api_crud/get_table_fields.php', {
+                fetch('crud.php?action=get_table_fields', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded',
@@ -339,7 +339,7 @@
                         data.fields.forEach(field => {
                             const option = document.createElement('option');
                             option.value = field.name;
-                            option.textContent = field.label;
+                            option.textContent = field.label || field.name;
                             relationFieldSelect.appendChild(option);
                         });
                     }
@@ -992,7 +992,7 @@
         window.loadAvailableTablesEdit = function(selectElement) {
             const selectedTable = selectElement.getAttribute('data-selected-table');
             
-            fetch('api_crud/get_available_tables.php', {
+            fetch('crud.php?action=get_available_tables', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
@@ -1029,7 +1029,7 @@
             const fieldSelect = relationContainer.querySelector('select[name="relation_field[]"]');
             const selectedField = fieldSelect.getAttribute('data-selected-field');
             
-            fetch('api_crud/get_table_fields.php', {
+            fetch('crud.php?action=get_table_fields', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
