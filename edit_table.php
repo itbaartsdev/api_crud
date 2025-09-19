@@ -1,5 +1,14 @@
 <?php
-include '../conf/koneksi.php';
+// Pastikan menggunakan koneksi database local dengan path yang benar
+if (file_exists('conf/koneksi.php')) {
+    include 'conf/koneksi.php';
+} else if (file_exists('../conf/koneksi.php')) {
+    include '../conf/koneksi.php';
+} else if (file_exists('../../conf/koneksi.php')) {
+    include '../../conf/koneksi.php';
+} else {
+    die(json_encode(['success' => false, 'message' => 'Database configuration not found']));
+}
 
 header('Content-Type: application/json');
 
@@ -153,10 +162,8 @@ try {
     
 } catch (Exception $e) {
     // Rollback transaction if active
-    if (!mysqli_get_autocommit($koneksi)) {
-        mysqli_rollback($koneksi);
-        mysqli_autocommit($koneksi, true);
-    }
+    @mysqli_rollback($koneksi);
+    @mysqli_autocommit($koneksi, true);
     
     echo json_encode(['success' => false, 'message' => $e->getMessage()]);
 }
