@@ -3,6 +3,7 @@
 // This file contains only the functions without main execution logic
 
 function generateIndexFile($table_display_name, $new_table_name, $field_labels, $field_names, $field_types, $relation_table_sistem, $relation_field_sistem, $total) {
+echo "hallo";
     $content = "
 <div class=\"row\">
     <!-- Zero config table start -->
