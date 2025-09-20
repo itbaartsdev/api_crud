@@ -37,7 +37,7 @@ function generateIndexFile($judul_tabel_sistem, $nama_tabel_sistem, $judul_field
                             \$no = 1;";
     
     // Build SQL query with explicit primary key selection to avoid JOIN conflicts
-    $sql_query = "SELECT ".$nama_tabel_sistem.".*, ".$nama_tabel_sistem.".id as primary_id";
+    $sql_query = "SELECT * ";
     $joins = "";
     
     for ($i = 0; $i < $total; $i++) {
@@ -161,7 +161,7 @@ function generateCetakFile($judul_tabel_sistem, $nama_tabel_sistem, $judul_field
                             \$no = 1;";
 
     // Build SQL query with explicit primary key selection to avoid JOIN conflicts
-    $sql_query = "SELECT ".$nama_tabel_sistem.".*, ".$nama_tabel_sistem.".id as primary_id";
+    $sql_query = "SELECT * ";
     $joins = "";
 
     for ($i = 0; $i < $total; $i++) {
@@ -536,7 +536,7 @@ $content .= "
 \$no = 1;
 
 // Build SQL query with explicit primary key selection to avoid JOIN conflicts
-\$sql_query = \"SELECT ".$nama_tabel_sistem.".*, ".$nama_tabel_sistem.".id as primary_id\";
+\$sql_query = \"SELECT * \";
 \$joins = \"\";
 
 for (\$i = 0; \$i < $total; \$i++) {
