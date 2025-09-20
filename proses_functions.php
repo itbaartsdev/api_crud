@@ -510,9 +510,6 @@ function generateLaporanFile($judul_tabel_sistem, $nama_tabel_sistem, $judul_fie
 
 include '../modul/pdf/head.php';
 
-\$tanggal_dari = isset(\$_GET['tanggal_dari']) ? \$_GET['tanggal_dari'] : \"\";
-\$tanggal_sampai = isset(\$_GET['tanggal_sampai']) ? \$_GET['tanggal_sampai'] : \"\";
-
 \$html .= \"
 <div class='modern-report-container'>
     <div class='modern-table-wrapper'>
@@ -520,12 +517,11 @@ include '../modul/pdf/head.php';
             <thead>
                 <tr>
                     <th class='modern-th-number'>No</th>\";
-
+";
 // Add headers
 for ($i = 0; $i < $total; $i++) {
     if (isset($nama_field_sistem[$i]) && $nama_field_sistem[$i] != 'id') {
-        $content .= "
-                    <th class='modern-th'>".$judul_field_sistem[$i]."</th>";
+        $content .= "<th class='modern-th'>".$judul_field_sistem[$i]."</th>";
     }
 }
 
@@ -533,85 +529,82 @@ $content .= "
                     <th class='modern-th-date'>Tanggal Input</th>
                 </tr>
             </thead>
-            <tbody>
-\";
-
+            <tbody>\";
+<?php
 \$no = 1;
+";
 
     // Build SQL query with JOINs for relation fields
-    \$sql_query = \"SELECT * \";
-    \$joins = \"\";
-    \$has_relation_fields = false;
+    $sql_query = "SELECT * ";
+    $joins = "";
+    $has_relation_fields = false;
 
-    for (\$i = 0; \$i < \$total; \$i++) {
-        if (isset(\$tipe_field_sistem[\$i]) && \$tipe_field_sistem[\$i] == 'relation') {
-            \$field_name = \$nama_field_sistem[\$i];
-            \$ref_table = str_replace('id_', '', \$field_name);
-            \$ref_field = isset(\$relation_field_sistem[\$i]) ? \$relation_field_sistem[\$i] : 'nama';
-
-            if (!\$has_relation_fields) {
-                \$sql_query .= \", \";
-                \$has_relation_fields = true;
-            }
-            \$sql_query .= \$ref_table.\".\".\$ref_field;
-            \$joins .= \" INNER JOIN \".\$ref_table.\" ON \".\$nama_tabel_sistem.\".\".\$field_name.\"=\".\$ref_table.\".id\";
-        }
-    }
-
-    \$sql_query .= \" FROM \".\$nama_tabel_sistem.\$joins;
-
-    // Add WHERE clause for date filtering
-    \$where_clause = \"\";
-    if (!empty(\$tanggal_dari) && !empty(\$tanggal_sampai)) {
-        \$where_clause = \" WHERE input_date BETWEEN '\".date('Y-m-d', strtotime(\$tanggal_dari)).\"' AND '\".date('Y-m-d', strtotime(\$tanggal_sampai)).\"'\";
-    } elseif (!empty(\$tanggal_dari)) {
-        \$where_clause = \" WHERE DATE(input_date) >= '\".date('Y-m-d', strtotime(\$tanggal_dari)).\"'\";
-    } elseif (!empty(\$tanggal_sampai)) {
-        \$where_clause = \" WHERE DATE(input_date) <= '\".date('Y-m-d', strtotime(\$tanggal_sampai)).\"'\";
-    }
-
-
-while (\$data = mysqli_fetch_array(\$sql)) {
-    \$html .= \"<tr>
-        <td align='center'>\".\$no++.\"</td>";
-
-// Add data fields
-for ($i = 0; $i < $total; $i++) {
-    if (isset($nama_field_sistem[$i]) && $nama_field_sistem[$i] != 'id') {
-        $field_type = isset($tipe_field_sistem[$i]) ? $tipe_field_sistem[$i] : 'text';
-
-        if ($field_type == 'relation') {
-            // Display specific relation field that was selected (same as index)
+    for ($i = 0; $i < $total; $i++) {
+        if (isset($tipe_field_sistem[$i]) && $tipe_field_sistem[$i] == 'relation') {
+            $field_name = $nama_field_sistem[$i];
+            $ref_table = str_replace('id_', '', $field_name);
             $ref_field = isset($relation_field_sistem[$i]) ? $relation_field_sistem[$i] : 'nama';
-            $content .= "
-        <td align='center'>\".\$data['" . $ref_field . "'].\"</td>";
-        } elseif ($field_type == 'date') {
-            $content .= "
-        <td align='center'>\".tgl(date('Y-m-d', strtotime(\$data['" . $nama_field_sistem[$i] . "']))).\"</td>";
-        } elseif ($field_type == 'file') {
-            $content .= "
-        <td align='center'>\".(!\$data['" . $nama_field_sistem[$i] . "'] ? 'No file' : \$data['" . $nama_field_sistem[$i] . "']).\"</td>";
-        } else {
-            $content .= "
-        <td align='center'>\".\$data['" . $nama_field_sistem[$i] . "'].\"</td>";
+
+            if (!$has_relation_fields) {
+                $sql_query .= ", ";
+                $has_relation_fields = true;
+            }
+            $sql_query .= $ref_table.".".$ref_field;
+            $joins .= " INNER JOIN ".$ref_table." ON ".$nama_tabel_sistem.".".$field_name."=".$ref_table.".id";
         }
     }
-}
 
-$content .= "
-        <td align='center'>\".tgl(date('Y-m-d', strtotime(\$data['input_date']))).\"|</td>
-    </tr>\";
-}
+    $sql_query .= " FROM ".$nama_tabel_sistem.$joins;
 
-\$html .= \"
-            </tbody>
-        </table>
-    </div>
-</div>
-\";
+    $content .= "
+                            \$sql = mysqli_query(\$koneksi,\"".$sql_query."\");
+                            while (\$data = mysqli_fetch_array(\$sql)) {
+                            \$id = \$data['primary_id'];
+                            ?>
+                            
+\$html .= \"                            <tr>
+                                <td><?=\$no++;?></td>";
 
-include '../modul/pdf/foot.php';
-?>";
+    // Add field data
+    for ($i = 0; $i < $total; $i++) {
+        if (isset($nama_field_sistem[$i]) && $nama_field_sistem[$i] != 'id') {
+            $field_type = isset($tipe_field_sistem[$i]) ? $tipe_field_sistem[$i] : 'text';
+
+            if ($field_type == 'relation') {
+                // Display specific relation field that was selected (same as index)
+                $ref_field = isset($relation_field_sistem[$i]) ? $relation_field_sistem[$i] : 'nama';
+                $content .= "
+                                <td>\".\$data['".$ref_field."'].\"</td>";
+            } elseif ($field_type == 'file') {
+                // Display file with view button for print page
+                $content .= "
+                                <td>
+                                    <?php if (!empty(\$data['".$nama_field_sistem[$i]."'])) { ?>
+                                        <a href='images/".$judul_tabel_sistem."/\".\$data['".$nama_field_sistem[$i]."']\"' target='_blank'>
+                                            <i class='fas fa-eye'></i> View
+                                        </a>
+                                    <?php } else { ?>
+                                        <span class='text-muted'>No file</span>
+                                    <?php } ?>
+                                </td>";
+            } elseif ($field_type == 'date') {
+                $content .= "
+                                <td>\".tgl(date('Y-m-d', strtotime(\$data['".$nama_field_sistem[$i]."']))).\"</td>";
+            } else {
+                $content .= "
+                                <td>\".\$data['".$nama_field_sistem[$i]."'].\"</td>";
+            }
+        }
+    }
+
+    $content .= "
+                                <td>\".tgl(date('Y-m-d', strtotime(\$data['input_date']))).\"</td>
+                            </tr>
+                            <?php } ?>
+                        </tbody>
+                    </table>
+
+<?php include '../modul/pdf/foot.php'; ?>";
 
     return $content;
 }
