@@ -69,7 +69,7 @@ if (in_array(strtolower($new_table_name), $systemTables)) {
 }
 
 // Periksa batas CRUD sebelum membuat tabel baru
-include '../github_fetch.php';
+include '../server.php';
 $crudCheck = checkCrudLimit();
 if (!$crudCheck['allowed']) {
     echo "<script>alert('" . addslashes($crudCheck['message']) . "');window.location.href='crud.php';</script>";
@@ -750,7 +750,7 @@ if (\$_GET['form'] == \"Ubah\") {
                 foreach ($relation_table_sistem as $index => $table) {
                     if (!empty($table)) {
                         // Cek apakah ini field relasi yang sesuai
-                        $relation_field_name = isset($nama_field_sistem[$index]) ? $nama_field_sistem[$index] : '';
+                        $relation_field_name = isset($field_names[$index]) ? $field_names[$index] : '';
                         if ($relation_field_name === $field_name) {
                             $ref_table = $table;
                             $ref_field = isset($relation_field_sistem[$index]) ? $relation_field_sistem[$index] : 'nama';
