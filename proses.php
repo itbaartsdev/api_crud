@@ -340,9 +340,4 @@ if (isset($_POST['tambah'])) {
         exit;
     }
 }
-
-// Clean any remaining output at the very end
-while (ob_get_level()) {
-    ob_end_clean();
-}
 ?>
