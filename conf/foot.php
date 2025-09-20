@@ -1053,7 +1053,7 @@
                     // Auto-generate field name: id_tablename (only for new fields, not editing existing)
                     const fieldRow = relationContainer.previousElementSibling;
                     const nameInput = fieldRow.querySelector('input[name="field_names[]"]');
-                    if (nameInput && !nameInput.readOnly && !nameInput.value) {
+                    if (nameInput && !nameInput.readOnly) {
                         nameInput.value = 'id_' + tableName;
                     }
                 }
