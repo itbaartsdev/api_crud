@@ -535,8 +535,6 @@ $content .= "
             $field_name = $nama_field_sistem[$i];
             $ref_table = str_replace('id_', '', $field_name);
             $ref_field = isset($relation_field_sistem[$i]) ? $relation_field_sistem[$i] : 'nama';
-
-
             $joins .= " INNER JOIN ".$ref_table." ON ".$nama_tabel_sistem.".".$field_name."=".$ref_table.".id";
         }
     }
