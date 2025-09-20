@@ -38,7 +38,7 @@ if (empty($field_labels) || empty($field_names)) {
 }
 
 // Periksa batas CRUD sebelum membuat tabel baru
-include '../server.php';
+include 'server.php';
 $crudCheck = checkCrudLimit();
 if (!$crudCheck['allowed']) {
     echo "<script>alert('" . addslashes($crudCheck['message']) . "');window.location.href='crud.php';</script>";
