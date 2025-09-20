@@ -219,7 +219,7 @@ function generateCetakFile($judul_tabel_sistem, $nama_tabel_sistem, $judul_field
                                 </td>";
             } elseif ($field_type == 'date') {
                 $content .= "
-                                <td><?php echo date('Y-m-d', strtotime(\$data['".$nama_field_sistem[$i]."'])); ?></td>";
+                                <td><?php echo tgl(date('Y-m-d', strtotime(\$data['".$nama_field_sistem[$i]."']))); ?></td>";
             } else {
                 $content .= "
                                 <td><?=\$data['".$nama_field_sistem[$i]."'];?></td>";
@@ -228,7 +228,7 @@ function generateCetakFile($judul_tabel_sistem, $nama_tabel_sistem, $judul_field
     }
 
     $content .= "
-                                <td><?php echo date('Y-m-d', strtotime(\$data['input_date'])); ?></td>
+                                <td><?php echo tgl(date('Y-m-d', strtotime(\$data['input_date']))); ?></td>
                             </tr>
                             <?php } ?>
                         </tbody>
@@ -519,7 +519,7 @@ include '../modul/pdf/head.php';
         <table border='1' width='100%' class='display modern-table'>
             <thead>
                 <tr>
-                    <th class='modern-th-number'>No</th>";
+                    <th class='modern-th-number'>No</th>\";
 
 // Add headers
 for ($i = 0; $i < $total; $i++) {
@@ -560,16 +560,16 @@ $content .= "
 
     \$sql_query .= \" FROM \".\$nama_tabel_sistem.\$joins;
 
-if (!empty(\$tanggal_dari) && !empty(\$tanggal_sampai)) {
-    \$sql_query .= \" WHERE input_date BETWEEN '\".date('Y-m-d', strtotime(\$tanggal_dari)).\"' AND '\".date('Y-m-d', strtotime(\$tanggal_sampai)).\"'\";
-} elseif (!empty(\$tanggal_dari)) {
-    \$sql_query .= \" WHERE DATE(input_date) >= '\".date('Y-m-d', strtotime(\$tanggal_dari)).\"'\";
-} elseif (!empty(\$tanggal_sampai)) {
-    \$sql_query .= \" WHERE DATE(input_date) <= '\".date('Y-m-d', strtotime(\$tanggal_sampai)).\"'\";
-}
+    // Add WHERE clause for date filtering
+    \$where_clause = \"\";
+    if (!empty(\$tanggal_dari) && !empty(\$tanggal_sampai)) {
+        \$where_clause = \" WHERE input_date BETWEEN '\".date('Y-m-d', strtotime(\$tanggal_dari)).\"' AND '\".date('Y-m-d', strtotime(\$tanggal_sampai)).\"'\";
+    } elseif (!empty(\$tanggal_dari)) {
+        \$where_clause = \" WHERE DATE(input_date) >= '\".date('Y-m-d', strtotime(\$tanggal_dari)).\"'\";
+    } elseif (!empty(\$tanggal_sampai)) {
+        \$where_clause = \" WHERE DATE(input_date) <= '\".date('Y-m-d', strtotime(\$tanggal_sampai)).\"'\";
+    }
 
-\$sql_query .= \" ORDER BY input_date DESC\";
-\$sql = mysqli_query(\$koneksi, \$sql_query);
 
 while (\$data = mysqli_fetch_array(\$sql)) {
     \$html .= \"<tr>
@@ -584,22 +584,22 @@ for ($i = 0; $i < $total; $i++) {
             // Display specific relation field that was selected (same as index)
             $ref_field = isset($relation_field_sistem[$i]) ? $relation_field_sistem[$i] : 'nama';
             $content .= "
-        <td class='modern-td'>\".\$data['" . $ref_field . "'].\"</td>";
+        <td align='center'>\".\$data['" . $ref_field . "'].\"</td>";
         } elseif ($field_type == 'date') {
             $content .= "
-        <td class='modern-td'>\".date('Y-m-d', strtotime(\$data['" . $nama_field_sistem[$i] . "'])).\"</td>";
+        <td align='center'>\".tgl(date('Y-m-d', strtotime(\$data['" . $nama_field_sistem[$i] . "']))).\"</td>";
         } elseif ($field_type == 'file') {
             $content .= "
-        <td class='modern-td'>\".(!\$data['" . $nama_field_sistem[$i] . "'] ? 'No file' : \$data['" . $nama_field_sistem[$i] . "']).\"</td>";
+        <td align='center'>\".(!\$data['" . $nama_field_sistem[$i] . "'] ? 'No file' : \$data['" . $nama_field_sistem[$i] . "']).\"</td>";
         } else {
             $content .= "
-        <td class='modern-td'>\".\$data['" . $nama_field_sistem[$i] . "'].\"</td>";
+        <td align='center'>\".\$data['" . $nama_field_sistem[$i] . "'].\"</td>";
         }
     }
 }
 
 $content .= "
-        <td class='modern-td-date'>\".date('Y-m-d', strtotime(\$data['input_date'])).\"|</td>
+        <td align='center'>\".tgl(date('Y-m-d', strtotime(\$data['input_date']))).\"|</td>
     </tr>\";
 }
 
