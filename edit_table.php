@@ -932,7 +932,7 @@ echo \"<script>alert('Data berhasil disimpan!');document.location='../index.php?
 
 if (isset(\$_POST['ubah'])) {
 \$id = \$_POST['id'];
-\$sql = mysqli_query(\$koneksi,\"UPDATE ".$nama_tabel_sistem." SET ".$nama_field_sistem[0]."='\$id'";
+\$sql = mysqli_query(\$koneksi,\"UPDATE ".$nama_tabel_sistem." SET id='\$id'";
 
     for ($i = 0; $i < $total; $i++) {
         if (isset($nama_field_sistem[$i]) && $nama_field_sistem[$i] != 'id' && $nama_field_sistem[$i] != 'input_date') {
@@ -940,7 +940,7 @@ if (isset(\$_POST['ubah'])) {
         }
     }
 
-    $content .= " WHERE ".$nama_field_sistem[0]."='\$id'\");
+    $content .= " WHERE id='\$id'\");
 echo \"<script>alert('Data berhasil dirubah!');document.location='../index.php?page=".$judul_tabel_sistem."'</script>\";
 }
 ?>";
