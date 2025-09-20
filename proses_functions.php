@@ -515,15 +515,8 @@ include '../modul/pdf/head.php';
 
 \$html .= \"
 <div class='modern-report-container'>
-    <div class='modern-report-header'>
-        <div class='modern-report-title'>
-            <h2>Laporan ".$judul_tabel_sistem."</h2>
-            <p>Data laporan terlengkap dan terpercaya</p>
-        </div>
-    </div>
-
     <div class='modern-table-wrapper'>
-        <table border='0' class='display modern-table'>
+        <table border='1' width='100%' class='display modern-table'>
             <thead>
                 <tr>
                     <th class='modern-th-number'>No</th>";
