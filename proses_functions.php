@@ -2,7 +2,7 @@
 // File generation functions extracted from proses.php
 // This file contains only the functions without main execution logic
 
-function generateIndexFile($judul_tabel_sistem, $nama_tabel_sistem, $judul_field_sistem, $nama_field_sistem, $tipe_field_sistem, $relation_table_sistem, $relation_field_sistem, $total) {
+function generateIndexFile($table_display_name, $new_table_name, $field_labels, $field_names, $field_types, $relation_table_sistem, $relation_field_sistem, $total) {
     $content = "
 <div class=\"row\">
     <!-- Zero config table start -->
@@ -22,9 +22,9 @@ function generateIndexFile($judul_tabel_sistem, $nama_tabel_sistem, $judul_field
     
     // Add field headers
     for ($i = 0; $i < $total; $i++) {
-        if (isset($nama_field_sistem[$i]) && $nama_field_sistem[$i] != 'id') {
+        if (isset($field_names[$i]) && $field_names[$i] != 'id') {
             $content .= "
-                                <th>".$judul_field_sistem[$i]."</th>";
+                                <th>".$field_labels[$i]."</th>";
         }
     }
     
@@ -37,22 +37,22 @@ function generateIndexFile($judul_tabel_sistem, $nama_tabel_sistem, $judul_field
                             \$no = 1;";
     
     // Build SQL query with JOINs for relation fields
-    $sql_query = "SELECT *,".$nama_tabel_sistem.".id AS primary_id ";
+    $sql_query = "SELECT *,".$new_table_name.".id AS primary_id ";
     $joins = "";
     $has_relation_fields = false;
 
     for ($i = 0; $i < $total; $i++) {
-        if (isset($tipe_field_sistem[$i]) && $tipe_field_sistem[$i] == 'relation') {
-            $field_name = $nama_field_sistem[$i];
+        if (isset($field_types[$i]) && $field_types[$i] == 'relation') {
+            $field_name = $field_names[$i];
             $ref_table = str_replace('id_', '', $field_name);
             $ref_field = isset($relation_field_sistem[$i]) ? $relation_field_sistem[$i] : 'nama';
 
 
-            $joins .= " INNER JOIN ".$ref_table." ON ".$nama_tabel_sistem.".".$field_name."=".$ref_table.".id";
+            $joins .= " INNER JOIN ".$ref_table." ON ".$new_table_name.".".$field_name."=".$ref_table.".id";
         }
     }
 
-    $sql_query .= " FROM ".$nama_tabel_sistem.$joins;
+    $sql_query .= " FROM ".$new_table_name.$joins;
     
     $content .= "
                             \$sql = mysqli_query(\$koneksi,\"".$sql_query."\");
@@ -64,8 +64,8 @@ function generateIndexFile($judul_tabel_sistem, $nama_tabel_sistem, $judul_field
     
     // Add field data
     for ($i = 0; $i < $total; $i++) {
-        if (isset($nama_field_sistem[$i]) && $nama_field_sistem[$i] != 'id') {
-            $field_type = isset($tipe_field_sistem[$i]) ? $tipe_field_sistem[$i] : 'text';
+        if (isset($field_names[$i]) && $field_names[$i] != 'id') {
+            $field_type = isset($field_types[$i]) ? $field_types[$i] : 'text';
             
             if ($field_type == 'relation') {
                 // Display specific relation field that was selected
@@ -76,8 +76,8 @@ function generateIndexFile($judul_tabel_sistem, $nama_tabel_sistem, $judul_field
                 // Display file with view button
                 $content .= "
                                 <td>
-                                    <?php if (!empty(\$data['".$nama_field_sistem[$i]."'])) { ?>
-                                        <a href=\"images/".$judul_tabel_sistem."/<?=\$data['".$nama_field_sistem[$i]."'];?>\" target=\"_blank\" class=\"btn btn-sm btn-info has-ripple\">
+                                    <?php if (!empty(\$data['".$field_names[$i]."'])) { ?>
+                                        <a href=\"images/".$table_display_name."/<?=\$data['".$field_names[$i]."'];?>\" target=\"_blank\" class=\"btn btn-sm btn-info has-ripple\">
                                             <i class=\"fas fa-eye\"></i> View
                                         </a>
                                     <?php } else { ?>
@@ -86,7 +86,7 @@ function generateIndexFile($judul_tabel_sistem, $nama_tabel_sistem, $judul_field
                                 </td>";
             } else {
                 $content .= "
-                                <td><?=\$data['".$nama_field_sistem[$i]."'];?></td>";
+                                <td><?=\$data['".$field_names[$i]."'];?></td>";
             }
         }
     }
@@ -115,14 +115,14 @@ function generateIndexFile($judul_tabel_sistem, $nama_tabel_sistem, $judul_field
     return $content;
 }
 
-function generateCetakFile($judul_tabel_sistem, $nama_tabel_sistem, $judul_field_sistem, $nama_field_sistem, $tipe_field_sistem, $relation_table_sistem, $relation_field_sistem, $total) {
+function generateCetakFile($table_display_name, $new_table_name, $field_labels, $field_names, $field_types, $relation_table_sistem, $relation_field_sistem, $total) {
     $content = "
 <div class=\"row\">
     <!-- Zero config table start -->
     <div class=\"col-sm-12\">
         <div class=\"card\">
             <div class=\"card-header\">
-                <form method=\"POST\" action=\"../laporan/".$nama_tabel_sistem.".php\" target=\"_blank\">
+                <form method=\"POST\" action=\"../laporan/".$new_table_name.".php\" target=\"_blank\">
                     <div class=\"row\">
                         <div class=\"col-sm-5\">
                             <input class=\"form-control\" placeholder=\"Dari Tanggal\" type=\"date\"  name=\"tanggal_dari\" required>
@@ -147,9 +147,9 @@ function generateCetakFile($judul_tabel_sistem, $nama_tabel_sistem, $judul_field
 
     // Add field headers
     for ($i = 0; $i < $total; $i++) {
-        if (isset($nama_field_sistem[$i]) && $nama_field_sistem[$i] != 'id') {
+        if (isset($field_names[$i]) && $field_names[$i] != 'id') {
             $content .= "
-                                <th>".$judul_field_sistem[$i]."</th>";
+                                <th>".$field_labels[$i]."</th>";
         }
     }
 
@@ -162,22 +162,22 @@ function generateCetakFile($judul_tabel_sistem, $nama_tabel_sistem, $judul_field
                             \$no = 1;";
 
     // Build SQL query with JOINs for relation fields
-    $sql_query = "SELECT *, ".$nama_tabel_sistem.".id AS primary_id";
+    $sql_query = "SELECT *, ".$new_table_name.".id AS primary_id";
     $joins = "";
     $has_relation_fields = false;
 
     for ($i = 0; $i < $total; $i++) {
-        if (isset($tipe_field_sistem[$i]) && $tipe_field_sistem[$i] == 'relation') {
-            $field_name = $nama_field_sistem[$i];
+        if (isset($field_types[$i]) && $field_types[$i] == 'relation') {
+            $field_name = $field_names[$i];
             $ref_table = str_replace('id_', '', $field_name);
             $ref_field = isset($relation_field_sistem[$i]) ? $relation_field_sistem[$i] : 'nama';
 
 
-            $joins .= " INNER JOIN ".$ref_table." ON ".$nama_tabel_sistem.".".$field_name."=".$ref_table.".id";
+            $joins .= " INNER JOIN ".$ref_table." ON ".$new_table_name.".".$field_name."=".$ref_table.".id";
         }
     }
 
-    $sql_query .= " FROM ".$nama_tabel_sistem.$joins;
+    $sql_query .= " FROM ".$new_table_name.$joins;
 
     $content .= "
                             \$sql = mysqli_query(\$koneksi,\"".$sql_query."\");
@@ -189,8 +189,8 @@ function generateCetakFile($judul_tabel_sistem, $nama_tabel_sistem, $judul_field
 
     // Add field data
     for ($i = 0; $i < $total; $i++) {
-        if (isset($nama_field_sistem[$i]) && $nama_field_sistem[$i] != 'id') {
-            $field_type = isset($tipe_field_sistem[$i]) ? $tipe_field_sistem[$i] : 'text';
+        if (isset($field_names[$i]) && $field_names[$i] != 'id') {
+            $field_type = isset($field_types[$i]) ? $field_types[$i] : 'text';
 
             if ($field_type == 'relation') {
                 // Display specific relation field that was selected (same as index)
@@ -201,8 +201,8 @@ function generateCetakFile($judul_tabel_sistem, $nama_tabel_sistem, $judul_field
                 // Display file with view button for print page
                 $content .= "
                                 <td>
-                                    <?php if (!empty(\$data['".$nama_field_sistem[$i]."'])) { ?>
-                                        <a href=\"images/".$judul_tabel_sistem."/<?=\$data['".$nama_field_sistem[$i]."'];?>\" target=\"_blank\" class=\"btn btn-sm btn-info has-ripple\">
+                                    <?php if (!empty(\$data['".$field_names[$i]."'])) { ?>
+                                        <a href=\"images/".$table_display_name."/<?=\$data['".$field_names[$i]."'];?>\" target=\"_blank\" class=\"btn btn-sm btn-info has-ripple\">
                                             <i class=\"fas fa-eye\"></i> View
                                         </a>
                                     <?php } else { ?>
@@ -211,10 +211,10 @@ function generateCetakFile($judul_tabel_sistem, $nama_tabel_sistem, $judul_field
                                 </td>";
             } elseif ($field_type == 'date') {
                 $content .= "
-                                <td><?php echo tgl(date('Y-m-d', strtotime(\$data['".$nama_field_sistem[$i]."']))); ?></td>";
+                                <td><?php echo tgl(date('Y-m-d', strtotime(\$data['".$field_names[$i]."']))); ?></td>";
             } else {
                 $content .= "
-                                <td><?=\$data['".$nama_field_sistem[$i]."'];?></td>";
+                                <td><?=\$data['".$field_names[$i]."'];?></td>";
             }
         }
     }
@@ -236,11 +236,11 @@ function generateCetakFile($judul_tabel_sistem, $nama_tabel_sistem, $judul_field
     return $content;
 }
 
-function generateFormFile($judul_tabel_sistem, $nama_tabel_sistem, $judul_field_sistem, $nama_field_sistem, $tipe_field_sistem, $values_field_sistem, $relation_table_sistem, $relation_field_sistem, $total) {
+function generateFormFile($table_display_name, $new_table_name, $field_labels, $field_names, $field_types, $field_lengths, $relation_table_sistem, $relation_field_sistem, $total) {
     $content = "
 <?php 
 if (\$_GET['form'] == \"Ubah\") {
-    \$sql    = mysqli_query(\$koneksi,\"SELECT * FROM ".$nama_tabel_sistem." WHERE id='\$id'\");
+    \$sql    = mysqli_query(\$koneksi,\"SELECT * FROM ".$new_table_name." WHERE id='\$id'\");
     \$data   = mysqli_fetch_array(\$sql);
 }
 ?>
@@ -254,71 +254,71 @@ if (\$_GET['form'] == \"Ubah\") {
     
     // Add form fields using same logic as data/form/isi.php
     for ($i = 0; $i < $total; $i++) {
-        if (isset($nama_field_sistem[$i]) && $nama_field_sistem[$i] != 'id' && $nama_field_sistem[$i] != 'input_date') {
-            $field_type = isset($tipe_field_sistem[$i]) ? $tipe_field_sistem[$i] : 'text';
+        if (isset($field_names[$i]) && $field_names[$i] != 'id' && $field_names[$i] != 'input_date') {
+            $field_type = isset($field_types[$i]) ? $field_types[$i] : 'text';
             
             if ($field_type == 'year') {
                 $content .= "
                         <div class=\"col-lg-12\">
                             <div class=\"form-group\">
-                                <label>".$judul_field_sistem[$i]."</label>
-                                <input id=\"".$nama_field_sistem[$i]."\" class=\"form-control\" type=\"number\" max=\"99999\" name=\"".$nama_field_sistem[$i]."\" value=\"<?=\$data['".$nama_field_sistem[$i]."'];?>\" required>
+                                <label>".$field_labels[$i]."</label>
+                                <input id=\"".$field_names[$i]."\" class=\"form-control\" type=\"number\" max=\"99999\" name=\"".$field_names[$i]."\" value=\"<?=\$data['".$field_names[$i]."'];?>\" required>
                             </div>
                         </div>";
             } elseif ($field_type == 'date') {
                 $content .= "
                         <div class=\"col-lg-12\">
                             <div class=\"form-group\">
-                                <label>".$judul_field_sistem[$i]."</label>
-                                <input class=\"form-control\" type=\"date\" name=\"".$nama_field_sistem[$i]."\" value=\"<?php echo date('Y-m-d', strtotime(\$data['".$nama_field_sistem[$i]."'])); ?>\" required>
+                                <label>".$field_labels[$i]."</label>
+                                <input class=\"form-control\" type=\"date\" name=\"".$field_names[$i]."\" value=\"<?php echo date('Y-m-d', strtotime(\$data['".$field_names[$i]."'])); ?>\" required>
                             </div>
                         </div>";
             } elseif ($field_type == 'datetime') {
                 $content .= "
                         <div class=\"col-lg-12\">
                             <div class=\"form-group\">
-                                <label>".$judul_field_sistem[$i]."</label>
-                                <input id=\"".$nama_field_sistem[$i]."\" class=\"form-control\" type=\"datetime-local\" name=\"".$nama_field_sistem[$i]."\" value=\"<?=\$data['".$nama_field_sistem[$i]."'];?>\" required>
+                                <label>".$field_labels[$i]."</label>
+                                <input id=\"".$field_names[$i]."\" class=\"form-control\" type=\"datetime-local\" name=\"".$field_names[$i]."\" value=\"<?=\$data['".$field_names[$i]."'];?>\" required>
                             </div>
                         </div>";
             } elseif ($field_type == 'time') {
                 $content .= "
                         <div class=\"col-lg-12\">
                             <div class=\"form-group\">
-                                <label>".$judul_field_sistem[$i]."</label>
-                                <input id=\"".$nama_field_sistem[$i]."\" class=\"form-control\" type=\"time\" name=\"".$nama_field_sistem[$i]."\" value=\"<?=\$data['".$nama_field_sistem[$i]."'];?>\" required>
+                                <label>".$field_labels[$i]."</label>
+                                <input id=\"".$field_names[$i]."\" class=\"form-control\" type=\"time\" name=\"".$field_names[$i]."\" value=\"<?=\$data['".$field_names[$i]."'];?>\" required>
                             </div>
                         </div>";
             } elseif ($field_type == 'month') {
                 $content .= "
                         <div class=\"col-lg-12\">
                             <div class=\"form-group\">
-                                <label>".$judul_field_sistem[$i]."</label>
-                                <input id=\"".$nama_field_sistem[$i]."\" class=\"form-control\" type=\"month\" name=\"".$nama_field_sistem[$i]."\" value=\"<?=\$data['".$nama_field_sistem[$i]."'];?>\" required>
+                                <label>".$field_labels[$i]."</label>
+                                <input id=\"".$field_names[$i]."\" class=\"form-control\" type=\"month\" name=\"".$field_names[$i]."\" value=\"<?=\$data['".$field_names[$i]."'];?>\" required>
                             </div>
                         </div>";
             } elseif ($field_type == 'int') {
                 $content .= "
                         <div class=\"col-lg-12\">
                             <div class=\"form-group\">
-                                <label>".$judul_field_sistem[$i]."</label>
-                                <input id=\"".$nama_field_sistem[$i]."\" class=\"form-control\" type=\"number\" name=\"".$nama_field_sistem[$i]."\" value=\"<?=\$data['".$nama_field_sistem[$i]."'];?>\" required>
+                                <label>".$field_labels[$i]."</label>
+                                <input id=\"".$field_names[$i]."\" class=\"form-control\" type=\"number\" name=\"".$field_names[$i]."\" value=\"<?=\$data['".$field_names[$i]."'];?>\" required>
                             </div>
                         </div>";
             } elseif ($field_type == 'file') {
                 $content .= '
                         <div class="col-lg-12">
                             <div class="form-group">
-                                <label>'.$judul_field_sistem[$i].'</label>
+                                <label>'.$field_labels[$i].'</label>
                                 <div class="custom-file">
-                                    <input type="file" class="custom-file-input" name="'.$nama_field_sistem[$i].'">
+                                    <input type="file" class="custom-file-input" name="'.$field_names[$i].'">
                                     <label class="custom-file-label">Choose file</label>
                                 </div>								
                             </div>
                         </div>';
             } elseif ($field_type == 'enum') {
-                // Handle enum field with values from values_field_sistem
-                $enum_values = isset($values_field_sistem[$i]) ? $values_field_sistem[$i] : '';
+                // Handle enum field with values from field_lengths
+                $enum_values = isset($field_lengths[$i]) ? $field_lengths[$i] : '';
                 
                 // Parse enum values properly: 'value1','value2','value3' -> array('value1', 'value2', 'value3')
                 $hasil = [];
@@ -339,15 +339,15 @@ if (\$_GET['form'] == \"Ubah\") {
                 $content .= "
                         <div class=\"col-lg-12\">
                             <div class=\"form-group\">
-                                <label>".$judul_field_sistem[$i]."</label>
-                                <select name=\"".$nama_field_sistem[$i]."\" class=\"js-example-basic-single form-control\" data-placeholder=\"Pilih Salah Satu\" id=\"".$nama_field_sistem[$i]."\" required>
-                                    <option value>-- Pilih ".$judul_field_sistem[$i]." --</option>
+                                <label>".$field_labels[$i]."</label>
+                                <select name=\"".$field_names[$i]."\" class=\"js-example-basic-single form-control\" data-placeholder=\"Pilih Salah Satu\" id=\"".$field_names[$i]."\" required>
+                                    <option value>-- Pilih ".$field_labels[$i]." --</option>
                                     <?php
-                                    if (\$data['".$nama_field_sistem[$i]."'] == NULL){
+                                    if (\$data['".$field_names[$i]."'] == NULL){
                                         // No current value
                                     } else {
                                         ?>
-                                        <option value=\"<?=\$data['".$nama_field_sistem[$i]."'];?>\" selected><?=\$data['".$nama_field_sistem[$i]."'];?></option>
+                                        <option value=\"<?=\$data['".$field_names[$i]."'];?>\" selected><?=\$data['".$field_names[$i]."'];?></option>
                                         <?php
                                     }
                                     ?>";
@@ -357,7 +357,7 @@ if (\$_GET['form'] == \"Ubah\") {
                     $option_value = $hasil[$z];
                     $content .= "
                                     <?php
-                                    if(\$data['".$nama_field_sistem[$i]."'] == \"".$option_value."\"){
+                                    if(\$data['".$field_names[$i]."'] == \"".$option_value."\"){
                                         // Already selected above
                                     } else {
                                         ?>
@@ -373,20 +373,20 @@ if (\$_GET['form'] == \"Ubah\") {
                         </div>";
             } elseif ($field_type == 'relation') {
                 // Generate dropdown for relation field
-                $field_name = $nama_field_sistem[$i];
+                $field_name = $field_names[$i];
                 $ref_table = isset($relation_table_sistem[$i]) ? $relation_table_sistem[$i] : str_replace('id_', '', $field_name);
                 $ref_field = isset($relation_field_sistem[$i]) ? $relation_field_sistem[$i] : 'nama';
                 
                 $content .= "
                         <div class=\"col-lg-12\">
                             <div class=\"form-group\">
-                                <label>".$judul_field_sistem[$i]."</label>
-                                <select class=\"js-example-basic-single form-control\" name=\"".$nama_field_sistem[$i]."\" required>
-                                    <option value=\"\">Pilih ".$judul_field_sistem[$i]."</option>
+                                <label>".$field_labels[$i]."</label>
+                                <select class=\"js-example-basic-single form-control\" name=\"".$field_names[$i]."\" required>
+                                    <option value=\"\">Pilih ".$field_labels[$i]."</option>
                                     <?php 
                                     \$sql_rel = mysqli_query(\$koneksi, \"SELECT * FROM ".$ref_table." ORDER BY id\");
                                     while (\$data_rel = mysqli_fetch_array(\$sql_rel)) {
-                                        \$selected = (\$data['".$nama_field_sistem[$i]."'] == \$data_rel['id']) ? 'selected' : '';
+                                        \$selected = (\$data['".$field_names[$i]."'] == \$data_rel['id']) ? 'selected' : '';
                                         echo '<option value=\"'.\$data_rel['id'].'\" '.\$selected.'>'.\$data_rel['".$ref_field."'].'</option>';
                                     }
                                     ?>
@@ -398,8 +398,8 @@ if (\$_GET['form'] == \"Ubah\") {
                 $content .= "
                         <div class=\"col-lg-12\">
                             <div class=\"form-group\">
-                                <label>".$judul_field_sistem[$i]."</label>
-                                <input id=\"".$nama_field_sistem[$i]."\" class=\"form-control\" type=\"text\" name=\"".$nama_field_sistem[$i]."\" value=\"<?=\$data['".$nama_field_sistem[$i]."'];?>\" required>
+                                <label>".$field_labels[$i]."</label>
+                                <input id=\"".$field_names[$i]."\" class=\"form-control\" type=\"text\" name=\"".$field_names[$i]."\" value=\"<?=\$data['".$field_names[$i]."'];?>\" required>
                             </div>
                         </div>";
             }
@@ -423,28 +423,28 @@ if (\$_GET['form'] == \"Ubah\") {
     return $content;
 }
 
-function generateProsesFile($judul_tabel_sistem, $nama_tabel_sistem, $judul_field_sistem, $nama_field_sistem, $tipe_field_sistem, $total) {
+function generateProsesFile($table_display_name, $new_table_name, $field_labels, $field_names, $field_types, $total) {
     $content = "
 <?php 
 include '../../conf/koneksi.php';";
     
     // Add variable declarations
     for ($i = 0; $i < $total; $i++) {
-        if (isset($nama_field_sistem[$i]) && $nama_field_sistem[$i] != 'id' && $nama_field_sistem[$i] != 'input_date') {
-            $field_type = isset($tipe_field_sistem[$i]) ? $tipe_field_sistem[$i] : 'text';
+        if (isset($field_names[$i]) && $field_names[$i] != 'id' && $field_names[$i] != 'input_date') {
+            $field_type = isset($field_types[$i]) ? $field_types[$i] : 'text';
             
             if ($field_type == 'file') {
                 $content .= "
-\$file_".$nama_field_sistem[$i]."  = \$_FILES['".$nama_field_sistem[$i]."']['name'];
-\$tmp_".$nama_field_sistem[$i]."   = \$_FILES['".$nama_field_sistem[$i]."']['tmp_name'];
-move_uploaded_file(\$tmp_".$nama_field_sistem[$i].", '../images/".$judul_tabel_sistem."/'.\$file_".$nama_field_sistem[$i].");
-\$".$nama_field_sistem[$i]." = \$file_".$nama_field_sistem[$i].";";
+\$file_".$field_names[$i]."  = \$_FILES['".$field_names[$i]."']['name'];
+\$tmp_".$field_names[$i]."   = \$_FILES['".$field_names[$i]."']['tmp_name'];
+move_uploaded_file(\$tmp_".$field_names[$i].", '../images/".$table_display_name."/'.\$file_".$field_names[$i].");
+\$".$field_names[$i]." = \$file_".$field_names[$i].";";
             } elseif ($field_type == 'date') {
                 $content .= "
-\$".$nama_field_sistem[$i]." = date('Y-m-d', strtotime(\$_POST['".$nama_field_sistem[$i]."']));";
+\$".$field_names[$i]." = date('Y-m-d', strtotime(\$_POST['".$field_names[$i]."']));";
             } else {
                 $content .= "
-\$".$nama_field_sistem[$i]." = \$_POST['".$nama_field_sistem[$i]."'];";
+\$".$field_names[$i]." = \$_POST['".$field_names[$i]."'];";
             }
         }
     }
@@ -454,51 +454,51 @@ move_uploaded_file(\$tmp_".$nama_field_sistem[$i].", '../images/".$judul_tabel_s
 
 if (isset(\$_POST['tambah'])) {
 
-\$sql = mysqli_query(\$koneksi,\"INSERT INTO ".$nama_tabel_sistem." SET id=NULL";
+\$sql = mysqli_query(\$koneksi,\"INSERT INTO ".$new_table_name." SET id=NULL";
     
     for ($i = 0; $i < $total; $i++) {
-        if (isset($nama_field_sistem[$i]) && $nama_field_sistem[$i] != 'id' && $nama_field_sistem[$i] != 'input_date') {
-            $content .= ", ".$nama_field_sistem[$i]."='\$".$nama_field_sistem[$i]."'";
+        if (isset($field_names[$i]) && $field_names[$i] != 'id' && $field_names[$i] != 'input_date') {
+            $content .= ", ".$field_names[$i]."='\$".$field_names[$i]."'";
         }
     }
     
     $content .= "\");
-echo \"<script>alert('Data berhasil disimpan!');document.location='../index.php?page=".$judul_tabel_sistem."'</script>\";
+echo \"<script>alert('Data berhasil disimpan!');document.location='../index.php?page=".$table_display_name."'</script>\";
 }
 
 if (isset(\$_POST['ubah'])) {
 \$id = \$_POST['id'];
-\$sql = mysqli_query(\$koneksi,\"UPDATE ".$nama_tabel_sistem." SET id='\$id'";
+\$sql = mysqli_query(\$koneksi,\"UPDATE ".$new_table_name." SET id='\$id'";
 
     for ($i = 0; $i < $total; $i++) {
-        if (isset($nama_field_sistem[$i]) && $nama_field_sistem[$i] != 'id' && $nama_field_sistem[$i] != 'input_date') {
-            $content .= ", ".$nama_field_sistem[$i]."='\$".$nama_field_sistem[$i]."'";
+        if (isset($field_names[$i]) && $field_names[$i] != 'id' && $field_names[$i] != 'input_date') {
+            $content .= ", ".$field_names[$i]."='\$".$field_names[$i]."'";
         }
     }
 
     $content .= " WHERE id='\$id'\");
-echo \"<script>alert('Data berhasil dirubah!');document.location='../index.php?page=".$judul_tabel_sistem."'</script>\";
+echo \"<script>alert('Data berhasil dirubah!');document.location='../index.php?page=".$table_display_name."'</script>\";
 }
 ?>";
     
     return $content;
 }
 
-function generateHapusFile($judul_tabel_sistem, $nama_tabel_sistem, $primary_key) {
+function generateHapusFile($table_display_name, $new_table_name, $primary_key) {
     $content = "
 <?php
 \$id = \$_GET['id'];
-\$sql = mysqli_query(\$koneksi,\"DELETE FROM ".$nama_tabel_sistem." WHERE id='\$id'\");
-echo \"<script>alert('Data berhasil dihapus.');window.location='index.php?page=".$judul_tabel_sistem."';</script>\";
+\$sql = mysqli_query(\$koneksi,\"DELETE FROM ".$new_table_name." WHERE id='\$id'\");
+echo \"<script>alert('Data berhasil dihapus.');window.location='index.php?page=".$table_display_name."';</script>\";
 ?>";
 
     return $content;
 }
 
-function generateLaporanFile($judul_tabel_sistem, $nama_tabel_sistem, $judul_field_sistem, $nama_field_sistem, $tipe_field_sistem, $relation_table_sistem, $relation_field_sistem, $total) {
+function generateLaporanFile($table_display_name, $new_table_name, $field_labels, $field_names, $field_types, $relation_table_sistem, $relation_field_sistem, $total) {
     $content = "
 <?php
-\$title = \" Laporan ".$judul_tabel_sistem."\";
+\$title = \" Laporan ".$table_display_name."\";
 
 include '../modul/pdf/head.php';
 
@@ -512,8 +512,8 @@ include '../modul/pdf/head.php';
 ";
 // Add headers
 for ($i = 0; $i < $total; $i++) {
-    if (isset($nama_field_sistem[$i]) && $nama_field_sistem[$i] != 'id') {
-        $content .= "<th class='modern-th'>".$judul_field_sistem[$i]."</th>";
+    if (isset($field_names[$i]) && $field_names[$i] != 'id') {
+        $content .= "<th class='modern-th'>".$field_labels[$i]."</th>";
     }
 }
 
@@ -526,20 +526,20 @@ $content .= "
 ";
 
     // Build SQL query with JOINs for relation fields
-    $sql_query = "SELECT *, ".$nama_tabel_sistem.".id AS primary_id ";
+    $sql_query = "SELECT *, ".$new_table_name.".id AS primary_id ";
     $joins = "";
     $has_relation_fields = false;
 
     for ($i = 0; $i < $total; $i++) {
-        if (isset($tipe_field_sistem[$i]) && $tipe_field_sistem[$i] == 'relation') {
-            $field_name = $nama_field_sistem[$i];
+        if (isset($field_types[$i]) && $field_types[$i] == 'relation') {
+            $field_name = $field_names[$i];
             $ref_table = str_replace('id_', '', $field_name);
             $ref_field = isset($relation_field_sistem[$i]) ? $relation_field_sistem[$i] : 'nama';
-            $joins .= " INNER JOIN ".$ref_table." ON ".$nama_tabel_sistem.".".$field_name."=".$ref_table.".id";
+            $joins .= " INNER JOIN ".$ref_table." ON ".$new_table_name.".".$field_name."=".$ref_table.".id";
         }
     }
 
-    $sql_query .= " FROM ".$nama_tabel_sistem.$joins;
+    $sql_query .= " FROM ".$new_table_name.$joins;
 
     $content .= "
                             \$sql = mysqli_query(\$koneksi,\"".$sql_query."\");
@@ -551,8 +551,8 @@ $content .= "
 
     // Add field data
     for ($i = 0; $i < $total; $i++) {
-        if (isset($nama_field_sistem[$i]) && $nama_field_sistem[$i] != 'id') {
-            $field_type = isset($tipe_field_sistem[$i]) ? $tipe_field_sistem[$i] : 'text';
+        if (isset($field_names[$i]) && $field_names[$i] != 'id') {
+            $field_type = isset($field_types[$i]) ? $field_types[$i] : 'text';
 
             if ($field_type == 'relation') {
                 // Display specific relation field that was selected (same as index)
@@ -563,8 +563,8 @@ $content .= "
                 // Display file with view button for print page
                 $content .= "
                                 <td>
-                                    <?php if (!empty(\$data['".$nama_field_sistem[$i]."'])) { ?>
-                                        <a href='images/".$judul_tabel_sistem."/\".\$data['".$nama_field_sistem[$i]."']\"' target='_blank'>
+                                    <?php if (!empty(\$data['".$field_names[$i]."'])) { ?>
+                                        <a href='images/".$table_display_name."/\".\$data['".$field_names[$i]."']\"' target='_blank'>
                                             <i class='fas fa-eye'></i> View
                                         </a>
                                     <?php } else { ?>
@@ -573,10 +573,10 @@ $content .= "
                                 </td>";
             } elseif ($field_type == 'date') {
                 $content .= "
-                                <td>\".tgl(date('Y-m-d', strtotime(\$data['".$nama_field_sistem[$i]."']))).\"</td>";
+                                <td>\".tgl(date('Y-m-d', strtotime(\$data['".$field_names[$i]."']))).\"</td>";
             } else {
                 $content .= "
-                                <td>\".\$data['".$nama_field_sistem[$i]."'].\"</td>";
+                                <td>\".\$data['".$field_names[$i]."'].\"</td>";
             }
         }
     }
