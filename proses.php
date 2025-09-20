@@ -743,21 +743,9 @@ if (\$_GET['form'] == \"Ubah\") {
             } elseif ($field_type == 'relation') {
                 // Generate dropdown for relation field
                 $field_name = $field_names[$i];
-                $ref_table = str_replace('id_', '', $field_name); // Default fallback
-                $ref_field = 'nama'; // Default fallback
-
-                // Cari data relasi berdasarkan field name
-                foreach ($relation_table_sistem as $index => $table) {
-                    if (!empty($table)) {
-                        // Cek apakah ini field relasi yang sesuai
-                        $relation_field_name = isset($field_names[$index]) ? $field_names[$index] : '';
-                        if ($relation_field_name === $field_name) {
-                            $ref_table = $table;
-                            $ref_field = isset($relation_field_sistem[$index]) ? $relation_field_sistem[$index] : 'nama';
-                            break;
-                        }
-                    }
-                }                
+                $ref_table = isset($relation_table_sistem[$i]) ? $relation_table_sistem[$i] : str_replace('id_', '', $field_name);
+                $ref_field = isset($relation_field_sistem[$i]) ? $relation_field_sistem[$i] : 'nama';
+                
                 $content .= "
                         <div class=\"col-lg-12\">
                             <div class=\"form-group\">
