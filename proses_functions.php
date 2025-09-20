@@ -47,11 +47,7 @@ function generateIndexFile($judul_tabel_sistem, $nama_tabel_sistem, $judul_field
             $ref_table = str_replace('id_', '', $field_name);
             $ref_field = isset($relation_field_sistem[$i]) ? $relation_field_sistem[$i] : 'nama';
 
-            if (!$has_relation_fields) {
-                $sql_query .= ", ";
-                $has_relation_fields = true;
-            }
-            $sql_query .= $ref_table.".".$ref_field;
+
             $joins .= " INNER JOIN ".$ref_table." ON ".$nama_tabel_sistem.".".$field_name."=".$ref_table.".id";
         }
     }
@@ -176,11 +172,7 @@ function generateCetakFile($judul_tabel_sistem, $nama_tabel_sistem, $judul_field
             $ref_table = str_replace('id_', '', $field_name);
             $ref_field = isset($relation_field_sistem[$i]) ? $relation_field_sistem[$i] : 'nama';
 
-            if (!$has_relation_fields) {
-                $sql_query .= ", ";
-                $has_relation_fields = true;
-            }
-            $sql_query .= $ref_table.".".$ref_field;
+
             $joins .= " INNER JOIN ".$ref_table." ON ".$nama_tabel_sistem.".".$field_name."=".$ref_table.".id";
         }
     }
@@ -544,11 +536,7 @@ $content .= "
             $ref_table = str_replace('id_', '', $field_name);
             $ref_field = isset($relation_field_sistem[$i]) ? $relation_field_sistem[$i] : 'nama';
 
-            if (!$has_relation_fields) {
-                $sql_query .= ", ";
-                $has_relation_fields = true;
-            }
-            $sql_query .= $ref_table.".".$ref_field;
+
             $joins .= " INNER JOIN ".$ref_table." ON ".$nama_tabel_sistem.".".$field_name."=".$ref_table.".id";
         }
     }
