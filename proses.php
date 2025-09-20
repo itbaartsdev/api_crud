@@ -114,25 +114,31 @@ function getUniqueFileName($basePath, $fileName, $extension = '.php') {
 }
 
 // Function to get a unique folder name by checking for existing folders
+// Modified to properly backup folders before overwriting
 function getUniqueFolderName($basePath, $folderName) {
     $originalName = $folderName;
     $counter = 1;
     $fullPath = $basePath . $folderName;
     
-    while (is_dir($fullPath)) {
-        // If folder exists, rename the existing folder
+    if (is_dir($fullPath)) {
+        // If folder exists, rename the existing folder to backup name
         $backupName = $originalName . '_backup';
         if ($counter > 1) {
             $backupName = $originalName . '_backup' . $counter;
         }
         
         $backupPath = $basePath . $backupName;
-        if (!is_dir($backupPath)) {
-            // Rename existing folder to backup name
-            rename($fullPath, $backupPath);
-            break;
-        }
         $counter++;
+        
+        // Find a unique backup name
+        while (is_dir($backupPath)) {
+            $backupName = $originalName . '_backup' . $counter;
+            $backupPath = $basePath . $backupName;
+            $counter++;
+        }
+        
+        // Rename existing folder to backup name
+        rename($fullPath, $backupPath);
     }
     
     return $folderName;
@@ -221,7 +227,8 @@ if (isset($_POST['tambah'])) {
                     // Relation fields are always int(11) with index
                     // Comment format: display_name|table_name|field_view_name
                     $ref_table = isset($relation_table_sistem[$i]) ? $relation_table_sistem[$i] : str_replace('id_', '', $field_name);
-                    $ref_field = isset($relation_field_sistem[$i]) ? $relation_field_sistem[$i] : 'nama';
+                    // Fixed bug: properly access $relation_field_sistem[$i] with isset check and default fallback
+                    $ref_field = isset($relation_field_sistem[$i]) && !empty($relation_field_sistem[$i]) ? $relation_field_sistem[$i] : 'nama';
                     $relation_comment = "$field_display_name|$ref_table|$ref_field";
                     $add_field_sql = "ALTER TABLE `$nama_tabel_sistem` ADD `$field_name` int(11) COMMENT '$relation_comment', ADD INDEX(`$field_name`)";
                 } else if ($field_type == "year" || $field_type == "date" || $field_type == "datetime" || $field_type == "time" || $field_type == "timestamp") {
@@ -362,7 +369,7 @@ function generateIndexFile($judul_tabel_sistem, $nama_tabel_sistem, $judul_field
                             \$no = 1;";
     
     // Build SQL query with explicit primary key selection to avoid JOIN conflicts
-    $sql_query = "SELECT ".$nama_tabel_sistem.".*, ".$nama_tabel_sistem.".id as primary_id";
+    $sql_query = "SELECT * ";
     $joins = "";
     
     for ($i = 0; $i < $total; $i++) {
@@ -485,7 +492,7 @@ function generateCetakFile($judul_tabel_sistem, $nama_tabel_sistem, $judul_field
                             \$no = 1;";
     
     // Build SQL query with explicit primary key selection to avoid JOIN conflicts (same as index)
-    $sql_query = "SELECT ".$nama_tabel_sistem.".*, ".$nama_tabel_sistem.".id as primary_id";
+    $sql_query = "SELECT * ";
     $joins = "";
     
     for ($i = 0; $i < $total; $i++) {
@@ -819,8 +826,8 @@ function generateLaporanFile($judul_tabel_sistem, $nama_tabel_sistem, $judul_fie
 
 include '../modul/pdf/head.php';
 
-\$tanggal_dari = isset(\$_GET['tanggal_dari']) ? \$_GET['tanggal_dari'] : \"\";
-\$tanggal_sampai = isset(\$_GET['tanggal_sampai']) ? \$_GET['tanggal_sampai'] : \"\";
+\$tanggal_dari = isset(\$_POST['dari']) ? \$_POST['dari'] : \"\";
+\$tanggal_sampai = isset(\$_POST['sampai']) ? \$_POST['sampai'] : \"\";
 
 \$html .= \"
 <div class='modern-report-container'>
@@ -857,10 +864,10 @@ $content .= "
 \$where_conditions = array();
 
 if (!empty(\$tanggal_dari)) {
-    \$where_conditions[] = \"DATE(input_date) >= '\".$tanggal_dari.\"'\";
+    \$where_conditions[] = \"DATE(input_date) >= '\".\$tanggal_dari.\"'\";
 }
 if (!empty(\$tanggal_sampai)) {
-    \$where_conditions[] = \"DATE(input_date) <= '\".$tanggal_sampai.\"'\";
+    \$where_conditions[] = \"DATE(input_date) <= '\".\$tanggal_sampai.\"'\";
 }
 
 if (!empty(\$where_conditions)) {
@@ -872,7 +879,7 @@ if (!empty(\$where_conditions)) {
 
 while (\$data = mysqli_fetch_array(\$sql)) {
     \$html .= \"<tr>
-        <td align='center'>\".$no++.\"</td>";
+        <td align='center'>\".\$no++.\"</td>";
         
 // Add data fields
 for ($i = 0; $i < $total; $i++) {
