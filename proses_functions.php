@@ -36,21 +36,26 @@ function generateIndexFile($judul_tabel_sistem, $nama_tabel_sistem, $judul_field
                             <?php 
                             \$no = 1;";
     
-    // Build SQL query with explicit primary key selection to avoid JOIN conflicts
+    // Build SQL query with JOINs for relation fields
     $sql_query = "SELECT * ";
     $joins = "";
-    
+    $has_relation_fields = false;
+
     for ($i = 0; $i < $total; $i++) {
         if (isset($tipe_field_sistem[$i]) && $tipe_field_sistem[$i] == 'relation') {
             $field_name = $nama_field_sistem[$i];
             $ref_table = str_replace('id_', '', $field_name);
             $ref_field = isset($relation_field_sistem[$i]) ? $relation_field_sistem[$i] : 'nama';
-            
-            $sql_query .= ", ".$ref_table.".".$ref_field;
+
+            if (!$has_relation_fields) {
+                $sql_query .= ", ";
+                $has_relation_fields = true;
+            }
+            $sql_query .= $ref_table.".".$ref_field;
             $joins .= " INNER JOIN ".$ref_table." ON ".$nama_tabel_sistem.".".$field_name."=".$ref_table.".id";
         }
     }
-    
+
     $sql_query .= " FROM ".$nama_tabel_sistem.$joins;
     
     $content .= "
@@ -160,9 +165,10 @@ function generateCetakFile($judul_tabel_sistem, $nama_tabel_sistem, $judul_field
                             <?php
                             \$no = 1;";
 
-    // Build SQL query with explicit primary key selection to avoid JOIN conflicts
+    // Build SQL query with JOINs for relation fields
     $sql_query = "SELECT * ";
     $joins = "";
+    $has_relation_fields = false;
 
     for ($i = 0; $i < $total; $i++) {
         if (isset($tipe_field_sistem[$i]) && $tipe_field_sistem[$i] == 'relation') {
@@ -170,7 +176,11 @@ function generateCetakFile($judul_tabel_sistem, $nama_tabel_sistem, $judul_field
             $ref_table = str_replace('id_', '', $field_name);
             $ref_field = isset($relation_field_sistem[$i]) ? $relation_field_sistem[$i] : 'nama';
 
-            $sql_query .= ", ".$ref_table.".".$ref_field;
+            if (!$has_relation_fields) {
+                $sql_query .= ", ";
+                $has_relation_fields = true;
+            }
+            $sql_query .= $ref_table.".".$ref_field;
             $joins .= " INNER JOIN ".$ref_table." ON ".$nama_tabel_sistem.".".$field_name."=".$ref_table.".id";
         }
     }
@@ -535,22 +545,27 @@ $content .= "
 
 \$no = 1;
 
-// Build SQL query with explicit primary key selection to avoid JOIN conflicts
-\$sql_query = \"SELECT * \";
-\$joins = \"\";
+    // Build SQL query with JOINs for relation fields
+    \$sql_query = \"SELECT * \";
+    \$joins = \"\";
+    \$has_relation_fields = false;
 
-for (\$i = 0; \$i < $total; \$i++) {
-    if (isset(\$tipe_field_sistem[\$i]) && \$tipe_field_sistem[\$i] == 'relation') {
-        \$field_name = \$nama_field_sistem[\$i];
-        \$ref_table = str_replace('id_', '', \$field_name);
-        \$ref_field = isset(\$relation_field_sistem[\$i]) ? \$relation_field_sistem[\$i] : 'nama';
+    for (\$i = 0; \$i < \$total; \$i++) {
+        if (isset(\$tipe_field_sistem[\$i]) && \$tipe_field_sistem[\$i] == 'relation') {
+            \$field_name = \$nama_field_sistem[\$i];
+            \$ref_table = str_replace('id_', '', \$field_name);
+            \$ref_field = isset(\$relation_field_sistem[\$i]) ? \$relation_field_sistem[\$i] : 'nama';
 
-        \$sql_query .= \", \".\$ref_table.\".\".\$ref_field;
-        \$joins .= \" INNER JOIN \".\$ref_table.\" ON \".\$nama_tabel_sistem.\".\".\$field_name.\"=\".\$ref_table.\".id\";
+            if (!\$has_relation_fields) {
+                \$sql_query .= \", \";
+                \$has_relation_fields = true;
+            }
+            \$sql_query .= \$ref_table.\".\".\$ref_field;
+            \$joins .= \" INNER JOIN \".\$ref_table.\" ON \".\$nama_tabel_sistem.\".\".\$field_name.\"=\".\$ref_table.\".id\";
+        }
     }
-}
 
-\$sql_query .= \" FROM \".\$nama_tabel_sistem.\$joins;
+    \$sql_query .= \" FROM \".\$nama_tabel_sistem.\$joins;
 
 if (!empty(\$tanggal_dari) && !empty(\$tanggal_sampai)) {
     \$sql_query .= \" WHERE input_date BETWEEN '\".date('Y-m-d', strtotime(\$tanggal_dari)).\"' AND '\".date('Y-m-d', strtotime(\$tanggal_sampai)).\"'\";
