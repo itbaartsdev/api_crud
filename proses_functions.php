@@ -37,7 +37,7 @@ function generateIndexFile($judul_tabel_sistem, $nama_tabel_sistem, $judul_field
                             \$no = 1;";
     
     // Build SQL query with JOINs for relation fields
-    $sql_query = "SELECT  ".$nama_tabel_sistem.".id AS primary_id, * ";
+    $sql_query = "SELECT *,".$nama_tabel_sistem.".id AS primary_id ";
     $joins = "";
     $has_relation_fields = false;
 
@@ -166,7 +166,7 @@ function generateCetakFile($judul_tabel_sistem, $nama_tabel_sistem, $judul_field
                             \$no = 1;";
 
     // Build SQL query with JOINs for relation fields
-    $sql_query = "SELECT * ".$nama_tabel_sistem.".id AS primary_id,";
+    $sql_query = "SELECT *, ".$nama_tabel_sistem.".id AS primary_id";
     $joins = "";
     $has_relation_fields = false;
 
@@ -534,7 +534,7 @@ $content .= "
 ";
 
     // Build SQL query with JOINs for relation fields
-    $sql_query = "SELECT ".$nama_tabel_sistem.".id AS primary_id, * ";
+    $sql_query = "SELECT *, ".$nama_tabel_sistem.".id AS primary_id ";
     $joins = "";
     $has_relation_fields = false;
 
