@@ -530,7 +530,6 @@ $content .= "
                 </tr>
             </thead>
             <tbody>\";
-<?php
 \$no = 1;
 ";
 
@@ -560,10 +559,9 @@ $content .= "
                             \$sql = mysqli_query(\$koneksi,\"".$sql_query."\");
                             while (\$data = mysqli_fetch_array(\$sql)) {
                             \$id = \$data['primary_id'];
-                            ?>
                             
 \$html .= \"                            <tr>
-                                <td>\".$no++.\"</td>";
+                                <td>\".\$no++.\"</td>";
 
     // Add field data
     for ($i = 0; $i < $total; $i++) {
@@ -599,13 +597,13 @@ $content .= "
 
     $content .= "
                                 <td>\".tgl(date('Y-m-d', strtotime(\$data['input_date']))).\"</td>
-                            </tr>
-                            <?php } ?>
-                        </tbody>
-                    </table>
+                            </tr>\";
+                            }
+   \$html .= \"                        </tbody>
+                    </table>\";
 
-<?php include '../modul/pdf/foot.php'; ?>";
-
+include '../modul/pdf/foot.php';
+";
     return $content;
 }
 
