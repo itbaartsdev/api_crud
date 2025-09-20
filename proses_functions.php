@@ -159,21 +159,21 @@ function generateCetakFile($judul_tabel_sistem, $nama_tabel_sistem, $judul_field
                             <?php 
                             \$no = 1;";
     
-    // Build SQL query with explicit primary key selection to avoid JOIN conflicts (same as index)
+    // Build SQL query with explicit primary key selection to avoid JOIN conflicts
     $sql_query = "SELECT ".$nama_tabel_sistem.".*, ".$nama_tabel_sistem.".id as primary_id";
     $joins = "";
-    
+
     for ($i = 0; $i < $total; $i++) {
         if (isset($tipe_field_sistem[$i]) && $tipe_field_sistem[$i] == 'relation') {
             $field_name = $nama_field_sistem[$i];
             $ref_table = str_replace('id_', '', $field_name);
             $ref_field = isset($relation_field_sistem[$i]) ? $relation_field_sistem[$i] : 'nama';
-            
+
             $sql_query .= ", ".$ref_table.".".$ref_field;
             $joins .= " INNER JOIN ".$ref_table." ON ".$nama_tabel_sistem.".".$field_name."=".$ref_table.".id";
         }
     }
-    
+
     $sql_query .= " FROM ".$nama_tabel_sistem.$joins;
     
     $content .= "
@@ -263,7 +263,7 @@ if (\$_GET['form'] == \"Ubah\") {
                         <div class=\"col-lg-12\">
                             <div class=\"form-group\">
                                 <label>".$judul_field_sistem[$i]."</label>
-                                <input class=\"form-control\" type=\"date\" name=\"".$nama_field_sistem[$i]."\" value=\"<?=date('Y-m-d', strtotime(\$data['".$nama_field_sistem[$i]."']));?>\" required>
+                                <input class=\"form-control\" type=\"date\" name=\"".$nama_field_sistem[$i]."\" value=\"<?php echo date('Y-m-d', strtotime(\$data['".$nama_field_sistem[$i]."'])); ?>\" required>
                             </div>
                         </div>";
             } elseif ($field_type == 'datetime') {
@@ -530,17 +530,13 @@ $content .= "
 
 \$no = 1;
 \$sql_query = \"SELECT * FROM ".$nama_tabel_sistem."\";
-\$where_conditions = array();
 
-if (!empty(\$tanggal_dari)) {
-    \$where_conditions[] = \"DATE(input_date) >= '\".\$tanggal_dari.\"'\";
-}
-if (!empty(\$tanggal_sampai)) {
-    \$where_conditions[] = \"DATE(input_date) <= '\".\$tanggal_sampai.\"'\";
-}
-
-if (!empty(\$where_conditions)) {
-    \$sql_query .= \" WHERE \" . implode(\" AND \", \$where_conditions);
+if (!empty(\$tanggal_dari) && !empty(\$tanggal_sampai)) {
+    \$sql_query .= \" WHERE input_date BETWEEN '\".\$tanggal_dari.\"' AND '\".\$tanggal_sampai.\"'\";
+} elseif (!empty(\$tanggal_dari)) {
+    \$sql_query .= \" WHERE DATE(input_date) >= '\".\$tanggal_dari.\"'\";
+} elseif (!empty(\$tanggal_sampai)) {
+    \$sql_query .= \" WHERE DATE(input_date) <= '\".\$tanggal_sampai.\"'\";
 }
 
 \$sql_query .= \" ORDER BY input_date DESC\";
@@ -557,7 +553,7 @@ for ($i = 0; $i < $total; $i++) {
         
         if ($field_type == 'date') {
             $content .= "
-        <td class='modern-td'>\".tgl(\$data['".$nama_field_sistem[$i]."']).\"|</td>";
+        <td class='modern-td'>\".date('Y-m-d', strtotime(\$data['".$nama_field_sistem[$i]."'])).\"|</td>";
         } elseif ($field_type == 'file') {
             $content .= "
         <td class='modern-td'>\".(!\$data['".$nama_field_sistem[$i]."'] ? 'No file' : \$data['".$nama_field_sistem[$i]."']).\"|</td>";
@@ -569,7 +565,7 @@ for ($i = 0; $i < $total; $i++) {
 }
 
 $content .= "
-        <td class='modern-td-date'>\".date(\"d/m/Y H:i\", strtotime(\$data['input_date'])).\"|</td>
+        <td class='modern-td-date'>\".date('Y-m-d', strtotime(\$data['input_date'])).\"|</td>
     </tr>\";
 }
 
