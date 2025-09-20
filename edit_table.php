@@ -593,7 +593,7 @@ function generateCetakFile($judul_tabel_sistem, $nama_tabel_sistem, $judul_field
     <div class=\"col-sm-12\">
         <div class=\"card\">
             <div class=\"card-header\">
-                <form method=\"POST\" action=\"laporan/".$nama_tabel_sistem.".php\" target=\"_blank\">
+                <form method=\"POST\" action=\"../laporan/".$nama_tabel_sistem.".php\" target=\"_blank\">
                     <div class=\"row\">
                         <div class=\"col-sm-5\">
                             <input class=\"form-control\" placeholder=\"Dari Tanggal\" type=\"date\"  name=\"dari\" required>
