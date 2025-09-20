@@ -26,21 +26,6 @@ $field_properties = isset($_POST['field_properties']) ? $_POST['field_properties
 $relation_table_sistem = isset($_POST['relation_table']) ? $_POST['relation_table'] : array();
 $relation_field_sistem = isset($_POST['relation_field']) ? $_POST['relation_field'] : array();
 
-// Debug logging - write to file to see what data we receive
-$debug_data = "=== DEBUG FORM DATA ===\n";
-$debug_data .= "Table Name: " . $new_table_name . "\n";
-$debug_data .= "Table Title: " . $table_display_name . "\n";
-$debug_data .= "Field Labels: " . print_r($field_labels, true) . "\n";
-$debug_data .= "Field Names: " . print_r($field_names, true) . "\n";
-$debug_data .= "Field Types: " . print_r($field_types, true) . "\n";
-$debug_data .= "Field Values: " . print_r($field_lengths, true) . "\n";
-$debug_data .= "Field Properties: " . print_r($field_properties, true) . "\n";
-$debug_data .= "Relation Tables: " . print_r($relation_table_sistem, true) . "\n";
-$debug_data .= "Relation Fields: " . print_r($relation_field_sistem, true) . "\n";
-$debug_data .= "Field Count: " . count($field_labels) . "\n";
-$debug_data .= "========================\n\n";
-file_put_contents('debug_log.txt', $debug_data, FILE_APPEND);
-
 // Basic validation
 if (empty($new_table_name) || empty($table_display_name)) {
     echo "<script>alert('Table name and title are required');window.location.href='crud.php';</script>";
@@ -53,7 +38,7 @@ if (empty($field_labels) || empty($field_names)) {
 }
 
 // Periksa batas CRUD sebelum membuat tabel baru
-include '../github_fetch.php';
+include '../server.php';
 $crudCheck = checkCrudLimit();
 if (!$crudCheck['allowed']) {
     echo "<script>alert('" . addslashes($crudCheck['message']) . "');window.location.href='crud.php';</script>";
