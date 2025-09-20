@@ -762,8 +762,10 @@ if (\$_GET['form'] == \"Ubah\") {
             } elseif ($field_type == 'relation') {
                 // Generate dropdown for relation field
                 $field_name = $field_names[$i];
+                $u = 0;
                 $ref_table = isset($relation_table_sistem[$i]) ? $relation_table_sistem[$i] : str_replace('id_', '', $field_name);
-                $ref_field = isset($relation_field_sistem[$i]) ? $relation_field_sistem[$i] : 'nama';
+                $ref_field = isset($relation_field_sistem[$u]) ? $relation_field_sistem[$u] : 'nama';
+                $u++;
                 
                 $content .= "
                         <div class=\"col-lg-12\">
