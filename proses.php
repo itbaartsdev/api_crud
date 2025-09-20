@@ -227,8 +227,15 @@ if (isset($_POST['tambah'])) {
                     // Relation fields are always int(11) with index
                     // Comment format: display_name|table_name|field_view_name
                     $ref_table = isset($relation_table_sistem[$i]) ? $relation_table_sistem[$i] : str_replace('id_', '', $field_name);
-                    // Fixed bug: properly access $relation_field_sistem[$i] with isset check and default fallback
-                    $ref_field = isset($relation_field_sistem[$i]) && !empty($relation_field_sistem[$i]) ? $relation_field_sistem[$i] : 'nama';
+
+                    // Fixed bug: properly access $relation_field_sistem[$i] with proper array check and default fallback
+                    $ref_field = 'nama'; // Default fallback
+                    if (isset($relation_field_sistem) && is_array($relation_field_sistem) && array_key_exists($i, $relation_field_sistem)) {
+                        if (!empty($relation_field_sistem[$i]) && $relation_field_sistem[$i] !== '') {
+                            $ref_field = $relation_field_sistem[$i];
+                        }
+                    }
+
                     $relation_comment = "$field_display_name|$ref_table|$ref_field";
                     $add_field_sql = "ALTER TABLE `$nama_tabel_sistem` ADD `$field_name` int(11) COMMENT '$relation_comment', ADD INDEX(`$field_name`)";
                 } else if ($field_type == "year" || $field_type == "date" || $field_type == "datetime" || $field_type == "time" || $field_type == "timestamp") {
