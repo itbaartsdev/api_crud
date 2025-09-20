@@ -246,14 +246,33 @@ if (isset($_POST['tambah'])) {
                     $ref_field = 'nama'; // Default fallback
                     
                     // Cari data relasi berdasarkan field name
-                    foreach ($relation_table_sistem as $index => $table) {
-                        if (!empty($table)) {
-                            // Cek apakah ini field relasi yang sesuai
-                            $relation_field_name = isset($field_names[$index]) ? $field_names[$index] : '';
-                            if ($relation_field_name === $field_name) {
-                                $ref_table = $table;
-                                $ref_field = isset($relation_field_sistem[$index]) ? $relation_field_sistem[$index] : 'nama';
-                                break;
+                    // Modifikasi logika pencocokan untuk menangani ketidaksesuaian indeks
+                    $ref_table = str_replace('id_', '', $field_name); // Default fallback
+                    $ref_field = 'nama'; // Default fallback
+                    
+                    // Cari indeks field yang sesuai dalam field_names
+                    $matching_index = null;
+                    foreach ($field_names as $index => $fname) {
+                        if ($fname === $field_name) {
+                            $matching_index = $index;
+                            break;
+                        }
+                    }
+                    
+                    // Jika ditemukan indeks yang cocok, gunakan data relasi dari indeks tersebut
+                    if ($matching_index !== null && isset($relation_table_sistem[$matching_index]) && !empty($relation_table_sistem[$matching_index])) {
+                        $ref_table = $relation_table_sistem[$matching_index];
+                        $ref_field = isset($relation_field_sistem[$matching_index]) ? $relation_field_sistem[$matching_index] : 'nama';
+                    } else {
+                        // Fallback ke metode pencarian lama untuk kompatibilitas
+                        foreach ($relation_table_sistem as $index => $table) {
+                            if (!empty($table)) {
+                                $relation_field_name = isset($field_names[$index]) ? $field_names[$index] : '';
+                                if ($relation_field_name === $field_name) {
+                                    $ref_table = $table;
+                                    $ref_field = isset($relation_field_sistem[$index]) ? $relation_field_sistem[$index] : 'nama';
+                                    break;
+                                }
                             }
                         }
                     }
