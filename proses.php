@@ -226,12 +226,20 @@ if (isset($_POST['tambah'])) {
                 if ($field_type == "relation") {
                     // Relation fields are always int(11) with index
                     // Comment format: display_name|table_name|field_view_name
-                    $ref_table = isset($relation_table_sistem[$i]) ? $relation_table_sistem[$i] : str_replace('id_', '', $field_name);
-
-                    // Fixed bug: properly access $relation_field_sistem[$i] with proper array check and default fallback
+                    $ref_table = str_replace('id_', '', $field_name); // Default fallback
                     $ref_field = 'nama'; // Default fallback
-                    if (isset($relation_field_sistem) && is_array($relation_field_sistem) && array_key_exists($i, $relation_field_sistem)) {
-                            $ref_field = $relation_field_sistem[$i];
+                    
+                    // Cari data relasi berdasarkan field name
+                    foreach ($relation_table_sistem as $index => $table) {
+                        if (!empty($table)) {
+                            // Cek apakah ini field relasi yang sesuai
+                            $relation_field_name = isset($nama_field_sistem[$index]) ? $nama_field_sistem[$index] : '';
+                            if ($relation_field_name === $field_name) {
+                                $ref_table = $table;
+                                $ref_field = isset($relation_field_sistem[$index]) ? $relation_field_sistem[$index] : 'nama';
+                                break;
+                            }
+                        }
                     }
 
                     $relation_comment = "$field_display_name|$ref_table|$ref_field";
