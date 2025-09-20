@@ -913,12 +913,12 @@ move_uploaded_file(\$tmp_".$nama_field_sistem[$i].", '../images/".$judul_tabel_s
         }
     }
 
-    // Add INSERT logic
+// Add INSERT logic
     $content .= "
 
 if (isset(\$_POST['tambah'])) {
 
-\$sql = mysqli_query(\$koneksi,\"INSERT INTO ".$nama_tabel_sistem." SET ".$nama_field_sistem[0]."=NULL";
+\$sql = mysqli_query(\$koneksi,\"INSERT INTO ".$nama_tabel_sistem." SET id=NULL";
 
     for ($i = 0; $i < $total; $i++) {
         if (isset($nama_field_sistem[$i]) && $nama_field_sistem[$i] != 'id' && $nama_field_sistem[$i] != 'input_date') {
