@@ -29,12 +29,13 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 
 $tableName = isset($_POST['table_name']) ? trim($_POST['table_name']) : '';
 
-if (empty($tableName)) {
-    ob_clean();
-    echo json_encode(['success' => false, 'message' => 'Table name is required']);
-    exit;
+if (!isset($_POST['tambah'])) {
+    if (empty($tableName)) {
+        ob_clean();
+        echo json_encode(['success' => false, 'message' => 'Table name is required']);
+        exit;
+    }
 }
-
 // Validate table name to prevent SQL injection
 if (!preg_match('/^[a-zA-Z_][a-zA-Z0-9_]*$/', $tableName)) {
     ob_clean();
