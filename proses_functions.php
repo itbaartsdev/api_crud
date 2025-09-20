@@ -233,7 +233,7 @@ function generateFormFile($judul_tabel_sistem, $nama_tabel_sistem, $judul_field_
     $content = "
 <?php 
 if (\$_GET['form'] == \"Ubah\") {
-    \$sql    = mysqli_query(\$koneksi,\"SELECT * FROM ".$nama_tabel_sistem." WHERE ".$nama_field_sistem[0]."='\$id'\");
+    \$sql    = mysqli_query(\$koneksi,\"SELECT * FROM ".$nama_tabel_sistem." WHERE id='\$id'\");
     \$data   = mysqli_fetch_array(\$sql);
 }
 ?>
@@ -461,15 +461,15 @@ echo \"<script>alert('Data berhasil disimpan!');document.location='../index.php?
 
 if (isset(\$_POST['ubah'])) {
 \$id = \$_POST['id'];
-\$sql = mysqli_query(\$koneksi,\"UPDATE ".$nama_tabel_sistem." SET ".$nama_field_sistem[0]."='\$id'";
-    
+\$sql = mysqli_query(\$koneksi,\"UPDATE ".$nama_tabel_sistem." SET id='\$id'";
+
     for ($i = 0; $i < $total; $i++) {
         if (isset($nama_field_sistem[$i]) && $nama_field_sistem[$i] != 'id' && $nama_field_sistem[$i] != 'input_date') {
             $content .= ", ".$nama_field_sistem[$i]."='\$".$nama_field_sistem[$i]."'";
         }
     }
-    
-    $content .= " WHERE ".$nama_field_sistem[0]."='\$id'\");
+
+    $content .= " WHERE id='\$id'\");
 echo \"<script>alert('Data berhasil dirubah!');document.location='../index.php?page=".$judul_tabel_sistem."'</script>\";
 }
 ?>";
@@ -479,12 +479,12 @@ echo \"<script>alert('Data berhasil dirubah!');document.location='../index.php?p
 
 function generateHapusFile($judul_tabel_sistem, $nama_tabel_sistem, $primary_key) {
     $content = "
-<?php 
+<?php
 \$id = \$_GET['id'];
-\$sql = mysqli_query(\$koneksi,\"DELETE FROM ".$nama_tabel_sistem." WHERE ".$primary_key."='\$id'\");
-echo \"<script>alert('Data berhasil dihapus.');window.location='index.php?page=".$judul_tabel_sistem."';</script>\"; 
+\$sql = mysqli_query(\$koneksi,\"DELETE FROM ".$nama_tabel_sistem." WHERE id='\$id'\");
+echo \"<script>alert('Data berhasil dihapus.');window.location='index.php?page=".$judul_tabel_sistem."';</script>\";
 ?>";
-    
+
     return $content;
 }
 
@@ -586,4 +586,4 @@ include '../modul/pdf/foot.php';
     return $content;
 }
 
-?> 
+?>
