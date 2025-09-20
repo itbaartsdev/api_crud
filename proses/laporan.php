@@ -4,13 +4,13 @@ if (!is_dir('laporan')) {
     mkdir('laporan', 0755, true);
 }
 
-fopen("laporan/".$nama_tabel_sistem.".php", "x");
-$laporan  = fopen("laporan/".$nama_tabel_sistem.".php", "w");
+fopen("laporan/".$new_table_name.".php", "x");
+$laporan  = fopen("laporan/".$new_table_name.".php", "w");
 include '../data/laporan/header.php';
 
 for ($i=0; $i < $total; $i++) {
-    if ($keterangan_field_sistem[$i] == "primary") {
-    }else if ($keterangan_field_sistem[$i] == "laporan") {
+    if ($field_properties[$i] == "primary") {
+    }else if ($field_properties[$i] == "laporan") {
         include '../data/laporan/judul.php';
     }else{
         include '../data/laporan/judul.php';
@@ -18,18 +18,18 @@ for ($i=0; $i < $total; $i++) {
 }
 
 for ($i=0; $i < $total; $i++) {
-    if ($keterangan_field_sistem[$i] == "primary") {
+    if ($field_properties[$i] == "primary") {
         include '../data/laporan/isi.php';
-    }else if ($keterangan_field_sistem[$i] == "index") {
+    }else if ($field_properties[$i] == "index") {
         include '../data/laporan/join.php';
     }else{
         }
     }
 
 for ($i=0; $i < $total; $i++) {
-    if ($keterangan_field_sistem[$i] == "primary") {
+    if ($field_properties[$i] == "primary") {
         include '../data/laporan/sql.php';
-    }else if ($keterangan_field_sistem[$i] == "index") {
+    }else if ($field_properties[$i] == "index") {
         include '../data/laporan/ulang.php';
     }else{
         include '../data/laporan/ulang.php';
@@ -47,8 +47,8 @@ echo json_encode([
     'success' => true,
     'message' => 'Laporan file generated successfully',
     'data' => [
-        'file_path' => 'laporan/' . $nama_tabel_sistem . '.php',
-        'table_name' => $nama_tabel_sistem,
+        'file_path' => 'laporan/' . $new_table_name . '.php',
+        'table_name' => $new_table_name,
         'generated_at' => date('Y-m-d H:i:s')
     ]
 ]);

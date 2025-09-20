@@ -31,10 +31,10 @@ class SimpleUIController {
 
     bindFormInteractions() {
         // Auto-generate field names from labels
-        $(document).on('input', '[name="judul_field_sistem[]"]', function() {
+        $(document).on('input', '[name="field_labels[]"]', function() {
             const row = $(this).closest('.copy').length ? 
-                      $(this).closest('.copy').parent().find('[name="nama_field_sistem[]"]').last() :
-                      $(this).parent().parent().find('[name="nama_field_sistem[]"]');
+                      $(this).closest('.copy').parent().find('[name="field_names[]"]').last() :
+                      $(this).parent().parent().find('[name="field_names[]"]');
             
             const value = $(this).val().toLowerCase()
                                   .replace(/[^a-z0-9]/g, '_')
@@ -47,7 +47,7 @@ class SimpleUIController {
         });
 
         // Mark field name as manually edited
-        $(document).on('input', '[name="nama_field_sistem[]"]', function() {
+        $(document).on('input', '[name="field_names[]"]', function() {
             $(this).data('manually-edited', true);
         });
     }

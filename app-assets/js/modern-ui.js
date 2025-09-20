@@ -74,7 +74,7 @@ function addNewField() {
         // Clear input values
         const inputs = newField.querySelectorAll('input');
         inputs.forEach(input => {
-            if (input.name !== 'values_field_sistem[]') {
+            if (input.name !== 'field_lengths[]') {
                 input.value = '';
             }
         });
