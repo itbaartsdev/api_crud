@@ -1,11 +1,11 @@
 <?php 
-	fopen("Panel/".$judul_tabel_sistem."/hapus.php", "x");
-	$hapus  = fopen("Panel/".$judul_tabel_sistem."/hapus.php", "w");
+	fopen("Panel/".$table_display_name."/hapus.php", "x");
+	$hapus  = fopen("Panel/".$table_display_name."/hapus.php", "w");
 
 	for ($i=0; $i < $total; $i++) {
-		if ($keterangan_field_sistem[$i] == "primary") {
+		if ($field_properties[$i] == "primary") {
 			include '../data/hapus.php';
-		}else if ($keterangan_field_sistem[$i] == "index") {
+		}else if ($field_properties[$i] == "index") {
 		}else{
 		}
 	}

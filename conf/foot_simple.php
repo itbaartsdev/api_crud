@@ -46,13 +46,13 @@
             });
             
             // Auto-generate field name from label
-            $(document).on('input', 'input[name="judul_field_sistem[]"]', function() {
+            $(document).on('input', 'input[name="field_labels[]"]', function() {
                 var label = $(this).val();
                 var fieldName = label.toLowerCase()
                     .replace(/[^a-z0-9\s]/g, '')
                     .replace(/\s+/g, '_')
                     .replace(/^_+|_+$/g, '');
-                $(this).closest('.field-row').find('input[name="nama_field_sistem[]"]').val(fieldName);
+                $(this).closest('.field-row').find('input[name="field_names[]"]').val(fieldName);
             });
             
             // Success message

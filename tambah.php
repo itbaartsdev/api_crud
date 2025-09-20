@@ -2,15 +2,15 @@
 // Initialize variables to prevent undefined variable warnings
 if (!isset($data)) {
     $data = array(
-        'judul_tabel_sistem' => '',
-        'nama_tabel_sistem' => ''
+        'table_display_name' => '',
+        'new_table_name' => ''
     );
 }
 if (!isset($rows)) {
     $rows = array(
-        'judul_field_sistem' => '',
-        'nama_field_sistem' => '',
-        'values_field_sistem' => ''
+        'field_labels' => '',
+        'field_names' => '',
+        'field_lengths' => ''
     );
 }
 if (!isset($folder)) {
@@ -343,14 +343,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Auto-generate table name from display name
 function generateTableName() {
-    const displayName = document.getElementById('judul_tabel_sistem').value;
+    const displayName = document.getElementById('table_display_name').value;
     const tableName = displayName
         .toLowerCase()                    // Convert to lowercase
         .replace(/[^a-z0-9\s]/g, '')     // Remove special characters except spaces
         .trim()                          // Remove leading/trailing spaces
         .replace(/\s+/g, '_');           // Replace spaces with underscores
     
-    document.getElementById('nama_tabel_sistem').value = tableName;
+    document.getElementById('new_table_name').value = tableName;
 }
 
 // Handle field type change for relation
@@ -387,8 +387,8 @@ function handleFieldTypeChange(selectElement) {
         }
         
         // Auto-set properties for relation
-        const lengthInput = fieldRow.querySelector('input[name="values_field_sistem[]"]');
-        const propertySelect = fieldRow.querySelector('select[name="keterangan_field_sistem[]"]');
+        const lengthInput = fieldRow.querySelector('input[name="field_lengths[]"]');
+        const propertySelect = fieldRow.querySelector('select[name="field_properties[]"]');
         
         if (lengthInput) {
             lengthInput.value = '11';
@@ -409,8 +409,8 @@ function handleFieldTypeChange(selectElement) {
         }
         
         // Reset properties
-        const lengthInput = fieldRow.querySelector('input[name="values_field_sistem[]"]');
-        const propertySelect = fieldRow.querySelector('select[name="keterangan_field_sistem[]"]');
+        const lengthInput = fieldRow.querySelector('input[name="field_lengths[]"]');
+        const propertySelect = fieldRow.querySelector('select[name="field_properties[]"]');
         
         if (lengthInput) {
             lengthInput.readOnly = false;
@@ -459,7 +459,7 @@ function loadTableFields(selectElement) {
     const tableName = selectElement.value;
     const fieldRow = selectElement.closest('.field-row');
     const relationFieldSelect = fieldRow.querySelector('select[name="relation_field[]"]');
-    const nameInput = fieldRow.querySelector('input[name="nama_field_sistem[]"]');
+    const nameInput = fieldRow.querySelector('input[name="field_names[]"]');
     
     if (tableName && nameInput) {
         // Auto-generate field name: id_table_name
@@ -512,10 +512,10 @@ function loadTableFields(selectElement) {
                         <div>
                             <input 
                                 type="text" 
-                                name="judul_tabel_sistem" 
-                                id="judul_tabel_sistem"
+                                name="table_display_name" 
+                                id="table_display_name"
                                 class="modern-input" 
-                                value="<?=isset($data['judul_tabel_sistem']) ? $data['judul_tabel_sistem'] : '';?>" 
+                                value="<?=isset($data['table_display_name']) ? $data['table_display_name'] : '';?>" 
                                 required
                                 placeholder="Table display name"
                                 oninput="generateTableName()"
@@ -524,10 +524,10 @@ function loadTableFields(selectElement) {
                         <div>
                             <input 
                                 type="text" 
-                                name="nama_tabel_sistem" 
-                                id="nama_tabel_sistem"
+                                name="new_table_name" 
+                                id="new_table_name"
                                 class="modern-input" 
-                                value="<?=isset($data['nama_tabel_sistem']) ? $data['nama_tabel_sistem'] : '';?>" 
+                                value="<?=isset($data['new_table_name']) ? $data['new_table_name'] : '';?>" 
                                 required
                                 pattern="[a-z_]+"
                                 placeholder="table_name (auto generated)"
@@ -555,25 +555,25 @@ function loadTableFields(selectElement) {
                         <!-- Primary Key Field -->
                         <div class="field-row primary-key">
                             <div>
-                                <input type="text" name="judul_field_sistem[]" value="ID" class="field-input" readonly>
+                                <input type="text" name="field_labels[]" value="ID" class="field-input" readonly>
                             </div>
                             <div>
-                                <input type="text" name="nama_field_sistem[]" value="id" class="field-input" readonly>
+                                <input type="text" name="field_names[]" value="id" class="field-input" readonly>
                             </div>
                             <div>
-                                <select name="tipe_field_sistem[]" class="field-input simple-select" disabled>
+                                <select name="field_types[]" class="field-input simple-select" disabled>
                                     <option value="int" selected>Integer</option>
                                 </select>
-                                <input type="hidden" name="tipe_field_sistem[]" value="int">
+                                <input type="hidden" name="field_types[]" value="int">
                             </div>
                             <div>
-                                <input type="text" name="values_field_sistem[]" value="11" class="field-input" readonly>
+                                <input type="text" name="field_lengths[]" value="11" class="field-input" readonly>
                             </div>
                             <div>
-                                <select name="keterangan_field_sistem[]" class="field-input simple-select" disabled>
+                                <select name="field_properties[]" class="field-input simple-select" disabled>
                                     <option value="primary" selected>Primary Key</option>
                                 </select>
-                                <input type="hidden" name="keterangan_field_sistem[]" value="primary">
+                                <input type="hidden" name="field_properties[]" value="primary">
                             </div>
                             <div style="text-align: center;">
                                 <i class="material-icons lock-icon">lock</i>
@@ -592,17 +592,17 @@ function loadTableFields(selectElement) {
                                 <select class="field-input simple-select" disabled style="background: #f0fdf4;">
                                     <option value="datetime" selected>DateTime</option>
                                 </select>
-                                <input type="hidden" name="tipe_field_sistem[]" value="datetime">
+                                <input type="hidden" name="field_types[]" value="datetime">
                             </div>
                             <div>
                                 <input type="text" value="CURRENT_TIMESTAMP" class="field-input" readonly style="background: #f0fdf4;">
-                                <input type="hidden" name="values_field_sistem[]" value="">
+                                <input type="hidden" name="field_lengths[]" value="">
                             </div>
                             <div>
                                 <select class="field-input simple-select" disabled style="background: #f0fdf4;">
                                     <option value="auto" selected>Auto Added</option>
                                 </select>
-                                <input type="hidden" name="keterangan_field_sistem[]" value="auto">
+                                <input type="hidden" name="field_properties[]" value="auto">
                             </div>
                             <div style="text-align: center;">
                                 <i class="material-icons" style="color: #4caf50;">schedule</i>
@@ -641,7 +641,7 @@ function loadTableFields(selectElement) {
         <div data-label="Label">
             <input 
                 type="text" 
-                name="judul_field_sistem[]" 
+                name="field_labels[]" 
                 class="field-input" 
                 placeholder="Field Display Name"
                 required
@@ -651,7 +651,7 @@ function loadTableFields(selectElement) {
         <div data-label="Name">
             <input 
                 type="text" 
-                name="nama_field_sistem[]" 
+                name="field_names[]" 
                 class="field-input" 
                 placeholder="field_system_name" 
                 pattern="[a-z_]+"
@@ -659,7 +659,7 @@ function loadTableFields(selectElement) {
             >
         </div>
         <div data-label="Type">
-                                        <select name="tipe_field_sistem[]" class="field-input simple-select" required onchange="handleFieldTypeChange(this)">
+                                        <select name="field_types[]" class="field-input simple-select" required onchange="handleFieldTypeChange(this)">
                                 <option value="">Select Type</option>
                                 <option value="int">Integer</option>
                                 <option value="varchar">Varchar</option>
@@ -679,13 +679,13 @@ function loadTableFields(selectElement) {
         <div data-label="Length">
             <input 
                 type="text" 
-                name="values_field_sistem[]" 
+                name="field_lengths[]" 
                 class="field-input" 
                 placeholder="Length"
             >
         </div>
         <div data-label="Property">
-            <select name="keterangan_field_sistem[]" class="field-input simple-select">
+            <select name="field_properties[]" class="field-input simple-select">
                 <option value="">Select Property</option>
                 <option value="index">Index</option>
                 <option value="unique">Unique</option>

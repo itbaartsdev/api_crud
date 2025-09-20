@@ -483,33 +483,33 @@ function regenerateCRUDFiles($tableName, $koneksi, $customDisplayName = null) {
         ob_end_clean();
         
         // Set global variables for template system (same as original CRUD generator)
-        $judul_tabel_sistem = $displayName;
-        $nama_tabel_sistem = $tableName;
-        $judul_field_sistem = $fieldLabels;
-        $nama_field_sistem = $fieldNames;
-        $tipe_field_sistem = $fieldTypes;
-        $values_field_sistem = $fieldValues;
+        $table_display_name = $displayName;
+        $new_table_name = $tableName;
+        $field_labels = $fieldLabels;
+        $field_names = $fieldNames;
+        $field_types = $fieldTypes;
+        $field_lengths = $fieldValues;
         $relation_table_sistem = $relationTables;
         $relation_field_sistem = $relationFields;
         $total = count($fieldNames);
         
         // Generate files using same functions as proses.php (same template system as /data)
-        $index_content = generateIndexFile($judul_tabel_sistem, $nama_tabel_sistem, $judul_field_sistem, $nama_field_sistem, $tipe_field_sistem, $relation_table_sistem, $relation_field_sistem, $total);
+        $index_content = generateIndexFile($table_display_name, $new_table_name, $field_labels, $field_names, $field_types, $relation_table_sistem, $relation_field_sistem, $total);
         file_put_contents($panelDir . "/index.php", $index_content);
         
-        $cetak_content = generateCetakFile($judul_tabel_sistem, $nama_tabel_sistem, $judul_field_sistem, $nama_field_sistem, $tipe_field_sistem, $relation_table_sistem, $relation_field_sistem, $total);
+        $cetak_content = generateCetakFile($table_display_name, $new_table_name, $field_labels, $field_names, $field_types, $relation_table_sistem, $relation_field_sistem, $total);
         file_put_contents($panelDir . "/cetak.php", $cetak_content);
         
-        $form_content = generateFormFile($judul_tabel_sistem, $nama_tabel_sistem, $judul_field_sistem, $nama_field_sistem, $tipe_field_sistem, $values_field_sistem, $relation_table_sistem, $relation_field_sistem, $total);
+        $form_content = generateFormFile($table_display_name, $new_table_name, $field_labels, $field_names, $field_types, $field_lengths, $relation_table_sistem, $relation_field_sistem, $total);
         file_put_contents($panelDir . "/form.php", $form_content);
         
-        $proses_content = generateProsesFile($judul_tabel_sistem, $nama_tabel_sistem, $judul_field_sistem, $nama_field_sistem, $tipe_field_sistem, $total);
+        $proses_content = generateProsesFile($table_display_name, $new_table_name, $field_labels, $field_names, $field_types, $total);
         file_put_contents($panelDir . "/proses.php", $proses_content);
         
-        $hapus_content = generateHapusFile($judul_tabel_sistem, $nama_tabel_sistem, $nama_field_sistem[0]);
+        $hapus_content = generateHapusFile($table_display_name, $new_table_name, $field_names[0]);
         file_put_contents($panelDir . "/hapus.php", $hapus_content);
         
-        $laporan_content = generateLaporanFile($judul_tabel_sistem, $nama_tabel_sistem, $judul_field_sistem, $nama_field_sistem, $tipe_field_sistem, $relation_table_sistem, $relation_field_sistem, $total);
+        $laporan_content = generateLaporanFile($table_display_name, $new_table_name, $field_labels, $field_names, $field_types, $relation_table_sistem, $relation_field_sistem, $total);
         file_put_contents("laporan/" . $tableName . ".php", $laporan_content);
         
     } catch (Exception $e) {

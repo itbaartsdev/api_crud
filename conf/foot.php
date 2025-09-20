@@ -96,7 +96,7 @@
             });
             
             // Auto-generate field name from label (for permanent forms only)
-            $(document).on('input', 'input[name="judul_field_sistem[]"]', function() {
+            $(document).on('input', 'input[name="field_labels[]"]', function() {
                 // Only handle if not inside form-inputs (dynamic form)
                 if (!$(this).closest('.form-inputs').length) {
                     var label = $(this).val();
@@ -104,7 +104,7 @@
                         .replace(/[^a-z0-9\s]/g, '')
                         .replace(/\s+/g, '_')
                         .replace(/^_+|_+$/g, '');
-                    $(this).closest('.field-row').find('input[name="nama_field_sistem[]"]').val(fieldName);
+                    $(this).closest('.field-row').find('input[name="field_names[]"]').val(fieldName);
                 }
             });
             
@@ -189,13 +189,13 @@
             });
             
             // Auto-generate field name from label for dynamic form
-            $('.form-inputs').off('input', 'input[name="judul_field_sistem[]"]').on('input', 'input[name="judul_field_sistem[]"]', function() {
+            $('.form-inputs').off('input', 'input[name="field_labels[]"]').on('input', 'input[name="field_labels[]"]', function() {
                 var label = $(this).val();
                 var fieldName = label.toLowerCase()
                     .replace(/[^a-z0-9\s]/g, '')
                     .replace(/\s+/g, '_')
                     .replace(/^_+|_+$/g, '');
-                $(this).closest('.field-row').find('input[name="nama_field_sistem[]"]').val(fieldName);
+                $(this).closest('.field-row').find('input[name="field_names[]"]').val(fieldName);
             });
             
             console.log('Add form handlers initialized successfully');
@@ -203,14 +203,14 @@
         
         // Auto-generate table name for dynamic form (global scope)
         window.generateTableNameDynamic = function() {
-            const displayName = document.getElementById('judul_tabel_sistem_dynamic').value;
+            const displayName = document.getElementById('table_display_name_dynamic').value;
             const tableName = displayName
                 .toLowerCase()                    // Convert to lowercase
                 .replace(/[^a-z0-9\s]/g, '')     // Remove special characters except spaces
                 .trim()                          // Remove leading/trailing spaces
                 .replace(/\s+/g, '_');           // Replace spaces with underscores
             
-            document.getElementById('nama_tabel_sistem_dynamic').value = tableName;
+            document.getElementById('new_table_name_dynamic').value = tableName;
         }
         
         // Handle field type change for relation (global scope)
@@ -252,8 +252,8 @@
                 }
                 
                 // Auto-set properties for relation
-                const lengthInput = fieldRow.querySelector('input[name="values_field_sistem[]"]');
-                const propertySelect = fieldRow.querySelector('select[name="keterangan_field_sistem[]"]');
+                const lengthInput = fieldRow.querySelector('input[name="field_lengths[]"]');
+                const propertySelect = fieldRow.querySelector('select[name="field_properties[]"]');
                 
                 if (lengthInput) {
                     lengthInput.value = '11';
@@ -274,8 +274,8 @@
                 }
                 
                 // Reset properties
-                const lengthInput = fieldRow.querySelector('input[name="values_field_sistem[]"]');
-                const propertySelect = fieldRow.querySelector('select[name="keterangan_field_sistem[]"]');
+                const lengthInput = fieldRow.querySelector('input[name="field_lengths[]"]');
+                const propertySelect = fieldRow.querySelector('select[name="field_properties[]"]');
                 
                 if (lengthInput) {
                     lengthInput.readOnly = false;
@@ -316,7 +316,7 @@
             const tableName = selectElement.value;
             const fieldRow = selectElement.closest('.field-row');
             const relationFieldSelect = fieldRow.querySelector('select[name="relation_field[]"]');
-            const nameInput = fieldRow.querySelector('input[name="nama_field_sistem[]"]');
+            const nameInput = fieldRow.querySelector('input[name="field_names[]"]');
             
             if (tableName && nameInput) {
                 // Auto-generate field name: id_table_name
@@ -367,10 +367,10 @@
             html += '<h5 style="color: #333; margin-bottom: 15px; font-size: 1rem; font-weight: 600;">Table Information</h5>';
             html += '<div style="display: grid; grid-template-columns: 1fr; gap: 15px;">';
             html += '<div>';
-            html += '<input type="text" name="judul_tabel_sistem" id="judul_tabel_sistem_dynamic" class="modern-input" placeholder="Table display name" required oninput="generateTableNameDynamic()" style="padding: 12px 16px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; background: white; width: 100%; transition: all 0.2s ease;">';
+            html += '<input type="text" name="table_display_name" id="table_display_name_dynamic" class="modern-input" placeholder="Table display name" required oninput="generateTableNameDynamic()" style="padding: 12px 16px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; background: white; width: 100%; transition: all 0.2s ease;">';
             html += '</div>';
             html += '<div>';
-            html += '<input type="text" name="nama_tabel_sistem" id="nama_tabel_sistem_dynamic" class="modern-input" placeholder="table_name (auto generated)" pattern="[a-z_]+" required readonly style="padding: 12px 16px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; background: #f5f5f5; color: #666; width: 100%; transition: all 0.2s ease;">';
+            html += '<input type="text" name="new_table_name" id="new_table_name_dynamic" class="modern-input" placeholder="table_name (auto generated)" pattern="[a-z_]+" required readonly style="padding: 12px 16px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; background: #f5f5f5; color: #666; width: 100%; transition: all 0.2s ease;">';
             html += '</div>';
             html += '</div>';
             html += '</div>';
@@ -387,21 +387,21 @@
             
             // Primary key field (always present)
             html += '<div class="field-row primary-key" style="display: grid; grid-template-columns: 2fr 2fr 1.5fr 1fr 1.5fr auto; gap: 16px; padding: 10px; background: #fff3cd; border-bottom: 1px solid #eee; align-items: center; min-width: 600px;">';
-            html += '<div><input type="text" name="judul_field_sistem[]" value="ID" class="field-input" readonly style="padding: 8px 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 13px; width: 100%; background: #f5f5f5; color: #666;"></div>';
-            html += '<div><input type="text" name="nama_field_sistem[]" value="id" class="field-input" readonly style="padding: 8px 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 13px; width: 100%; background: #f5f5f5; color: #666;"></div>';
-            html += '<div><select name="tipe_field_sistem[]" class="field-input simple-select" disabled style="padding: 8px 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 13px; width: 100%; background: #f5f5f5; color: #666;"><option value="int" selected>Integer</option></select><input type="hidden" name="tipe_field_sistem[]" value="int"></div>';
-            html += '<div><input type="text" name="values_field_sistem[]" value="11" class="field-input" readonly style="padding: 8px 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 13px; width: 100%; background: #f5f5f5; color: #666;"></div>';
-            html += '<div><select name="keterangan_field_sistem[]" class="field-input simple-select" disabled style="padding: 8px 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 13px; width: 100%; background: #f5f5f5; color: #666;"><option value="primary" selected>Primary Key</option></select><input type="hidden" name="keterangan_field_sistem[]" value="primary"></div>';
+            html += '<div><input type="text" name="field_labels[]" value="ID" class="field-input" readonly style="padding: 8px 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 13px; width: 100%; background: #f5f5f5; color: #666;"></div>';
+            html += '<div><input type="text" name="field_names[]" value="id" class="field-input" readonly style="padding: 8px 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 13px; width: 100%; background: #f5f5f5; color: #666;"></div>';
+            html += '<div><select name="field_types[]" class="field-input simple-select" disabled style="padding: 8px 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 13px; width: 100%; background: #f5f5f5; color: #666;"><option value="int" selected>Integer</option></select><input type="hidden" name="field_types[]" value="int"></div>';
+            html += '<div><input type="text" name="field_lengths[]" value="11" class="field-input" readonly style="padding: 8px 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 13px; width: 100%; background: #f5f5f5; color: #666;"></div>';
+            html += '<div><select name="field_properties[]" class="field-input simple-select" disabled style="padding: 8px 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 13px; width: 100%; background: #f5f5f5; color: #666;"><option value="primary" selected>Primary Key</option></select><input type="hidden" name="field_properties[]" value="primary"></div>';
             html += '<div style="text-align: center;"><i class="material-icons lock-icon" style="color: #ff9800; font-size: 20px;">lock</i></div>';
             html += '</div>';
             
             // Auto Input Date Field
             html += '<div class="field-row" style="display: grid; grid-template-columns: 2fr 2fr 1.5fr 1fr 1.5fr auto; gap: 16px; padding: 10px; background: #e8f5e8; border: 1px solid #4caf50; align-items: center; min-width: 600px;">';
-            html += '<div><input type="text" value="Input Date" class="field-input" readonly style="padding: 8px 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 13px; width: 100%; background: #f0fdf4;"><input type="hidden" name="judul_field_sistem[]" value="Input Date"></div>';
-            html += '<div><input type="text" value="input_date" class="field-input" readonly style="padding: 8px 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 13px; width: 100%; background: #f0fdf4;"><input type="hidden" name="nama_field_sistem[]" value="input_date"></div>';
-            html += '<div><select class="field-input simple-select" disabled style="padding: 8px 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 13px; width: 100%; background: #f0fdf4;"><option value="datetime" selected>DateTime</option></select><input type="hidden" name="tipe_field_sistem[]" value="datetime"></div>';
-            html += '<div><input type="text" value="CURRENT_TIMESTAMP" class="field-input" readonly style="padding: 8px 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 13px; width: 100%; background: #f0fdf4;"><input type="hidden" name="values_field_sistem[]" value=""></div>';
-            html += '<div><select class="field-input simple-select" disabled style="padding: 8px 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 13px; width: 100%; background: #f0fdf4;"><option value="auto" selected>Auto Added</option></select><input type="hidden" name="keterangan_field_sistem[]" value="auto"></div>';
+            html += '<div><input type="text" value="Input Date" class="field-input" readonly style="padding: 8px 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 13px; width: 100%; background: #f0fdf4;"><input type="hidden" name="field_labels[]" value="Input Date"></div>';
+            html += '<div><input type="text" value="input_date" class="field-input" readonly style="padding: 8px 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 13px; width: 100%; background: #f0fdf4;"><input type="hidden" name="field_names[]" value="input_date"></div>';
+            html += '<div><select class="field-input simple-select" disabled style="padding: 8px 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 13px; width: 100%; background: #f0fdf4;"><option value="datetime" selected>DateTime</option></select><input type="hidden" name="field_types[]" value="datetime"></div>';
+            html += '<div><input type="text" value="CURRENT_TIMESTAMP" class="field-input" readonly style="padding: 8px 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 13px; width: 100%; background: #f0fdf4;"><input type="hidden" name="field_lengths[]" value=""></div>';
+            html += '<div><select class="field-input simple-select" disabled style="padding: 8px 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 13px; width: 100%; background: #f0fdf4;"><option value="auto" selected>Auto Added</option></select><input type="hidden" name="field_properties[]" value="auto"></div>';
             html += '<div style="text-align: center;"><i class="material-icons" style="color: #4caf50; font-size: 20px;">schedule</i></div>';
             html += '</div>';
             
@@ -431,11 +431,11 @@
             // Add the dynamic field template
             html += '<div class="copy" style="display: none;">';
             html += '<div class="field-row" style="display: grid; grid-template-columns: 2fr 2fr 1.5fr 1fr 1.5fr auto; gap: 16px; padding: 10px; background: white; border-bottom: 1px solid #eee; align-items: center; min-width: 600px;">';
-            html += '<div data-label="Label"><input type="text" name="judul_field_sistem[]" class="field-input" placeholder="Field Display Name" required oninput="generateFieldName(this)" style="padding: 8px 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 13px; width: 100%;"></div>';
-            html += '<div data-label="Name"><input type="text" name="nama_field_sistem[]" class="field-input" placeholder="field_system_name" pattern="[a-z_]+" required style="padding: 8px 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 13px; width: 100%;"></div>';
-            html += '<div data-label="Type"><select name="tipe_field_sistem[]" class="field-input simple-select" required onchange="handleFieldTypeChange(this)" style="padding: 8px 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 13px; width: 100%; appearance: none; background-image: url(\'data:image/svg+xml,%3csvg xmlns=\'http://www.w3.org/2000/svg\' fill=\'none\' viewBox=\'0 0 20 20\'%3e%3cpath stroke=\'%236b7280\' stroke-linecap=\'round\' stroke-linejoin=\'round\' stroke-width=\'1.5\' d=\'m6 8 4 4 4-4\'/%3e%3c/svg%3e\'); background-position: right 8px center; background-repeat: no-repeat; background-size: 16px; padding-right: 32px; cursor: pointer;"><option value="">Select Type</option><option value="int">Integer</option><option value="varchar">Varchar</option><option value="text">Text</option><option value="date">Date</option><option value="time">Time</option><option value="datetime">DateTime</option><option value="timestamp">Timestamp</option><option value="year">Year</option><option value="enum">Enum</option><option value="boolean">Boolean</option><option value="decimal">Decimal</option><option value="file">File</option><option value="relation">Relation</option></select></div>';
-            html += '<div data-label="Length"><input type="text" name="values_field_sistem[]" class="field-input" placeholder="Length" style="padding: 8px 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 13px; width: 100%;"></div>';
-            html += '<div data-label="Property"><select name="keterangan_field_sistem[]" class="field-input simple-select" style="padding: 8px 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 13px; width: 100%; appearance: none; background-image: url(\'data:image/svg+xml,%3csvg xmlns=\'http://www.w3.org/2000/svg\' fill=\'none\' viewBox=\'0 0 20 20\'%3e%3cpath stroke=\'%236b7280\' stroke-linecap=\'round\' stroke-linejoin=\'round\' stroke-width=\'1.5\' d=\'m6 8 4 4 4-4\'/%3e%3c/svg%3e\'); background-position: right 8px center; background-repeat: no-repeat; background-size: 16px; padding-right: 32px; cursor: pointer;"><option value="">Select Property</option><option value="index">Index</option><option value="unique">Unique</option><option value="nullable">Nullable</option><option value="not_null">Not Null</option></select></div>';
+            html += '<div data-label="Label"><input type="text" name="field_labels[]" class="field-input" placeholder="Field Display Name" required oninput="generateFieldName(this)" style="padding: 8px 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 13px; width: 100%;"></div>';
+            html += '<div data-label="Name"><input type="text" name="field_names[]" class="field-input" placeholder="field_system_name" pattern="[a-z_]+" required style="padding: 8px 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 13px; width: 100%;"></div>';
+            html += '<div data-label="Type"><select name="field_types[]" class="field-input simple-select" required onchange="handleFieldTypeChange(this)" style="padding: 8px 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 13px; width: 100%; appearance: none; background-image: url(\'data:image/svg+xml,%3csvg xmlns=\'http://www.w3.org/2000/svg\' fill=\'none\' viewBox=\'0 0 20 20\'%3e%3cpath stroke=\'%236b7280\' stroke-linecap=\'round\' stroke-linejoin=\'round\' stroke-width=\'1.5\' d=\'m6 8 4 4 4-4\'/%3e%3c/svg%3e\'); background-position: right 8px center; background-repeat: no-repeat; background-size: 16px; padding-right: 32px; cursor: pointer;"><option value="">Select Type</option><option value="int">Integer</option><option value="varchar">Varchar</option><option value="text">Text</option><option value="date">Date</option><option value="time">Time</option><option value="datetime">DateTime</option><option value="timestamp">Timestamp</option><option value="year">Year</option><option value="enum">Enum</option><option value="boolean">Boolean</option><option value="decimal">Decimal</option><option value="file">File</option><option value="relation">Relation</option></select></div>';
+            html += '<div data-label="Length"><input type="text" name="field_lengths[]" class="field-input" placeholder="Length" style="padding: 8px 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 13px; width: 100%;"></div>';
+            html += '<div data-label="Property"><select name="field_properties[]" class="field-input simple-select" style="padding: 8px 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 13px; width: 100%; appearance: none; background-image: url(\'data:image/svg+xml,%3csvg xmlns=\'http://www.w3.org/2000/svg\' fill=\'none\' viewBox=\'0 0 20 20\'%3e%3cpath stroke=\'%236b7280\' stroke-linecap=\'round\' stroke-linejoin=\'round\' stroke-width=\'1.5\' d=\'m6 8 4 4 4-4\'/%3e%3c/svg%3e\'); background-position: right 8px center; background-repeat: no-repeat; background-size: 16px; padding-right: 32px; cursor: pointer;"><option value="">Select Property</option><option value="index">Index</option><option value="unique">Unique</option><option value="nullable">Nullable</option><option value="not_null">Not Null</option></select></div>';
             html += '<div data-label="Action" style="text-align: center;"><button type="button" class="remove remove-btn" style="background: #f44336; color: white; padding: 6px; border: none; border-radius: 4px; cursor: pointer; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center;"><i class="material-icons" style="font-size: 14px;">delete</i></button></div>';
             html += '</div>';
             html += '</div>';
@@ -1064,7 +1064,7 @@
         // Auto-generate field name from field label
         window.generateFieldName = function(labelInput) {
             const fieldRow = labelInput.closest('.field-row');
-            const nameInput = fieldRow.querySelector('input[name="field_names[]"], input[name="nama_field_sistem[]"]');
+            const nameInput = fieldRow.querySelector('input[name="field_names[]"], input[name="field_names[]"]');
             
             if (nameInput && !nameInput.readOnly) {
                 const labelValue = labelInput.value;
