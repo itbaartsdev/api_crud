@@ -124,10 +124,10 @@ function generateCetakFile($judul_tabel_sistem, $nama_tabel_sistem, $judul_field
                 <form method=\"POST\" action=\"../laporan/".$nama_tabel_sistem.".php\" target=\"_blank\">
                     <div class=\"row\">
                         <div class=\"col-sm-5\">
-                            <input class=\"form-control\" placeholder=\"Dari Tanggal\" type=\"date\"  name=\"dari\" required>
+                            <input class=\"form-control\" placeholder=\"Dari Tanggal\" type=\"date\"  name=\"tanggal_dari\" required>
                         </div>
                         <div class=\"col-sm-6\">
-                            <input class=\"form-control\" placeholder=\"Sampai Tanggal\" type=\"date\"  name=\"sampai\" required>
+                            <input class=\"form-control\" placeholder=\"Sampai Tanggal\" type=\"date\"  name=\"tanggal_sampai\" required>
                         </div>
                         <div class=\"col-sm-1\">
                             <button style=\"float: right;\" class=\"btn btn-primary btn-sm\">
@@ -143,7 +143,7 @@ function generateCetakFile($judul_tabel_sistem, $nama_tabel_sistem, $judul_field
                         <thead>
                             <tr>
                                 <th>No</th>";
-    
+
     // Add field headers
     for ($i = 0; $i < $total; $i++) {
         if (isset($nama_field_sistem[$i]) && $nama_field_sistem[$i] != 'id') {
@@ -151,14 +151,15 @@ function generateCetakFile($judul_tabel_sistem, $nama_tabel_sistem, $judul_field
                                 <th>".$judul_field_sistem[$i]."</th>";
         }
     }
-    
+
     $content .= "
+                                <th>Tanggal Input</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <?php 
+                            <?php
                             \$no = 1;";
-    
+
     // Build SQL query with explicit primary key selection to avoid JOIN conflicts
     $sql_query = "SELECT ".$nama_tabel_sistem.".*, ".$nama_tabel_sistem.".id as primary_id";
     $joins = "";
@@ -175,7 +176,7 @@ function generateCetakFile($judul_tabel_sistem, $nama_tabel_sistem, $judul_field
     }
 
     $sql_query .= " FROM ".$nama_tabel_sistem.$joins;
-    
+
     $content .= "
                             \$sql = mysqli_query(\$koneksi,\"".$sql_query."\");
                             while (\$data = mysqli_fetch_array(\$sql)) {
@@ -183,12 +184,12 @@ function generateCetakFile($judul_tabel_sistem, $nama_tabel_sistem, $judul_field
                             ?>
                             <tr>
                                 <td><?=\$no++;?></td>";
-    
+
     // Add field data
     for ($i = 0; $i < $total; $i++) {
         if (isset($nama_field_sistem[$i]) && $nama_field_sistem[$i] != 'id') {
             $field_type = isset($tipe_field_sistem[$i]) ? $tipe_field_sistem[$i] : 'text';
-            
+
             if ($field_type == 'relation') {
                 // Display specific relation field that was selected (same as index)
                 $ref_field = isset($relation_field_sistem[$i]) ? $relation_field_sistem[$i] : 'nama';
@@ -206,14 +207,18 @@ function generateCetakFile($judul_tabel_sistem, $nama_tabel_sistem, $judul_field
                                         <span class=\"text-muted\">No file</span>
                                     <?php } ?>
                                 </td>";
+            } elseif ($field_type == 'date') {
+                $content .= "
+                                <td><?php echo date('Y-m-d', strtotime(\$data['".$nama_field_sistem[$i]."'])); ?></td>";
             } else {
                 $content .= "
                                 <td><?=\$data['".$nama_field_sistem[$i]."'];?></td>";
             }
         }
     }
-    
+
     $content .= "
+                                <td><?php echo date('Y-m-d', strtotime(\$data['input_date'])); ?></td>
                             </tr>
                             <?php } ?>
                         </tbody>
@@ -225,7 +230,7 @@ function generateCetakFile($judul_tabel_sistem, $nama_tabel_sistem, $judul_field
         <!-- Zero config table end -->
 </div>
 ";
-    
+
     return $content;
 }
 
@@ -506,7 +511,7 @@ include '../modul/pdf/head.php';
             <p>Data laporan terlengkap dan terpercaya</p>
         </div>
     </div>
-    
+
     <div class='modern-table-wrapper'>
         <table border='0' class='display modern-table'>
             <thead>
@@ -529,14 +534,30 @@ $content .= "
 \";
 
 \$no = 1;
-\$sql_query = \"SELECT * FROM ".$nama_tabel_sistem."\";
+
+// Build SQL query with explicit primary key selection to avoid JOIN conflicts
+\$sql_query = \"SELECT ".$nama_tabel_sistem.".*, ".$nama_tabel_sistem.".id as primary_id\";
+\$joins = \"\";
+
+for (\$i = 0; \$i < $total; \$i++) {
+    if (isset(\$tipe_field_sistem[\$i]) && \$tipe_field_sistem[\$i] == 'relation') {
+        \$field_name = \$nama_field_sistem[\$i];
+        \$ref_table = str_replace('id_', '', \$field_name);
+        \$ref_field = isset(\$relation_field_sistem[\$i]) ? \$relation_field_sistem[\$i] : 'nama';
+
+        \$sql_query .= \", \".\$ref_table.\".\".\$ref_field;
+        \$joins .= \" INNER JOIN \".\$ref_table.\" ON \".\$nama_tabel_sistem.\".\".\$field_name.\"=\".\$ref_table.\".id\";
+    }
+}
+
+\$sql_query .= \" FROM \".\$nama_tabel_sistem.\$joins;
 
 if (!empty(\$tanggal_dari) && !empty(\$tanggal_sampai)) {
-    \$sql_query .= \" WHERE input_date BETWEEN '\".\$tanggal_dari.\"' AND '\".\$tanggal_sampai.\"'\";
+    \$sql_query .= \" WHERE input_date BETWEEN '\".date('Y-m-d', strtotime(\$tanggal_dari)).\"' AND '\".date('Y-m-d', strtotime(\$tanggal_sampai)).\"'\";
 } elseif (!empty(\$tanggal_dari)) {
-    \$sql_query .= \" WHERE DATE(input_date) >= '\".\$tanggal_dari.\"'\";
+    \$sql_query .= \" WHERE DATE(input_date) >= '\".date('Y-m-d', strtotime(\$tanggal_dari)).\"'\";
 } elseif (!empty(\$tanggal_sampai)) {
-    \$sql_query .= \" WHERE DATE(input_date) <= '\".\$tanggal_sampai.\"'\";
+    \$sql_query .= \" WHERE DATE(input_date) <= '\".date('Y-m-d', strtotime(\$tanggal_sampai)).\"'\";
 }
 
 \$sql_query .= \" ORDER BY input_date DESC\";
@@ -545,26 +566,31 @@ if (!empty(\$tanggal_dari) && !empty(\$tanggal_sampai)) {
 while (\$data = mysqli_fetch_array(\$sql)) {
     \$html .= \"<tr>
         <td align='center'>\".\$no++.\"</td>";
-        
+
 // Add data fields
-for ($i = 0; $i < $total; $i++) {
-    if (isset($nama_field_sistem[$i]) && $nama_field_sistem[$i] != 'id') {
-        $field_type = isset($tipe_field_sistem[$i]) ? $tipe_field_sistem[$i] : 'text';
-        
-        if ($field_type == 'date') {
-            $content .= "
-        <td class='modern-td'>\".date('Y-m-d', strtotime(\$data['".$nama_field_sistem[$i]."'])).\"|</td>";
-        } elseif ($field_type == 'file') {
-            $content .= "
-        <td class='modern-td'>\".(!\$data['".$nama_field_sistem[$i]."'] ? 'No file' : \$data['".$nama_field_sistem[$i]."']).\"|</td>";
+for (\$i = 0; \$i < $total; \$i++) {
+    if (isset(\$nama_field_sistem[\$i]) && \$nama_field_sistem[\$i] != 'id') {
+        \$field_type = isset(\$tipe_field_sistem[\$i]) ? \$tipe_field_sistem[\$i] : 'text';
+
+        if (\$field_type == 'relation') {
+            // Display specific relation field that was selected (same as index)
+            \$ref_field = isset(\$relation_field_sistem[\$i]) ? \$relation_field_sistem[\$i] : 'nama';
+            \$content .= "
+        <td class='modern-td'>\".\$data['".$ref_field."'].\"|</td>";
+        } elseif (\$field_type == 'date') {
+            \$content .= "
+        <td class='modern-td'>\".date('Y-m-d', strtotime(\$data['".$nama_field_sistem[\$i]."'])).\"|</td>";
+        } elseif (\$field_type == 'file') {
+            \$content .= "
+        <td class='modern-td'>\".(!\$data['".$nama_field_sistem[\$i]."'] ? 'No file' : \$data['".$nama_field_sistem[\$i]."']).\"|</td>";
         } else {
-            $content .= "
-        <td class='modern-td'>\".\$data['".$nama_field_sistem[$i]."'].\"|</td>";
+            \$content .= "
+        <td class='modern-td'>\".\$data['".$nama_field_sistem[\$i]."'].\"|</td>";
         }
     }
 }
 
-$content .= "
+\$content .= "
         <td class='modern-td-date'>\".date('Y-m-d', strtotime(\$data['input_date'])).\"|</td>
     </tr>\";
 }
@@ -578,7 +604,7 @@ $content .= "
 
 include '../modul/pdf/foot.php';
 ?>";
-    
+
     return $content;
 }
 
