@@ -576,16 +576,16 @@ for (\$i = 0; \$i < $total; \$i++) {
             // Display specific relation field that was selected (same as index)
             \$ref_field = isset(\$relation_field_sistem[\$i]) ? \$relation_field_sistem[\$i] : 'nama';
             \$content .= "
-        <td class='modern-td'>\".\$data['".$ref_field."'].\"|</td>";
+        <td class='modern-td'>\".\$data['" . \$ref_field . "'].\"|</td>";
         } elseif (\$field_type == 'date') {
             \$content .= "
-        <td class='modern-td'>\".date('Y-m-d', strtotime(\$data['".$nama_field_sistem[\$i]."'])).\"|</td>";
+        <td class='modern-td'>\".date('Y-m-d', strtotime(\$data['" . \$nama_field_sistem[\$i] . "'])).\"|</td>";
         } elseif (\$field_type == 'file') {
             \$content .= "
-        <td class='modern-td'>\".(!\$data['".$nama_field_sistem[\$i]."'] ? 'No file' : \$data['".$nama_field_sistem[\$i]."']).\"|</td>";
+        <td class='modern-td'>\".(!\$data['" . \$nama_field_sistem[\$i] . "'] ? 'No file' : \$data['" . \$nama_field_sistem[\$i] . "']).\"|</td>";
         } else {
             \$content .= "
-        <td class='modern-td'>\".\$data['".$nama_field_sistem[\$i]."'].\"|</td>";
+        <td class='modern-td'>\".\$data['" . \$nama_field_sistem[\$i] . "'].\"|</td>";
         }
     }
 }
