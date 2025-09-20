@@ -568,29 +568,29 @@ while (\$data = mysqli_fetch_array(\$sql)) {
         <td align='center'>\".\$no++.\"</td>";
 
 // Add data fields
-for (\$i = 0; \$i < $total; \$i++) {
-    if (isset(\$nama_field_sistem[\$i]) && \$nama_field_sistem[\$i] != 'id') {
-        \$field_type = isset(\$tipe_field_sistem[\$i]) ? \$tipe_field_sistem[\$i] : 'text';
+for ($i = 0; $i < $total; $i++) {
+    if (isset($nama_field_sistem[$i]) && $nama_field_sistem[$i] != 'id') {
+        $field_type = isset($tipe_field_sistem[$i]) ? $tipe_field_sistem[$i] : 'text';
 
-        if (\$field_type == 'relation') {
+        if ($field_type == 'relation') {
             // Display specific relation field that was selected (same as index)
-            \$ref_field = isset(\$relation_field_sistem[\$i]) ? \$relation_field_sistem[\$i] : 'nama';
-            \$content .= "
-        <td class='modern-td'>\".\$data['" . \$ref_field . "'].\"|</td>";
-        } elseif (\$field_type == 'date') {
-            \$content .= "
-        <td class='modern-td'>\".date('Y-m-d', strtotime(\$data['" . \$nama_field_sistem[\$i] . "'])).\"|</td>";
-        } elseif (\$field_type == 'file') {
-            \$content .= "
-        <td class='modern-td'>\".(!\$data['" . \$nama_field_sistem[\$i] . "'] ? 'No file' : \$data['" . \$nama_field_sistem[\$i] . "']).\"|</td>";
+            $ref_field = isset($relation_field_sistem[$i]) ? $relation_field_sistem[$i] : 'nama';
+            $content .= "
+        <td class='modern-td'>\".\$data['" . $ref_field . "'].\"</td>";
+        } elseif ($field_type == 'date') {
+            $content .= "
+        <td class='modern-td'>\".date('Y-m-d', strtotime(\$data['" . $nama_field_sistem[$i] . "'])).\"</td>";
+        } elseif ($field_type == 'file') {
+            $content .= "
+        <td class='modern-td'>\".(!\$data['" . $nama_field_sistem[$i] . "'] ? 'No file' : \$data['" . $nama_field_sistem[$i] . "']).\"</td>";
         } else {
-            \$content .= "
-        <td class='modern-td'>\".\$data['" . \$nama_field_sistem[\$i] . "'].\"|</td>";
+            $content .= "
+        <td class='modern-td'>\".\$data['" . $nama_field_sistem[$i] . "'].\"</td>";
         }
     }
 }
 
-\$content .= "
+$content .= "
         <td class='modern-td-date'>\".date('Y-m-d', strtotime(\$data['input_date'])).\"|</td>
     </tr>\";
 }
