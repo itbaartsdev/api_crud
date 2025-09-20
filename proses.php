@@ -231,9 +231,7 @@ if (isset($_POST['tambah'])) {
                     // Fixed bug: properly access $relation_field_sistem[$i] with proper array check and default fallback
                     $ref_field = 'nama'; // Default fallback
                     if (isset($relation_field_sistem) && is_array($relation_field_sistem) && array_key_exists($i, $relation_field_sistem)) {
-                        if (!empty($relation_field_sistem[$i]) && $relation_field_sistem[$i] !== '') {
                             $ref_field = $relation_field_sistem[$i];
-                        }
                     }
 
                     $relation_comment = "$field_display_name|$ref_table|$ref_field";
