@@ -516,7 +516,7 @@ include '../modul/pdf/head.php';
         <table border='1' width='100%' class='display modern-table'>
             <thead>
                 <tr>
-                    <th class='modern-th-number'>No</th>\";
+                    <th class='modern-th-number'>No</th>
 ";
 // Add headers
 for ($i = 0; $i < $total; $i++) {
@@ -563,7 +563,7 @@ $content .= "
                             ?>
                             
 \$html .= \"                            <tr>
-                                <td><?=\$no++;?></td>";
+                                <td>\".$no++.\"</td>";
 
     // Add field data
     for ($i = 0; $i < $total; $i++) {
