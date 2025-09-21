@@ -468,7 +468,7 @@ function generateIndexFile($table_display_name, $new_table_name, $field_labels, 
                 $content .= "
                                 <td>
                                     <?php if (!empty(\$data['".$field_names[$i]."'])) { ?>
-                                        <a href=\"images/".$table_display_name."/<?=\$data['".$field_names[$i]."'];?>\" target=\"_blank\" class=\"btn btn-sm btn-info has-ripple\">
+                                        <a href=\"../images/".$table_display_name."/<?=\$data['".$field_names[$i]."'];?>\" target=\"_blank\" class=\"btn btn-sm btn-info has-ripple\">
                                             <i class=\"fas fa-eye\"></i> View
                                         </a>
                                     <?php } else { ?>
@@ -595,7 +595,7 @@ function generateCetakFile($table_display_name, $new_table_name, $field_labels, 
                 $content .= "
                                 <td>
                                     <?php if (!empty(\$data['".$field_names[$i]."'])) { ?>
-                                        <a href=\"images/".$table_display_name."/<?=\$data['".$field_names[$i]."'];?>\" target=\"_blank\" class=\"btn btn-sm btn-info has-ripple\">
+                                        <a href=\"../images/".$table_display_name."/<?=\$data['".$field_names[$i]."'];?>\" target=\"_blank\" class=\"btn btn-sm btn-info has-ripple\">
                                             <i class=\"fas fa-eye\"></i> View
                                         </a>
                                     <?php } else { ?>
@@ -831,7 +831,7 @@ include '../../conf/koneksi.php';";
                 $content .= "
 \$file_".$field_names[$i]."  = \$_FILES['".$field_names[$i]."']['name'];
 \$tmp_".$field_names[$i]."   = \$_FILES['".$field_names[$i]."']['tmp_name'];
-move_uploaded_file(\$tmp_".$field_names[$i].", '../images/".$table_display_name."/'.\$file_".$field_names[$i].");
+move_uploaded_file(\$tmp_".$field_names[$i].", '../../images/".$table_display_name."/'.\$file_".$field_names[$i].");
 \$".$field_names[$i]." = \$file_".$field_names[$i].";";
             } elseif ($field_type == 'date') {
                 $content .= "
@@ -920,7 +920,7 @@ $content .= "
 ";
 
     // Build SQL query with JOINs for relation fields
-    $sql_query = "SELECT *,".$new_table_name.".id AS primary_id ";
+    $sql_query = "SELECT *, ".$new_table_name.".id AS primary_id ";
     $joins = "";
     $has_relation_fields = false;
 
@@ -952,7 +952,6 @@ $content .= "
                 // Display specific relation field that was selected (same as index)
                 $no = 0;
                 $ref_field = isset($relation_field_sistem[$no]) ? $relation_field_sistem[$no] : 'nama';
-                $no++;
                 $content .= "
                                 <td>\".\$data['".$ref_field."'].\"</td>";
             } elseif ($field_type == 'file') {
@@ -960,7 +959,7 @@ $content .= "
                 $content .= "
                                 <td>
                                     <?php if (!empty(\$data['".$field_names[$i]."'])) { ?>
-                                        <a href='images/".$table_display_name."/\".\$data['".$field_names[$i]."']\"' target='_blank'>
+                                        <a href='../images/".$table_display_name."/\".\$data['".$field_names[$i]."']\"' target='_blank'>
                                             <i class='fas fa-eye'></i> View
                                         </a>
                                     <?php } else { ?>
@@ -986,7 +985,6 @@ $content .= "
 
 include '../modul/pdf/foot.php';
 ";
-
     return $content;
 }
 ?>
