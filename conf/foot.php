@@ -8,7 +8,11 @@
                     </div>
                 </div>
                 <div style="text-align: right; margin-right: 12px;">
-                    <p style="color: #2d3748; margin: 4px 0 0 0; font-size: 0.8rem;"><a href="https://skripsi.neuex.site/" target="_blank">Version 2.1</a> - <a href="https://wa.me/6285173333433" target="_blank">ItbaArts Dev</a></p>
+                    <p style="color: #2d3748; margin: 4px 0 0 0; font-size: 0.8rem;">
+                        <a href="https://skripsi.neuex.site/" target="_blank" style="color: #2d3748; text-decoration: none; font-weight: 500; transition: color 0.3s ease;">Version 2.1</a>
+                        <span style="margin: 0 8px; color: #cbd5e0;">•</span>
+                        <a href="https://wa.me/6285173333433" target="_blank" style="color: #2d3748; text-decoration: none; font-weight: 500; transition: color 0.3s ease;">ItbaArts Dev</a>
+                    </p>
                 </div>
             </div>
         </div>
