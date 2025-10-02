@@ -458,9 +458,7 @@ function generateIndexFile($table_display_name, $new_table_name, $field_labels, 
             
             if ($field_type == 'relation') {
                 // Display specific relation field that was selected
-                $no = 0;
-                $ref_field = isset($relation_field_sistem[$no]) ? $relation_field_sistem[$no] : 'nama';
-                $no++;
+                $ref_field = isset($relation_field_sistem[$i]) ? $relation_field_sistem[$i] : 'nama';
                 $content .= "
                                 <td><?=\$data['".$ref_field."'];?></td>";
             } elseif ($field_type == 'file') {
@@ -585,9 +583,7 @@ function generateCetakFile($table_display_name, $new_table_name, $field_labels, 
 
             if ($field_type == 'relation') {
                 // Display specific relation field that was selected (same as index)
-                $no = 0;
-                $ref_field = isset($relation_field_sistem[$no]) ? $relation_field_sistem[$no] : 'nama';
-                $no++;
+                $ref_field = isset($relation_field_sistem[$i]) ? $relation_field_sistem[$i] : 'nama';
                 $content .= "
                                 <td><?=\$data['".$ref_field."'];?></td>";
             } elseif ($field_type == 'file') {
@@ -950,8 +946,7 @@ $content .= "
 
             if ($field_type == 'relation') {
                 // Display specific relation field that was selected (same as index)
-                $no = 0;
-                $ref_field = isset($relation_field_sistem[$no]) ? $relation_field_sistem[$no] : 'nama';
+                $ref_field = isset($relation_field_sistem[$i]) ? $relation_field_sistem[$i] : 'nama';
                 $content .= "
                                 <td>\".\$data['".$ref_field."'].\"</td>";
             } elseif ($field_type == 'file') {
