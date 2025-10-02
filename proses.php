@@ -205,6 +205,7 @@ if (isset($_POST['tambah'])) {
 
         // Now process all custom fields (skip id and input_date as they're already handled)
         $debug_data .= "=== PROCESSING FIELDS ===\n";
+        $relation_counter = 0; // Counter for relation fields only
         for ($i=0; $i < $total; $i++) {
             $debug_data .= "Processing field $i: " . (isset($field_names[$i]) ? $field_names[$i] : 'EMPTY') . "\n";
             
@@ -245,37 +246,15 @@ if (isset($_POST['tambah'])) {
                     $ref_table = str_replace('id_', '', $field_name); // Default fallback
                     $ref_field = 'nama'; // Default fallback
                     
-                    // Cari data relasi berdasarkan field name
-                    // Modifikasi logika pencocokan untuk menangani ketidaksesuaian indeks
-                    $ref_table = str_replace('id_', '', $field_name); // Default fallback
-                    $ref_field = 'nama'; // Default fallback
-                    
-                    // Cari indeks field yang sesuai dalam field_names
-                    $matching_index = null;
-                    foreach ($field_names as $index => $fname) {
-                        if ($fname === $field_name) {
-                            $matching_index = $index;
-                            break;
-                        }
+                    // Use relation_counter to map to relation_table_sistem array
+                    // relation_table_sistem only contains relation fields, not all fields
+                    if (isset($relation_table_sistem[$relation_counter]) && !empty($relation_table_sistem[$relation_counter])) {
+                        $ref_table = $relation_table_sistem[$relation_counter];
+                        $ref_field = isset($relation_field_sistem[$relation_counter]) ? $relation_field_sistem[$relation_counter] : 'nama';
+                        $debug_data .= "  -> Relation mapping: counter=$relation_counter, table=$ref_table, field=$ref_field\n";
                     }
                     
-                    // Jika ditemukan indeks yang cocok, gunakan data relasi dari indeks tersebut
-                    if ($matching_index !== null && isset($relation_table_sistem[$matching_index]) && !empty($relation_table_sistem[$matching_index])) {
-                        $ref_table = $relation_table_sistem[$matching_index];
-                        $ref_field = isset($relation_field_sistem[$matching_index]) ? $relation_field_sistem[$matching_index] : 'nama';
-                    } else {
-                        // Fallback ke metode pencarian lama untuk kompatibilitas
-                        foreach ($relation_table_sistem as $index => $table) {
-                            if (!empty($table)) {
-                                $relation_field_name = isset($field_names[$index]) ? $field_names[$index] : '';
-                                if ($relation_field_name === $field_name) {
-                                    $ref_table = $table;
-                                    $ref_field = isset($relation_field_sistem[$index]) ? $relation_field_sistem[$index] : 'nama';
-                                    break;
-                                }
-                            }
-                        }
-                    }
+                    $relation_counter++; // Increment counter for next relation field
 
                     $relation_comment = "$field_display_name|$ref_table|$ref_field";
                     $add_field_sql = "ALTER TABLE `$new_table_name` ADD `$field_name` int(11) COMMENT '$relation_comment', ADD INDEX(`$field_name`)";
