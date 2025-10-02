@@ -3,12 +3,12 @@
         <div class="container">
             <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;">
                 <div>
-                    <div style="display: flex; align-items: center; gap: 12px; margin-left: 12px;">
+                    <div style="display: flex; align-items: center; margin-left: 12px;">
                         <span style="color: #2d3748; font-size: 1.1rem; font-weight: 600;">CRUD Generator v2.1</span>
                     </div>
                 </div>
                 <div style="text-align: right; margin-right: 12px;">
-                    <p style="color: #a0aec0; margin: 4px 0 0 0; font-size: 0.8rem;">Version 2.1 - Modern Edition</p>
+                    <p style="color: #2d3748; margin: 4px 0 0 0; font-size: 0.8rem;">Version 2.1 - Modern Edition</p>
                 </div>
             </div>
         </div>
