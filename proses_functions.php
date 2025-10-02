@@ -95,6 +95,14 @@ function generateIndexFile($table_display_name, $new_table_name, $field_labels, 
                                         <span class=\"text-muted\">No file</span>
                                     <?php } ?>
                                 </td>";
+            } elseif ($field_type == 'rupiah') {
+                // Display rupiah with rp() function
+                $content .= "
+                                <td><?=rp(\$data['".$field_names[$i]."']);?></td>";
+            } elseif ($field_type == 'date') {
+                // Display date with tgl() function
+                $content .= "
+                                <td><?=tgl(date('Y-m-d', strtotime(\$data['".$field_names[$i]."'])));?></td>";
             } else {
                 $content .= "
                                 <td><?=\$data['".$field_names[$i]."'];?></td>";
@@ -231,9 +239,13 @@ function generateCetakFile($table_display_name, $new_table_name, $field_labels, 
                                         <span class=\"text-muted\">No file</span>
                                     <?php } ?>
                                 </td>";
+            } elseif ($field_type == 'rupiah') {
+                // Display rupiah with rp() function
+                $content .= "
+                                <td><?=rp(\$data['".$field_names[$i]."']);?></td>";
             } elseif ($field_type == 'date') {
                 $content .= "
-                                <td><?php echo tgl(date('Y-m-d', strtotime(\$data['".$field_names[$i]."']))); ?></td>";
+                                <td><?=tgl(date('Y-m-d', strtotime(\$data['".$field_names[$i]."'])));?></td>";
             } else {
                 $content .= "
                                 <td><?=\$data['".$field_names[$i]."'];?></td>";
@@ -242,7 +254,7 @@ function generateCetakFile($table_display_name, $new_table_name, $field_labels, 
     }
 
     $content .= "
-                                <td><?php echo tgl(date('Y-m-d', strtotime(\$data['input_date']))); ?></td>
+                                <td><?=tgl(date('Y-m-d', strtotime(\$data['input_date'])));?></td>
                             </tr>
                             <?php } ?>
                         </tbody>
@@ -325,6 +337,14 @@ if (\$_GET['form'] == \"Ubah\") {
                             <div class=\"form-group\">
                                 <label>".$field_labels[$i]."</label>
                                 <input id=\"".$field_names[$i]."\" class=\"form-control\" type=\"number\" name=\"".$field_names[$i]."\" value=\"<?=\$data['".$field_names[$i]."'];?>\" required>
+                            </div>
+                        </div>";
+            } elseif ($field_type == 'rupiah') {
+                $content .= "
+                        <div class=\"col-lg-12\">
+                            <div class=\"form-group\">
+                                <label>".$field_labels[$i]."</label>
+                                <input id=\"".$field_names[$i]."\" class=\"form-control\" type=\"number\" name=\"".$field_names[$i]."\" value=\"<?=\$data['".$field_names[$i]."'];?>\" placeholder=\"Masukkan nominal\" required>
                             </div>
                         </div>";
             } elseif ($field_type == 'file') {
@@ -623,6 +643,10 @@ $content .= "
                                         <span class='text-muted'>No file</span>
                                     <?php } ?>
                                 </td>";
+            } elseif ($field_type == 'rupiah') {
+                // Display rupiah with rp() function
+                $content .= "
+                                <td>\".rp(\$data['".$field_names[$i]."']).\"</td>";
             } elseif ($field_type == 'date') {
                 $content .= "
                                 <td>\".tgl(date('Y-m-d', strtotime(\$data['".$field_names[$i]."']))).\"</td>";
