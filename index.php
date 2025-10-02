@@ -9,8 +9,8 @@
                     <div class="form-inputs">
                         <div class="empty-state">
                             <i class="material-icons" style="font-size: 48px; color: #ccc; margin-bottom: 16px;">add_circle_outline</i>
-                            <p style="color: #666; margin: 0 0 20px 0; font-size: 16px;">Click "Tambah" button to create a new table</p>
-                            <p style="color: #999; margin: 0; font-size: 14px;">Or click "Edit" on existing tables to modify them</p>
+                            <p style="color: #666; margin: 0 0 20px 0; font-size: 16px;">Klik tombol "Tambah" untuk membuat tabel baru</p>
+                            <p style="color: #999; margin: 0; font-size: 14px;">Atau klik "Edit" pada tabel yang ada untuk memodifikasinya</p>
                         </div>
                     </div>
                 </div>
