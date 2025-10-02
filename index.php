@@ -4,13 +4,13 @@
                 <!-- Generator Tambah/Ubah Card with Form Inputs -->
                 <div class="simple-card form-card">
                     <div class="card-header">
-                        <h2 class="card-title">generator<br>tambah/ubah</h2>
+                        <h2 class="card-title">Form Generator</h2>
                     </div>
                     <div class="form-inputs">
                         <div class="empty-state">
                             <i class="material-icons" style="font-size: 48px; color: #ccc; margin-bottom: 16px;">add_circle_outline</i>
                             <p style="color: #666; margin: 0 0 20px 0; font-size: 16px;">Klik tombol "Tambah" untuk membuat tabel baru</p>
-                            <p style="color: #999; margin: 0; font-size: 14px;">Atau klik "Edit" pada tabel yang ada untuk memodifikasinya</p>
+                            <p style="color: #999; margin: 0; font-size: 14px;">Atau klik "Ubah" pada tabel yang ada untuk memodifikasinya</p>
                         </div>
                     </div>
                 </div>
@@ -60,13 +60,13 @@
                                 echo '<span class="table-name">' . $displayName . '</span>';
                                 echo '</div>';
                                 echo '<div class="table-actions">';
-                                echo '<button class="action-btn edit-btn" onclick="editTable(\'' . $tableName . '\')" title="Edit Table">';
+                                echo '<button class="action-btn edit-btn" onclick="editTable(\'' . $tableName . '\')" title="Ubah Tabel">';
                                 echo '<i class="material-icons">edit</i>';
                                 echo '</button>';
-                                echo '<button class="action-btn delete-btn" onclick="deleteTable(\'' . $tableName . '\')" title="Delete Table">';
+                                echo '<button class="action-btn delete-btn" onclick="deleteTable(\'' . $tableName . '\')" title="Hapus Tabel">';
                                 echo '<i class="material-icons">delete</i>';
                                 echo '</button>';
-                                echo '<a href="Panel/index.php?page=' . $displayName . '" class="action-btn view-btn" title="View Panel" target="_blank">';
+                                echo '<a href="Panel/index.php?page=' . $displayName . '" class="action-btn view-btn" title="Lihat Panel" target="_blank">';
                                 echo '<i class="material-icons">launch</i>';
                                 echo '</a>';
                                 echo '</div>';
@@ -76,9 +76,9 @@
                         } else {
                             echo '<div class="no-tables">';
                             echo '<i class="material-icons">info</i>';
-                            echo '<p>No tables found</p>';
+                            echo '<p>Tidak ada tabel ditemukan</p>';
                             echo '<div class="create-hint">';
-                            echo '<small>Click the "Tambah" button above to create your first table</small>';
+                            echo '<small>Klik tombol "Tambah" di atas untuk membuat tabel pertama Anda</small>';
                             echo '</div>';
                             echo '</div>';
                         }
