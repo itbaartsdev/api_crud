@@ -33,10 +33,10 @@
     <style>
         #wa-float-btn {
             position: fixed;
-            bottom: 24px;
-            right: 24px;
-            width: 52px;
-            height: 52px;
+            bottom: 30px;
+            right: 30px;
+            width: 30px;
+            height: 30px;
             background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
             border-radius: 50%;
             display: flex;
