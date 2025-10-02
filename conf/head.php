@@ -776,7 +776,7 @@ if (file_exists('conf/koneksi.php')) {
                 <div class="brand-icon">
                     <i class="material-icons">storage</i>
                 </div>
-                <span>Azzam Generator</span>
+                <span>CRUD Generator v2.1</span>
             </a>
             
             <div class="nav-actions">
