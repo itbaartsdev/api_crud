@@ -443,6 +443,13 @@ function regenerateCRUDFiles($tableName, $koneksi, $customDisplayName = null) {
                     $fieldValues[] = '';
                     $relationTables[] = $commentParts[1];
                     $relationFields[] = $commentParts[2];
+                } elseif (count($commentParts) === 2) {
+                    // This is a special field type - parse comment: display_name|field_type
+                    $fieldLabels[] = $commentParts[0];
+                    $fieldTypes[] = $commentParts[1]; // Use the actual field type from comment (e.g., 'rupiah', 'file')
+                    $fieldValues[] = '';
+                    $relationTables[] = '';
+                    $relationFields[] = '';
                 } else {
                     $fieldLabels[] = $comment;
                     $fieldTypes[] = $row['data_type'];

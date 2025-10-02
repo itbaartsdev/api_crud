@@ -643,7 +643,7 @@ function generateCetakFile($table_display_name, $new_table_name, $field_labels, 
 
 function generateFormFile($table_display_name, $new_table_name, $field_labels, $field_names, $field_types, $field_lengths, $relation_table_sistem, $relation_field_sistem, $total) {
     $content = "
-<?php 
+<?php
 if (\$_GET['form'] == \"Ubah\") {
     \$sql    = mysqli_query(\$koneksi,\"SELECT * FROM ".$new_table_name." WHERE id='\$id'\");
     \$data   = mysqli_fetch_array(\$sql);
@@ -656,17 +656,24 @@ if (\$_GET['form'] == \"Ubah\") {
             <div class=\"card-body\">
                 <form method=\"post\" action=\"<?=\$folder;?>/proses.php\" enctype=\"multipart/form-data\" onsubmit=\"return unformatRupiahBeforeSubmit(this)\">
                     <div class=\"row\">";
-    
+
     // Add form fields using same logic as data/form/isi.php
     for ($i = 0; $i < $total; $i++) {
         if (isset($field_names[$i]) && $field_names[$i] != 'id' && $field_names[$i] != 'input_date') {
             $field_type = isset($field_types[$i]) ? $field_types[$i] : 'text';
+
+            // Clean field label from comment parts (remove |type suffix)
+            $clean_label = $field_labels[$i];
+            if (strpos($clean_label, '|') !== false) {
+                $label_parts = explode('|', $clean_label);
+                $clean_label = $label_parts[0]; // Take only the first part (display name)
+            }
             
             if ($field_type == 'year') {
                 $content .= "
                         <div class=\"col-lg-12\">
                             <div class=\"form-group\">
-                                <label>".$field_labels[$i]."</label>
+                                <label>".$clean_label."</label>
                                 <input id=\"".$field_names[$i]."\" class=\"form-control\" type=\"number\" max=\"99999\" name=\"".$field_names[$i]."\" value=\"<?=\$data['".$field_names[$i]."'];?>\" required>
                             </div>
                         </div>";
@@ -674,7 +681,7 @@ if (\$_GET['form'] == \"Ubah\") {
                 $content .= "
                         <div class=\"col-lg-12\">
                             <div class=\"form-group\">
-                                <label>".$field_labels[$i]."</label>
+                                <label>".$clean_label."</label>
                                 <input class=\"form-control\" type=\"date\" name=\"".$field_names[$i]."\" value=\"<?php echo date('Y-m-d', strtotime(\$data['".$field_names[$i]."'])); ?>\" required>
                             </div>
                         </div>";
@@ -682,7 +689,7 @@ if (\$_GET['form'] == \"Ubah\") {
                 $content .= "
                         <div class=\"col-lg-12\">
                             <div class=\"form-group\">
-                                <label>".$field_labels[$i]."</label>
+                                <label>".$clean_label."</label>
                                 <input id=\"".$field_names[$i]."\" class=\"form-control\" type=\"datetime-local\" name=\"".$field_names[$i]."\" value=\"<?=\$data['".$field_names[$i]."'];?>\" required>
                             </div>
                         </div>";
@@ -690,7 +697,7 @@ if (\$_GET['form'] == \"Ubah\") {
                 $content .= "
                         <div class=\"col-lg-12\">
                             <div class=\"form-group\">
-                                <label>".$field_labels[$i]."</label>
+                                <label>".$clean_label."</label>
                                 <input id=\"".$field_names[$i]."\" class=\"form-control\" type=\"time\" name=\"".$field_names[$i]."\" value=\"<?=\$data['".$field_names[$i]."'];?>\" required>
                             </div>
                         </div>";
@@ -698,7 +705,7 @@ if (\$_GET['form'] == \"Ubah\") {
                 $content .= "
                         <div class=\"col-lg-12\">
                             <div class=\"form-group\">
-                                <label>".$field_labels[$i]."</label>
+                                <label>".$clean_label."</label>
                                 <input id=\"".$field_names[$i]."\" class=\"form-control\" type=\"month\" name=\"".$field_names[$i]."\" value=\"<?=\$data['".$field_names[$i]."'];?>\" required>
                             </div>
                         </div>";
@@ -706,7 +713,7 @@ if (\$_GET['form'] == \"Ubah\") {
                 $content .= "
                         <div class=\"col-lg-12\">
                             <div class=\"form-group\">
-                                <label>".$field_labels[$i]."</label>
+                                <label>".$clean_label."</label>
                                 <input id=\"".$field_names[$i]."\" class=\"form-control\" type=\"number\" name=\"".$field_names[$i]."\" value=\"<?=\$data['".$field_names[$i]."'];?>\" required>
                             </div>
                         </div>";
@@ -714,7 +721,7 @@ if (\$_GET['form'] == \"Ubah\") {
                 $content .= "
                         <div class=\"col-lg-12\">
                             <div class=\"form-group\">
-                                <label>".$field_labels[$i]."</label>
+                                <label>".$clean_label."</label>
                                 <input id=\"".$field_names[$i]."\" class=\"form-control\" type=\"text\" name=\"".$field_names[$i]."\" value=\"<?php echo isset(\$data['".$field_names[$i]."']) && \$data['".$field_names[$i]."'] ? number_format(\$data['".$field_names[$i]."'], 0, ',', '.') : ''; ?>\" placeholder=\"Masukkan nominal\" data-type=\"rupiah\" oninput=\"formatRupiahInput(this)\" required>
                             </div>
                         </div>";
@@ -722,11 +729,11 @@ if (\$_GET['form'] == \"Ubah\") {
                 $content .= '
                         <div class="col-lg-12">
                             <div class="form-group">
-                                <label>'.$field_labels[$i].'</label>
+                                <label>'.$clean_label.'</label>
                                 <div class="custom-file">
                                     <input type="file" class="custom-file-input" name="'.$field_names[$i].'">
                                     <label class="custom-file-label">Choose file</label>
-                                </div>								
+                                </div>
                             </div>
                         </div>';
             } elseif ($field_type == 'enum') {
@@ -752,9 +759,9 @@ if (\$_GET['form'] == \"Ubah\") {
                 $content .= "
                         <div class=\"col-lg-12\">
                             <div class=\"form-group\">
-                                <label>".$field_labels[$i]."</label>
+                                <label>".$clean_label."</label>
                                 <select name=\"".$field_names[$i]."\" class=\"js-example-basic-single form-control\" data-placeholder=\"Pilih Salah Satu\" id=\"".$field_names[$i]."\" required>
-                                    <option value>-- Pilih ".$field_labels[$i]." --</option>
+                                    <option value>-- Pilih ".$clean_label." --</option>
                                     <?php
                                     if (\$data['".$field_names[$i]."'] == NULL){
                                         // No current value
@@ -764,7 +771,7 @@ if (\$_GET['form'] == \"Ubah\") {
                                         <?php
                                     }
                                     ?>";
-                
+
                 // Add enum options
                 for ($z = 0; $z < $jumlah; $z++) {
                     $option_value = $hasil[$z];
@@ -779,7 +786,7 @@ if (\$_GET['form'] == \"Ubah\") {
                                     }
                                     ?>";
                 }
-                
+
                 $content .= "
                                 </select>
                             </div>
@@ -787,7 +794,7 @@ if (\$_GET['form'] == \"Ubah\") {
             } elseif ($field_type == 'relation') {
                 // Generate dropdown for relation field - use static counter
                 $field_name = $field_names[$i];
-                
+
                 // We need to track which relation field this is (0, 1, 2, etc.)
                 // Count how many relation fields we've seen before this one
                 $current_relation_index = 0;
@@ -796,24 +803,24 @@ if (\$_GET['form'] == \"Ubah\") {
                         $current_relation_index++;
                     }
                 }
-                
+
                 $ref_table = str_replace('id_', '', $field_name); // Default fallback
                 $ref_field = 'nama'; // Default fallback
-                
+
                 if (isset($relation_table_sistem[$current_relation_index])) {
                     $ref_table = $relation_table_sistem[$current_relation_index];
                 }
                 if (isset($relation_field_sistem[$current_relation_index])) {
                     $ref_field = $relation_field_sistem[$current_relation_index];
                 }
-                
+
                 $content .= "
                         <div class=\"col-lg-12\">
                             <div class=\"form-group\">
-                                <label>".$field_labels[$i]."</label>
+                                <label>".$clean_label."</label>
                                 <select class=\"js-example-basic-single form-control\" name=\"".$field_names[$i]."\" required>
-                                    <option value=\"\">Pilih ".$field_labels[$i]."</option>
-                                    <?php 
+                                    <option value=\"\">Pilih ".$clean_label."</option>
+                                    <?php
                                     \$sql_rel = mysqli_query(\$koneksi, \"SELECT * FROM ".$ref_table." ORDER BY id\");
                                     while (\$data_rel = mysqli_fetch_array(\$sql_rel)) {
                                         \$selected = (\$data['".$field_names[$i]."'] == \$data_rel['id']) ? 'selected' : '';
@@ -828,7 +835,7 @@ if (\$_GET['form'] == \"Ubah\") {
                 $content .= "
                         <div class=\"col-lg-12\">
                             <div class=\"form-group\">
-                                <label>".$field_labels[$i]."</label>
+                                <label>".$clean_label."</label>
                                 <input id=\"".$field_names[$i]."\" class=\"form-control\" type=\"text\" name=\"".$field_names[$i]."\" value=\"<?=\$data['".$field_names[$i]."'];?>\" required>
                             </div>
                         </div>";
