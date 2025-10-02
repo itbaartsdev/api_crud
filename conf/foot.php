@@ -7,13 +7,13 @@
                         <div style="width: 32px; height: 32px; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white;">
                             <i class="material-icons" style="font-size: 18px;">storage</i>
                         </div>
-                        <span style="color: #2d3748; font-size: 1.1rem; font-weight: 600;">Azzam Generator</span>
+                        <span style="color: #2d3748; font-size: 1.1rem; font-weight: 600;">CRUD Generator v2.1</span>
                     </div>
                     <p style="color: #718096; margin: 0; font-size: 0.9rem;">Modern Database Generator System</p>
                 </div>
                 <div style="text-align: right;">
-                    <p style="color: #718096; margin: 0; font-size: 0.9rem;">© 2025 Azzam Generator. All rights reserved.</p>
-                    <p style="color: #a0aec0; margin: 4px 0 0 0; font-size: 0.8rem;">Version 3.0.0 - Modern Edition</p>
+                        <p style="color: #718096; margin: 0; font-size: 0.9rem;">© 2025 CRUD Generator v2.1. All rights reserved.</p>
+                    <p style="color: #a0aec0; margin: 4px 0 0 0; font-size: 0.8rem;">Version 2.1 - Modern Edition</p>
                 </div>
             </div>
         </div>
