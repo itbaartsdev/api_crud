@@ -33,16 +33,16 @@
     <style>
         #wa-float-btn {
             position: fixed;
-            bottom: 60px;
+            bottom: 40px;
             right: 30px;
             width: 40px;
             height: 40px;
-            background: linear-gradient(135deg, rgba(37, 211, 102, 0.3) 0%, rgba(18, 140, 126, 0.3) 100%);
+            background: linear-gradient(135deg, rgba(37, 211, 102, 0.2) 0%, rgba(18, 140, 126, 0.2) 100%);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 4px 16px rgba(37, 211, 102, 0.15);
+            box-shadow: 0 4px 16px rgba(37, 211, 102, 0.1);
             z-index: 9999;
             text-decoration: none;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
