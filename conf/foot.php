@@ -37,7 +37,7 @@
             right: 30px;
             width: 40px;
             height: 40px;
-            background: linear-gradient(135deg, #25D366 0%, #128C7E 70%);
+            background: linear-gradient(135deg, rgba(37, 211, 102, 0.85) 0%, rgba(18, 140, 126, 0.85) 100%);
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -47,11 +47,13 @@
             text-decoration: none;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             cursor: pointer;
+            backdrop-filter: blur(10px);
         }
 
         #wa-float-btn:hover {
             transform: translateY(-3px) scale(1.05);
             box-shadow: 0 8px 24px rgba(37, 211, 102, 0.45);
+            background: linear-gradient(135deg, rgba(37, 211, 102, 0.95) 0%, rgba(18, 140, 126, 0.95) 100%);
         }
 
         #wa-float-btn:active {
