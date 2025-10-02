@@ -408,15 +408,24 @@ function generateIndexFile($table_display_name, $new_table_name, $field_labels, 
     $sql_query = "SELECT *,".$new_table_name.".id AS primary_id ";
     $joins = "";
     $has_relation_fields = false;
+    $relation_counter = 0;
 
     for ($i = 0; $i < $total; $i++) {
         if (isset($field_types[$i]) && $field_types[$i] == 'relation') {
             $field_name = $field_names[$i];
             $ref_table = str_replace('id_', '', $field_name);
-            $ref_field = isset($relation_field_sistem[$i]) ? $relation_field_sistem[$i] : 'nama';
-
+            $ref_field = 'nama';
+            
+            // Use relation_counter to map to relation arrays
+            if (isset($relation_table_sistem[$relation_counter])) {
+                $ref_table = $relation_table_sistem[$relation_counter];
+            }
+            if (isset($relation_field_sistem[$relation_counter])) {
+                $ref_field = $relation_field_sistem[$relation_counter];
+            }
 
             $joins .= " INNER JOIN ".$ref_table." ON ".$new_table_name.".".$field_name."=".$ref_table.".id";
+            $relation_counter++;
         }
     }
 
@@ -430,16 +439,18 @@ function generateIndexFile($table_display_name, $new_table_name, $field_labels, 
                             <tr>
                                 <td><?=\$no++;?></td>";
     
-    // Add field data
+    // Add field data - use separate counter for relation fields
+    $relation_counter = 0;
     for ($i = 0; $i < $total; $i++) {
         if (isset($field_names[$i]) && $field_names[$i] != 'id') {
             $field_type = isset($field_types[$i]) ? $field_types[$i] : 'text';
             
             if ($field_type == 'relation') {
-                // Display specific relation field that was selected
-                $ref_field = isset($relation_field_sistem[$i]) ? $relation_field_sistem[$i] : 'nama';
+                // Use relation_counter to get correct field
+                $ref_field = isset($relation_field_sistem[$relation_counter]) ? $relation_field_sistem[$relation_counter] : 'nama';
                 $content .= "
                                 <td><?=\$data['".$ref_field."'];?></td>";
+                $relation_counter++;
             } elseif ($field_type == 'file') {
                 // Display file with view button
                 $content .= "
@@ -533,15 +544,24 @@ function generateCetakFile($table_display_name, $new_table_name, $field_labels, 
     $sql_query = "SELECT *, ".$new_table_name.".id AS primary_id";
     $joins = "";
     $has_relation_fields = false;
+    $relation_counter = 0;
 
     for ($i = 0; $i < $total; $i++) {
         if (isset($field_types[$i]) && $field_types[$i] == 'relation') {
             $field_name = $field_names[$i];
             $ref_table = str_replace('id_', '', $field_name);
-            $ref_field = isset($relation_field_sistem[$i]) ? $relation_field_sistem[$i] : 'nama';
-
+            $ref_field = 'nama';
+            
+            // Use relation_counter to map to relation arrays
+            if (isset($relation_table_sistem[$relation_counter])) {
+                $ref_table = $relation_table_sistem[$relation_counter];
+            }
+            if (isset($relation_field_sistem[$relation_counter])) {
+                $ref_field = $relation_field_sistem[$relation_counter];
+            }
 
             $joins .= " INNER JOIN ".$ref_table." ON ".$new_table_name.".".$field_name."=".$ref_table.".id";
+            $relation_counter++;
         }
     }
 
@@ -555,16 +575,18 @@ function generateCetakFile($table_display_name, $new_table_name, $field_labels, 
                             <tr>
                                 <td><?=\$no++;?></td>";
 
-    // Add field data
+    // Add field data - use separate counter for relation fields
+    $relation_counter = 0;
     for ($i = 0; $i < $total; $i++) {
         if (isset($field_names[$i]) && $field_names[$i] != 'id') {
             $field_type = isset($field_types[$i]) ? $field_types[$i] : 'text';
 
             if ($field_type == 'relation') {
-                // Display specific relation field that was selected (same as index)
-                $ref_field = isset($relation_field_sistem[$i]) ? $relation_field_sistem[$i] : 'nama';
+                // Use relation_counter to get correct field
+                $ref_field = isset($relation_field_sistem[$relation_counter]) ? $relation_field_sistem[$relation_counter] : 'nama';
                 $content .= "
                                 <td><?=\$data['".$ref_field."'];?></td>";
+                $relation_counter++;
             } elseif ($field_type == 'file') {
                 // Display file with view button for print page
                 $content .= "
@@ -739,12 +761,27 @@ if (\$_GET['form'] == \"Ubah\") {
                             </div>
                         </div>";
             } elseif ($field_type == 'relation') {
-                // Generate dropdown for relation field
+                // Generate dropdown for relation field - use static counter
                 $field_name = $field_names[$i];
-                $u = 0;
-                $ref_table = isset($relation_table_sistem[$i]) ? $relation_table_sistem[$i] : str_replace('id_', '', $field_name);
-                $ref_field = isset($relation_field_sistem[$u]) ? $relation_field_sistem[$u] : 'nama';
-                $u++;
+                
+                // We need to track which relation field this is (0, 1, 2, etc.)
+                // Count how many relation fields we've seen before this one
+                $current_relation_index = 0;
+                for ($j = 0; $j < $i; $j++) {
+                    if (isset($field_types[$j]) && $field_types[$j] == 'relation') {
+                        $current_relation_index++;
+                    }
+                }
+                
+                $ref_table = str_replace('id_', '', $field_name); // Default fallback
+                $ref_field = 'nama'; // Default fallback
+                
+                if (isset($relation_table_sistem[$current_relation_index])) {
+                    $ref_table = $relation_table_sistem[$current_relation_index];
+                }
+                if (isset($relation_field_sistem[$current_relation_index])) {
+                    $ref_field = $relation_field_sistem[$current_relation_index];
+                }
                 
                 $content .= "
                         <div class=\"col-lg-12\">
@@ -898,13 +935,24 @@ $content .= "
     $sql_query = "SELECT *, ".$new_table_name.".id AS primary_id ";
     $joins = "";
     $has_relation_fields = false;
+    $relation_counter = 0;
 
     for ($i = 0; $i < $total; $i++) {
         if (isset($field_types[$i]) && $field_types[$i] == 'relation') {
             $field_name = $field_names[$i];
             $ref_table = str_replace('id_', '', $field_name);
-            $ref_field = isset($relation_field_sistem[$i]) ? $relation_field_sistem[$i] : 'nama';
+            $ref_field = 'nama';
+            
+            // Use relation_counter to map to relation arrays
+            if (isset($relation_table_sistem[$relation_counter])) {
+                $ref_table = $relation_table_sistem[$relation_counter];
+            }
+            if (isset($relation_field_sistem[$relation_counter])) {
+                $ref_field = $relation_field_sistem[$relation_counter];
+            }
+            
             $joins .= " INNER JOIN ".$ref_table." ON ".$new_table_name.".".$field_name."=".$ref_table.".id";
+            $relation_counter++;
         }
     }
 
@@ -918,16 +966,18 @@ $content .= "
 \$html .= \"                            <tr>
                                 <td>\".\$no++.\"</td>";
 
-    // Add field data
+    // Add field data - use separate counter for relation fields
+    $relation_counter = 0;
     for ($i = 0; $i < $total; $i++) {
         if (isset($field_names[$i]) && $field_names[$i] != 'id') {
             $field_type = isset($field_types[$i]) ? $field_types[$i] : 'text';
 
             if ($field_type == 'relation') {
-                // Display specific relation field that was selected (same as index)
-                $ref_field = isset($relation_field_sistem[$i]) ? $relation_field_sistem[$i] : 'nama';
+                // Use relation_counter to get correct field
+                $ref_field = isset($relation_field_sistem[$relation_counter]) ? $relation_field_sistem[$relation_counter] : 'nama';
                 $content .= "
                                 <td>\".\$data['".$ref_field."'].\"</td>";
+                $relation_counter++;
             } elseif ($field_type == 'file') {
                 // Display file with view button for print page
                 $content .= "
