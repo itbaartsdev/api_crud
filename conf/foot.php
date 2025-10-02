@@ -9,10 +9,8 @@
                         </div>
                         <span style="color: #2d3748; font-size: 1.1rem; font-weight: 600;">CRUD Generator v2.1</span>
                     </div>
-                    <p style="color: #718096; margin: 0; font-size: 0.9rem;">Modern Database Generator System</p>
                 </div>
                 <div style="text-align: right;">
-                        <p style="color: #718096; margin: 0; font-size: 0.9rem;">© 2025 CRUD Generator v2.1. All rights reserved.</p>
                     <p style="color: #a0aec0; margin: 4px 0 0 0; font-size: 0.8rem;">Version 2.1 - Modern Edition</p>
                 </div>
             </div>
