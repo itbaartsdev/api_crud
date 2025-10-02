@@ -18,7 +18,7 @@
                 <!-- Tabel Generator Card with Database Tables -->
                 <div class="simple-card table-card">
                     <div class="card-header">
-                        <h2 class="card-title">tabel generator</h2>
+                        <h2 class="card-title">Tabel Generator</h2>
                         <button class="tambah-btn" onclick="showAddForm()" style="background: #4CAF50; color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; margin-top: 10px; display: flex; align-items: center; gap: 6px; font-size: 14px;">
                             <i class="material-icons" style="font-size: 16px;">add</i>
                             Tambah
