@@ -8,7 +8,7 @@
                     </div>
                 </div>
                 <div style="text-align: right; margin-right: 12px;">
-                    <p style="color: #2d3748; margin: 4px 0 0 0; font-size: 0.8rem;">Version 2.1 - <a href="https://wa.me/62851733334" target="_blank">ItbaArts Dev</a></p>
+                    <p style="color: #2d3748; margin: 4px 0 0 0; font-size: 0.8rem;">Version 2.1 - <a href="https://wa.me/6285173333433" target="_blank">ItbaArts Dev</a></p>
                 </div>
             </div>
         </div>
