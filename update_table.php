@@ -153,6 +153,8 @@ try {
                 $expectedComment = "$fieldLabel|$refTable|$refField";
             } elseif ($fieldType == 'file') {
                 $expectedComment = "$fieldLabel|file";
+            } elseif ($fieldType == 'rupiah') {
+                $expectedComment = "$fieldLabel|rupiah";
             } else {
                 $expectedComment = $fieldLabel;
             }
@@ -171,6 +173,8 @@ try {
                 $expectedColumnType = "text";
             } elseif ($fieldType == "boolean") {
                 $expectedColumnType = "tinyint(1)";
+            } elseif ($fieldType == "rupiah") {
+                $expectedColumnType = "int(11)";
             } else {
                 // Fields with length specification
                 if (!empty($fieldLength)) {
@@ -233,6 +237,9 @@ try {
                 $alterSQL .= "text COMMENT '$fieldLabel'";
             } else if ($fieldType == "boolean") {
                 $alterSQL .= "tinyint(1) COMMENT '$fieldLabel'";
+            } else if ($fieldType == "rupiah") {
+                $rupiahComment = "$fieldLabel|rupiah";
+                $alterSQL .= "int(11) COMMENT '$rupiahComment'";
             } else {
                 // Fields with length specification
                 if (!empty($fieldLength)) {
