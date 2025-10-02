@@ -654,7 +654,7 @@ if (\$_GET['form'] == \"Ubah\") {
     <div class=\"col-sm-12\">
         <div class=\"card select-card\">
             <div class=\"card-body\">
-                <form method=\"post\" action=\"<?=\$folder;?>/proses.php\" enctype=\"multipart/form-data\">
+                <form method=\"post\" action=\"<?=\$folder;?>/proses.php\" enctype=\"multipart/form-data\" onsubmit=\"return unformatRupiahBeforeSubmit(this)\">
                     <div class=\"row\">";
     
     // Add form fields using same logic as data/form/isi.php
@@ -715,7 +715,7 @@ if (\$_GET['form'] == \"Ubah\") {
                         <div class=\"col-lg-12\">
                             <div class=\"form-group\">
                                 <label>".$field_labels[$i]."</label>
-                                <input id=\"".$field_names[$i]."\" class=\"form-control\" type=\"number\" name=\"".$field_names[$i]."\" value=\"<?=\$data['".$field_names[$i]."'];?>\" placeholder=\"Masukkan nominal\" required>
+                                <input id=\"".$field_names[$i]."\" class=\"form-control\" type=\"text\" name=\"".$field_names[$i]."\" value=\"<?php echo isset(\$data['".$field_names[$i]."']) && \$data['".$field_names[$i]."'] ? number_format(\$data['".$field_names[$i]."'], 0, ',', '.') : ''; ?>\" placeholder=\"Masukkan nominal\" data-type=\"rupiah\" oninput=\"formatRupiahInput(this)\" required>
                             </div>
                         </div>";
             } elseif ($field_type == 'file') {
@@ -869,6 +869,9 @@ include '../../conf/koneksi.php';";
 \$tmp_".$field_names[$i]."   = \$_FILES['".$field_names[$i]."']['tmp_name'];
 move_uploaded_file(\$tmp_".$field_names[$i].", '../../images/".$table_display_name."/'.\$file_".$field_names[$i].");
 \$".$field_names[$i]." = \$file_".$field_names[$i].";";
+            } elseif ($field_type == 'rupiah') {
+                $content .= "
+\$".$field_names[$i]." = preg_replace('/[^\d]/', '', \$_POST['".$field_names[$i]."']);";
             } elseif ($field_type == 'date') {
                 $content .= "
 \$".$field_names[$i]." = date('Y-m-d', strtotime(\$_POST['".$field_names[$i]."']));";

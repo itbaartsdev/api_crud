@@ -1112,9 +1112,34 @@
                     .replace(/[^a-z0-9\s]/g, '') // Remove special characters
                     .trim()
                     .replace(/\s+/g, '_'); // Replace spaces with underscores
-                
+
                 tableNameInput.value = tableName;
             }
+        }
+
+        // Format rupiah input real-time
+        window.formatRupiahInput = function(inputElement) {
+            // Get current value and remove all non-numeric characters
+            let value = inputElement.value.replace(/[^\d]/g, '');
+
+            // Format with thousand separators
+            if (value !== '') {
+                value = parseInt(value, 10).toLocaleString('id-ID');
+            }
+
+            // Update input value
+            inputElement.value = value;
+        }
+
+        // Unformat rupiah before form submit
+        window.unformatRupiahBeforeSubmit = function(form) {
+            // Find all rupiah inputs and unformat them
+            const rupiahInputs = form.querySelectorAll('input[data-type="rupiah"]');
+            rupiahInputs.forEach(function(input) {
+                const unformattedValue = input.value.replace(/[^\d]/g, '');
+                input.value = unformattedValue;
+            });
+            return true;
         }
     </script>
 
