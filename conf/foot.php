@@ -33,7 +33,7 @@
     <style>
         #wa-float-btn {
             position: fixed;
-            bottom: 30px;
+            bottom: 60px;
             right: 30px;
             width: 40px;
             height: 40px;
